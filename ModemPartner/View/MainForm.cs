@@ -21,19 +21,41 @@ namespace ModemPartner
 
         public event EventHandler RefreshDevicesClicked;
 
+        public int NumberFoundDevices { get => cbDevices.Items.Count; }
+
         public void ClearDeviceList()
         {
-            cbDevices.Items.Clear();
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => this.cbDevices.Items.Clear()));
+            }
+            else
+            {
+                cbDevices.Items.Clear();
+            }
         }
 
         public void AddDevicesToList(Dictionary<string, FoundModem> devices)
         {
             foreach (var device in devices)
             {
-                cbDevices.Items.Add(device.Key);
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new MethodInvoker(() => this.cbDevices.Items.Add(device.Key)));
+                }
+                else
+                {
+                    cbDevices.Items.Add(device.Key);
+                }                
             }
 
-            cbDevices.SelectedIndex = 0;
+            if (devices.Count > 0)
+                cbDevices.SelectedIndex = 0;
+        }
+
+        public void UpdateToolStripStatus(string status)
+        {
+            tslblStatus.Text = status;
         }
 
         private void btnDeviceRefresh_Click(object sender, EventArgs e)

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblDevices = new System.Windows.Forms.Label();
             this.cbDevices = new System.Windows.Forms.ComboBox();
             this.btnDeviceRefresh = new System.Windows.Forms.Button();
@@ -74,7 +74,9 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnModemInfo = new System.Windows.Forms.Button();
+            this.tslblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabChart.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
@@ -112,6 +114,8 @@
             // 
             // statusStrip
             // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tslblStatus});
             this.statusStrip.Location = new System.Drawing.Point(0, 487);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(651, 22);
@@ -144,41 +148,41 @@
             // chart
             // 
             this.chart.BorderlineColor = System.Drawing.Color.Empty;
-            chartArea2.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea2.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea2.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea2.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea2.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisY.IsLabelAutoFit = false;
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
-            chartArea2.AxisY.LabelStyle.Format = "{0} kbps";
-            chartArea2.AxisY.LabelStyle.Interval = 0D;
-            chartArea2.AxisY.LineColor = System.Drawing.Color.LightSalmon;
-            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
-            chartArea2.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea2.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea2.Name = "MainChartArea";
-            chartArea2.Position.Auto = false;
-            chartArea2.Position.Height = 98F;
-            chartArea2.Position.Width = 100F;
-            this.chart.ChartAreas.Add(chartArea2);
+            chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea1.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
+            chartArea1.AxisY.LabelStyle.Format = "{0} kbps";
+            chartArea1.AxisY.LabelStyle.Interval = 0D;
+            chartArea1.AxisY.LineColor = System.Drawing.Color.LightSalmon;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
+            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea1.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea1.Name = "MainChartArea";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 98F;
+            chartArea1.Position.Width = 100F;
+            this.chart.ChartAreas.Add(chartArea1);
             this.chart.Location = new System.Drawing.Point(0, 3);
             this.chart.Name = "chart";
-            series3.BorderWidth = 2;
-            series3.ChartArea = "MainChartArea";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Color = System.Drawing.Color.DarkTurquoise;
-            series3.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            series3.Name = "DownloadSeries";
-            series4.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            series4.BorderWidth = 2;
-            series4.ChartArea = "MainChartArea";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Color = System.Drawing.Color.DodgerBlue;
-            series4.Name = "UploadSeries";
-            this.chart.Series.Add(series3);
-            this.chart.Series.Add(series4);
+            series1.BorderWidth = 2;
+            series1.ChartArea = "MainChartArea";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Color = System.Drawing.Color.DarkTurquoise;
+            series1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            series1.Name = "DownloadSeries";
+            series2.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            series2.BorderWidth = 2;
+            series2.ChartArea = "MainChartArea";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Color = System.Drawing.Color.DodgerBlue;
+            series2.Name = "UploadSeries";
+            this.chart.Series.Add(series1);
+            this.chart.Series.Add(series2);
             this.chart.Size = new System.Drawing.Size(647, 201);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart";
@@ -552,21 +556,27 @@
             this.button1.Text = "Settings";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnModemInfo
             // 
-            this.button2.Image = global::ModemPartner.Properties.Resources.modem;
-            this.button2.Location = new System.Drawing.Point(299, 11);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(28, 25);
-            this.button2.TabIndex = 33;
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnModemInfo.Image = global::ModemPartner.Properties.Resources.modem;
+            this.btnModemInfo.Location = new System.Drawing.Point(299, 11);
+            this.btnModemInfo.Name = "btnModemInfo";
+            this.btnModemInfo.Size = new System.Drawing.Size(28, 25);
+            this.btnModemInfo.TabIndex = 33;
+            this.btnModemInfo.UseVisualStyleBackColor = true;
+            // 
+            // tslblStatus
+            // 
+            this.tslblStatus.Name = "tslblStatus";
+            this.tslblStatus.Size = new System.Drawing.Size(17, 17);
+            this.tslblStatus.Text = "--";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(651, 509);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnModemInfo);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
@@ -592,6 +602,8 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modem Partner";
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.tabs.ResumeLayout(false);
             this.tabChart.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
@@ -647,9 +659,10 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnModemInfo;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ToolStripStatusLabel tslblStatus;
     }
 }
 

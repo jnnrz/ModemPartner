@@ -24,9 +24,13 @@ namespace ModemPartner.Presenter
         {
             Task.Run(() =>
             {
+                _view.UpdateToolStripStatus("Finding devices...");
+
                 var devices = Modem.GetModems();
                 _view.ClearDeviceList();
                 _view.AddDevicesToList(devices);
+
+                _view.UpdateToolStripStatus($"{_view.NumberFoundDevices} devices found.");
             });
         }
     }

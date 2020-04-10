@@ -11,7 +11,11 @@ namespace ModemPartner.View
     {
         event EventHandler RefreshDevicesClicked;
 
+        int NumberFoundDevices { get; }
+
         void ClearDeviceList();
         void AddDevicesToList(Dictionary<string, FoundModem> devices);
+
+        void UpdateToolStripStatus(string status);
     }
 }
