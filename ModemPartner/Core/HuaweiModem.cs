@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO.Ports;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ModemPartner.Core
@@ -17,7 +18,6 @@ namespace ModemPartner.Core
 
             _serialPort = new SerialPort();
             _serialPort.PortName = comPort;
-            _serialPort.DataReceived += _receivedDataEventHandler;
         }
 
         public HuaweiModem()
@@ -26,7 +26,6 @@ namespace ModemPartner.Core
             _receivedDataEventHandler = new SerialDataReceivedEventHandler(SerialPort_DataReceived);
 
             _serialPort = new SerialPort();
-            _serialPort.DataReceived += _receivedDataEventHandler;
         }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -107,6 +106,7 @@ namespace ModemPartner.Core
                     return;
                 }
 
+                _serialPort.DataReceived += _receivedDataEventHandler;
                 _serialPort.Open();
                 _serialPort.DiscardOutBuffer();
                 _serialPort.DiscardInBuffer();
