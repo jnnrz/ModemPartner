@@ -161,37 +161,11 @@ namespace ModemPartner
         {
             if (InvokeRequired)
             {
-                this.Invoke(new MethodInvoker(() =>
-                {
-                    switch (status)
-                    {
-                        case 0:
-                            lblPS.Text = "Not Registered";
-                            break;
-                        case 1:
-                            lblPS.ForeColor = Color.DeepSkyBlue;
-                            lblPS.Text = "Registered";
-                            break;
-                        case 2:
-                            lblPS.ForeColor = Color.DarkBlue;
-                            lblPS.Text = "Searching";
-                            break;
-                        case 3:
-                            lblPS.ForeColor = Color.Crimson;
-                            lblPS.Text = "Denied";
-                            break;
-                        case 4:
-                            lblPS.Text = "Unknown";
-                            break;
-                        case 5:
-                            lblPS.ForeColor = Color.Salmon;
-                            lblPS.Text = "Roaming";
-                            break;
-                        default:
-                            lblPS.Text = "--";
-                            break;
-                    }
-                }));
+                this.Invoke(new MethodInvoker(() => this.UpdateNetworkRegLabel(lblPS, status)));
+            }
+            else
+            {
+                UpdateNetworkRegLabel(lblPS, status);
             }
         }
 
@@ -199,37 +173,48 @@ namespace ModemPartner
         {
             if (InvokeRequired)
             {
-                this.Invoke(new MethodInvoker(() =>
-                {
-                    switch (status)
-                    {
-                        case 0:
-                            lblCS.Text = "Not Registered";
-                            break;
-                        case 1:
-                            lblCS.ForeColor = Color.DeepSkyBlue;
-                            lblCS.Text = "Registered";
-                            break;
-                        case 2:
-                            lblCS.ForeColor = Color.DarkBlue;
-                            lblCS.Text = "Searching";
-                            break;
-                        case 3:
-                            lblCS.ForeColor = Color.Crimson;
-                            lblCS.Text = "Denied";
-                            break;
-                        case 4:
-                            lblCS.Text = "Unknown";
-                            break;
-                        case 5:
-                            lblCS.ForeColor = Color.Salmon;
-                            lblCS.Text = "Roaming";
-                            break;
-                        default:
-                            lblCS.Text = "--";
-                            break;
-                    }
-                }));
+                this.Invoke(new MethodInvoker(() => this.UpdateNetworkRegLabel(lblCS, status)));                
+            }
+            else
+            {
+                UpdateNetworkRegLabel(lblCS, status);
+            }
+        }
+
+        void UpdateNetworkRegLabel(Control ctrl, int status)
+        {
+            switch (status)
+            {
+                case 0:
+                    ctrl.Text = "Not Registered";
+                    ctrl.ForeColor = Color.Black;
+                    break;
+                case 1:
+                    ctrl.ForeColor = Color.DeepSkyBlue;
+                    ctrl.Text = "Registered";
+                    break;
+                case 2:
+                    ctrl.ForeColor = Color.DarkBlue;
+                    ctrl.Text = "Searching";
+                    break;
+                case 3:
+                    ctrl.ForeColor = Color.Crimson;
+                    ctrl.Text = "Denied";
+                    break;
+                case 4:
+                    lblCS.Text = "Unknown";
+                    break;
+                case 5:
+                    ctrl.ForeColor = Color.Salmon;
+                    ctrl.Text = "Roaming";
+                    break;
+                case 6:
+                    ctrl.ForeColor = Color.Black;
+                    ctrl.Text = "--";
+                    break;
+                default:
+                    ctrl.Text = "--";
+                    break;
             }
         }
 

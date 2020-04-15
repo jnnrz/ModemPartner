@@ -34,6 +34,8 @@ namespace ModemPartner.Presenter
                     _modem.Close();
                     _view.DisableControls = false;
                     _view.UpdateRSSI(1);
+                    _view.UpdateCSNetwork(6);
+                    _view.UpdatePSNetwork(6);
                     _view.UpdateToolStripStatus($"Disconnected from {_view.SelectedModem}");
                 }
                 else
