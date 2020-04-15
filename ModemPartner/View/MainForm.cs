@@ -131,7 +131,7 @@ namespace ModemPartner
 
             if (rssi >= 15 && rssi < 20)
             {
-                lblColor = Color.DeepSkyBlue;
+                lblColor = Color.Green;
                 lblText = "Good";
             }
 
