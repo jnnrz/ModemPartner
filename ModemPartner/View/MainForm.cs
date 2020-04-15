@@ -108,7 +108,7 @@ namespace ModemPartner
             }
             else
             {
-                cbModes.SelectedIndex = (int)mode;
+                cbModes.SelectedIndex = index;
             }
         }
 
