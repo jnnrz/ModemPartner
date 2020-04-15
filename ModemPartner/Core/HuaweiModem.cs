@@ -72,7 +72,7 @@ namespace ModemPartner.Core
                     SendEvent(Modem.Event.IMEI, sp[1].Trim());
                 }
 
-                if (message.Contains("CSQ:"))
+                if (message.Contains("CSQ:") || message.Contains("RSSI:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.None);
                     SendEvent(Modem.Event.RSSI, sp[1].Trim());
