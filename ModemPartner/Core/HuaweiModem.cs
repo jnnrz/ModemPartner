@@ -133,6 +133,13 @@ namespace ModemPartner.Core
                     var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                     SendEvent(Modem.Event.CSNetwork, sp[2].Trim());
                 }
+
+                if (message.Contains("CGATT:"))
+                {
+                    String[] separator = { ":" };
+                    var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    SendEvent(Modem.Event.PSAttach, sp[1].Trim());
+                }
             }
         }
 
@@ -180,6 +187,7 @@ namespace ModemPartner.Core
                 AddCommandToQueue("AT+CSQ\r");
                 AddCommandToQueue("AT+CREG?\r");
                 AddCommandToQueue("AT+CGREG?\r");
+                AddCommandToQueue("AT+CGATT?\r");
                 AddCommandToQueue("AT^SYSCFG?\r");
                 ExecuteNextCommand();
             }

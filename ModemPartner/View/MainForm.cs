@@ -181,6 +181,43 @@ namespace ModemPartner
             }
         }
 
+        public void UpdatePSAttachment(int status)
+        {
+            Color lblColor = Color.Black;
+            string lblText = "--";
+
+            switch (status)
+            {
+                case 0:
+                    lblText = "Not attached";
+                    break;
+                case 1:
+                    lblColor = Color.DeepSkyBlue;
+                    lblText = "Attached";
+                    break;
+                case 2:
+                    lblColor = Color.Black;
+                    lblText = "--";
+                    break;
+                default:
+                    break;
+            }
+
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    lblPSAttach.ForeColor = lblColor;
+                    lblPSAttach.Text = lblText;
+                }));
+            }
+            else
+            {
+                lblPSAttach.ForeColor = lblColor;
+                lblPSAttach.Text = lblText;
+            }
+        }
+
         void UpdateNetworkRegLabel(Control ctrl, int status)
         {
             switch (status)

@@ -36,6 +36,7 @@ namespace ModemPartner.Presenter
                     _view.UpdateRSSI(1);
                     _view.UpdateCSNetwork(6);
                     _view.UpdatePSNetwork(6);
+                    _view.UpdatePSAttachment(2);
                     _view.UpdateToolStripStatus($"Disconnected from {_view.SelectedModem}");
                 }
                 else
@@ -100,6 +101,9 @@ namespace ModemPartner.Presenter
                     break;
                 case Modem.Event.CSNetwork:
                     _view.UpdateCSNetwork(int.Parse(e.Value.ToString()));
+                    break;
+                case Modem.Event.PSAttach:
+                    _view.UpdatePSAttachment(int.Parse(e.Value.ToString()));
                     break;
             }
         }

@@ -26,5 +26,6 @@ namespace ModemPartner.View
         void UpdateRSSI(float rssi);
         void UpdatePSNetwork(int status);
         void UpdateCSNetwork(int status);
+        void UpdatePSAttachment(int status);
     }
 }
