@@ -36,6 +36,15 @@ namespace ModemPartner.Core
             ModemBand
         };
 
+        public enum Mode
+        {
+            Any,
+            TwoGPref,
+            TwoGOnly,
+            ThreeGPref,
+            ThreeGOnly
+        };
+
         public Modem()
         {
             _commandQueue = new Queue<string>();
