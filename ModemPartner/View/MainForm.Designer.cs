@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblDevices = new System.Windows.Forms.Label();
             this.cbDevices = new System.Windows.Forms.ComboBox();
             this.btnDeviceRefresh = new System.Windows.Forms.Button();
@@ -67,7 +67,7 @@
             this.lblDownloadedLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
+            this.lblPS = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.pbRSSI = new System.Windows.Forms.ProgressBar();
@@ -175,41 +175,41 @@
             // chart
             // 
             this.chart.BorderlineColor = System.Drawing.Color.Empty;
-            chartArea5.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea5.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea5.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea5.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea5.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea5.AxisY.IsLabelAutoFit = false;
-            chartArea5.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea5.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
-            chartArea5.AxisY.LabelStyle.Format = "{0} kbps";
-            chartArea5.AxisY.LabelStyle.Interval = 0D;
-            chartArea5.AxisY.LineColor = System.Drawing.Color.LightSalmon;
-            chartArea5.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
-            chartArea5.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea5.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea5.Name = "MainChartArea";
-            chartArea5.Position.Auto = false;
-            chartArea5.Position.Height = 98F;
-            chartArea5.Position.Width = 100F;
-            this.chart.ChartAreas.Add(chartArea5);
+            chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea1.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
+            chartArea1.AxisY.LabelStyle.Format = "{0} kbps";
+            chartArea1.AxisY.LabelStyle.Interval = 0D;
+            chartArea1.AxisY.LineColor = System.Drawing.Color.LightSalmon;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
+            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea1.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea1.Name = "MainChartArea";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 98F;
+            chartArea1.Position.Width = 100F;
+            this.chart.ChartAreas.Add(chartArea1);
             this.chart.Location = new System.Drawing.Point(0, 3);
             this.chart.Name = "chart";
-            series9.BorderWidth = 2;
-            series9.ChartArea = "MainChartArea";
-            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series9.Color = System.Drawing.Color.DarkTurquoise;
-            series9.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            series9.Name = "DownloadSeries";
-            series10.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            series10.BorderWidth = 2;
-            series10.ChartArea = "MainChartArea";
-            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series10.Color = System.Drawing.Color.DodgerBlue;
-            series10.Name = "UploadSeries";
-            this.chart.Series.Add(series9);
-            this.chart.Series.Add(series10);
+            series1.BorderWidth = 2;
+            series1.ChartArea = "MainChartArea";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Color = System.Drawing.Color.DarkTurquoise;
+            series1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            series1.Name = "DownloadSeries";
+            series2.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            series2.BorderWidth = 2;
+            series2.ChartArea = "MainChartArea";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Color = System.Drawing.Color.DodgerBlue;
+            series2.Name = "UploadSeries";
+            this.chart.Series.Add(series1);
+            this.chart.Series.Add(series2);
             this.chart.Size = new System.Drawing.Size(647, 201);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart";
@@ -466,7 +466,7 @@
             // 
             this.groupBox3.Controls.Add(this.lblRSSI);
             this.groupBox3.Controls.Add(this.label19);
-            this.groupBox3.Controls.Add(this.label18);
+            this.groupBox3.Controls.Add(this.lblPS);
             this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.pbRSSI);
@@ -492,16 +492,15 @@
             this.label19.TabIndex = 10;
             this.label19.Text = "--";
             // 
-            // label18
+            // lblPS
             // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.label18.Location = new System.Drawing.Point(154, 70);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(62, 15);
-            this.label18.TabIndex = 9;
-            this.label18.Text = "Registered";
+            this.lblPS.AutoSize = true;
+            this.lblPS.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPS.Location = new System.Drawing.Point(154, 70);
+            this.lblPS.Name = "lblPS";
+            this.lblPS.Size = new System.Drawing.Size(17, 15);
+            this.lblPS.TabIndex = 9;
+            this.lblPS.Text = "--";
             // 
             // label17
             // 
@@ -702,7 +701,7 @@
         private System.Windows.Forms.ProgressBar pbRSSI;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label lblPS;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button button1;

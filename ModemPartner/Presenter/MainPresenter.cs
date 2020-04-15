@@ -93,6 +93,9 @@ namespace ModemPartner.Presenter
                 case Modem.Event.RSSI:
                     _view.UpdateRSSI(float.Parse(e.Value.ToString()));
                     break;
+                case Modem.Event.PSNetwork:
+                    _view.UpdatePSNetwork(int.Parse(e.Value.ToString()));
+                    break;
             }
         }
 

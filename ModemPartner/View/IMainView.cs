@@ -24,5 +24,6 @@ namespace ModemPartner.View
         void UpdateOpenPortBtn(Bitmap icon, string tooltipText);
         void UpdateModeSelection(Modem.Mode mode);
         void UpdateRSSI(float rssi);
+        void UpdatePSNetwork(int status);
     }
 }

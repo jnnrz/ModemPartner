@@ -142,15 +142,56 @@ namespace ModemPartner
             }
 
             lblRSSI.ForeColor = lblColor;
-            lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : "" )}";
 
             if (InvokeRequired)
-            {
-                this.Invoke(new MethodInvoker(() => pbRSSI.Value = Convert.ToInt32(rssi)));
+            {                
+                this.Invoke(new MethodInvoker(() => {
+                    lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : "")}";
+                    pbRSSI.Value = Convert.ToInt32(rssi);
+                }));
             }
             else
             {
+                lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : "")}";
                 pbRSSI.Value = Convert.ToInt32(rssi);
+            }
+        }
+
+        public void UpdatePSNetwork(int status)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    switch (status)
+                    {
+                        case 0:
+                            lblPS.Text = "Not Registered";
+                            break;
+                        case 1:
+                            lblPS.ForeColor = Color.DeepSkyBlue;
+                            lblPS.Text = "Registered";
+                            break;
+                        case 2:
+                            lblPS.ForeColor = Color.DarkBlue;
+                            lblPS.Text = "Searching";
+                            break;
+                        case 3:
+                            lblPS.ForeColor = Color.Crimson;
+                            lblPS.Text = "Denied";
+                            break;
+                        case 4:
+                            lblPS.Text = "Unknown";
+                            break;
+                        case 5:
+                            lblPS.ForeColor = Color.Salmon;
+                            lblPS.Text = "Roaming";
+                            break;
+                        default:
+                            lblPS.Text = "--";
+                            break;
+                    }
+                }));
             }
         }
 
