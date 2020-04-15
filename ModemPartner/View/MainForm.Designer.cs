@@ -35,6 +35,8 @@
             this.cbDevices = new System.Windows.Forms.ComboBox();
             this.btnDeviceRefresh = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.tslblDialStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslblBand = new System.Windows.Forms.ToolStripStatusLabel();
             this.tslblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabChart = new System.Windows.Forms.TabPage();
@@ -77,8 +79,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnModemInfo = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
-            this.tslblBand = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tslblDialStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabChart.SuspendLayout();
@@ -127,6 +127,21 @@
             this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 8;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // tslblDialStatus
+            // 
+            this.tslblDialStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tslblDialStatus.Image = global::ModemPartner.Properties.Resources.red_ball;
+            this.tslblDialStatus.Margin = new System.Windows.Forms.Padding(3, 3, 0, 2);
+            this.tslblDialStatus.Name = "tslblDialStatus";
+            this.tslblDialStatus.Size = new System.Drawing.Size(16, 17);
+            // 
+            // tslblBand
+            // 
+            this.tslblBand.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
+            this.tslblBand.Name = "tslblBand";
+            this.tslblBand.Size = new System.Drawing.Size(17, 17);
+            this.tslblBand.Text = "--";
             // 
             // tslblStatus
             // 
@@ -584,18 +599,6 @@
             this.btnOpen.TabIndex = 34;
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
-            // 
-            // tslblBand
-            // 
-            this.tslblBand.Name = "tslblBand";
-            this.tslblBand.Size = new System.Drawing.Size(17, 17);
-            this.tslblBand.Text = "--";
-            // 
-            // tslblDialStatus
-            // 
-            this.tslblDialStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tslblDialStatus.Name = "tslblDialStatus";
-            this.tslblDialStatus.Size = new System.Drawing.Size(0, 17);
             // 
             // MainForm
             // 

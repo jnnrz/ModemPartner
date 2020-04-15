@@ -63,6 +63,16 @@ namespace ModemPartner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap green_ball {
+            get {
+                object obj = ResourceManager.GetObject("green_ball", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap modem {
             get {
                 object obj = ResourceManager.GetObject("modem", resourceCulture);
@@ -76,6 +86,16 @@ namespace ModemPartner.Properties {
         internal static string PortAlreadyOpen {
             get {
                 return ResourceManager.GetString("PortAlreadyOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap red_ball {
+            get {
+                object obj = ResourceManager.GetObject("red_ball", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
