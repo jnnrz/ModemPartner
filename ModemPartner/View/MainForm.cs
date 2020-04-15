@@ -112,6 +112,48 @@ namespace ModemPartner
             }
         }
 
+        public void UpdateRSSI(float rssi)
+        {
+            Color lblColor = Color.Black;
+            string lblText = "--";
+
+            if (rssi >= 2 && rssi < 10)
+            {
+                lblColor = Color.Crimson;
+                lblText = "Bad";
+            }
+
+            if (rssi >= 10 && rssi < 15)
+            {
+                lblColor = Color.DeepSkyBlue;
+                lblText = "OK";
+            }
+
+            if (rssi >= 15 && rssi < 20)
+            {
+                lblColor = Color.DeepSkyBlue;
+                lblText = "Good";
+            }
+
+            if (rssi >= 20 && rssi <= 30 )
+            {
+                lblColor = Color.FromArgb(0, 192, 0);
+                lblText = "Excellent";
+            }
+
+            lblRSSI.ForeColor = lblColor;
+            lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : "" )}";
+
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => pbRSSI.Value = Convert.ToInt32(rssi)));
+            }
+            else
+            {
+                pbRSSI.Value = Convert.ToInt32(rssi);
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadForm?.Invoke(sender, e);

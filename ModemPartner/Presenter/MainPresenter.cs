@@ -33,6 +33,7 @@ namespace ModemPartner.Presenter
                     _modem.ModemEvent -= Modem_ReceiveEvent;
                     _modem.Close();
                     _view.DisableControls = false;
+                    _view.UpdateRSSI(1);
                     _view.UpdateToolStripStatus($"Disconnected from {_view.SelectedModem}");
                 }
                 else
@@ -88,6 +89,9 @@ namespace ModemPartner.Presenter
                     break;
                 case Modem.Event.ModemMode:
                     _view.UpdateModeSelection((Modem.Mode)e.Event);
+                    break;
+                case Modem.Event.RSSI:
+                    _view.UpdateRSSI(float.Parse(e.Value.ToString()));
                     break;
             }
         }

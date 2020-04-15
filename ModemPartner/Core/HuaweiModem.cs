@@ -71,6 +71,12 @@ namespace ModemPartner.Core
                     var sp = message.Split(_separator, StringSplitOptions.None);
                     SendEvent(Modem.Event.IMEI, sp[1].Trim());
                 }
+
+                if (message.Contains("CSQ:"))
+                {
+                    var sp = message.Split(_separator, StringSplitOptions.None);
+                    SendEvent(Modem.Event.RSSI, sp[1].Trim());
+                }
                 
                 if (message.Contains("^SYSCFG:"))
                 {
@@ -157,6 +163,7 @@ namespace ModemPartner.Core
 
                 // Get modem information
                 AddCommandToQueue("ATI\r");
+                AddCommandToQueue("AT+CSQ\r");
                 AddCommandToQueue("AT^SYSCFG?\r");
                 ExecuteNextCommand();
             }

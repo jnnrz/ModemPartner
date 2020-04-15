@@ -23,5 +23,6 @@ namespace ModemPartner.View
         void UpdateToolStripStatus(string status);
         void UpdateOpenPortBtn(Bitmap icon, string tooltipText);
         void UpdateModeSelection(Modem.Mode mode);
+        void UpdateRSSI(float rssi);
     }
 }
