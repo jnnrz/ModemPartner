@@ -9,8 +9,11 @@ namespace ModemPartner.Core
     {
         public EventHandler<ModemEventArgs> ModemEvent { get; set; }
         public EventHandler<ErrorEventArgs> Error { get; set; }
+
         public bool IsOpen { get { return _serialPort.IsOpen; } }
+
         protected SerialPort _serialPort;
+
         private Queue<string> _commandQueue;
 
         public enum Event
@@ -39,9 +42,7 @@ namespace ModemPartner.Core
         }
 
         public abstract void Open();
-
         public abstract void Close();
-
         public abstract void OnMessageReceived(ModemEventArgs e);
         public abstract void OnErrorReceived(ErrorEventArgs e);
 
@@ -49,16 +50,8 @@ namespace ModemPartner.Core
         {
             if (_commandQueue.Count > 0)
             {
-                if (_commandQueue.Count == 1)
-                {
-                    _serialPort.WriteLine(_commandQueue.Peek());
-                    _commandQueue.Dequeue();
-                }
-                else
-                {
-                    _commandQueue.Dequeue();
-                    _serialPort.WriteLine(_commandQueue.Peek());
-                }
+                _serialPort.WriteLine(_commandQueue.Peek());
+                _commandQueue.Dequeue();
             }
         }
 
@@ -109,7 +102,7 @@ namespace ModemPartner.Core
                     {
                         if (e.Event == Event.Model)
                         {
-                            modemList.Add(e.Value, new FoundModem(p, e.Value));
+                            modemList.Add(e.Value.ToString(), new FoundModem(p, e.Value.ToString()));
                             modem.Close();
                         }
                     });
@@ -133,14 +126,14 @@ namespace ModemPartner.Core
         public ModemEventArgs()
         { }
 
-        public ModemEventArgs(Modem.Event e, string value)
+        public ModemEventArgs(Modem.Event e, object value)
         {
             Event = e;
             Value = value;
         }
 
         public Modem.Event Event { get; set; }
-        public string Value { get; set; }
+        public object Value { get; set; }
     }
 
     public class ErrorEventArgs : EventArgs
