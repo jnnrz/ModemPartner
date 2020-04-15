@@ -77,6 +77,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnModemInfo = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
+            this.tslblBand = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslblDialStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabChart.SuspendLayout();
@@ -116,6 +118,8 @@
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tslblDialStatus,
+            this.tslblBand,
             this.tslblStatus});
             this.statusStrip.Location = new System.Drawing.Point(0, 487);
             this.statusStrip.Name = "statusStrip";
@@ -581,6 +585,18 @@
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
+            // tslblBand
+            // 
+            this.tslblBand.Name = "tslblBand";
+            this.tslblBand.Size = new System.Drawing.Size(17, 17);
+            this.tslblBand.Text = "--";
+            // 
+            // tslblDialStatus
+            // 
+            this.tslblDialStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tslblDialStatus.Name = "tslblDialStatus";
+            this.tslblDialStatus.Size = new System.Drawing.Size(0, 17);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -676,6 +692,8 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripStatusLabel tslblStatus;
         private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.ToolStripStatusLabel tslblDialStatus;
+        private System.Windows.Forms.ToolStripStatusLabel tslblBand;
     }
 }
 
