@@ -218,6 +218,18 @@ namespace ModemPartner
             }
         }
 
+        public void UpdateProvider(string provider)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => this.lblProvider.Text = provider));
+            }
+            else
+            {
+                this.lblProvider.Text = provider;
+            }
+        }
+
         void UpdateNetworkRegLabel(Control ctrl, int status)
         {
             switch (status)

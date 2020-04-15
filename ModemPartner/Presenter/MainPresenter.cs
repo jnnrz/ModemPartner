@@ -105,6 +105,9 @@ namespace ModemPartner.Presenter
                 case Modem.Event.PSAttach:
                     _view.UpdatePSAttachment(int.Parse(e.Value.ToString()));
                     break;
+                case Modem.Event.Provider:
+                    _view.UpdateProvider(e.Value.ToString());
+                    break;
             }
         }
 

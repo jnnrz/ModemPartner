@@ -140,6 +140,14 @@ namespace ModemPartner.Core
                     var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                     SendEvent(Modem.Event.PSAttach, sp[1].Trim());
                 }
+
+                if (message.Contains("COPS:"))
+                {
+                    String[] separator = { ":", "," };
+                    char[] trimChars = { '"', ' ' };
+                    var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    SendEvent(Modem.Event.Provider, sp[3].Trim(trimChars));
+                }
             }
         }
 
@@ -185,6 +193,8 @@ namespace ModemPartner.Core
                 // Get modem information
                 AddCommandToQueue("ATI\r");
                 AddCommandToQueue("AT+CSQ\r");
+                AddCommandToQueue("AT+COPS=0,0\r");
+                AddCommandToQueue("AT+COPS?\r");
                 AddCommandToQueue("AT+CREG?\r");
                 AddCommandToQueue("AT+CGREG?\r");
                 AddCommandToQueue("AT+CGATT?\r");

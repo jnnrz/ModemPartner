@@ -27,5 +27,6 @@ namespace ModemPartner.View
         void UpdatePSNetwork(int status);
         void UpdateCSNetwork(int status);
         void UpdatePSAttachment(int status);
+        void UpdateProvider(string provider);
     }
 }
