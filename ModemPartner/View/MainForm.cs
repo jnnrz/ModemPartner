@@ -19,9 +19,22 @@ namespace ModemPartner
             InitializeComponent();
         }
 
+        public event EventHandler LoadForm;
         public event EventHandler RefreshDevicesClicked;
+        public event EventHandler OpenPortClicked;
 
         public int NumberFoundDevices { get => cbDevices.Items.Count; }
+        public string SelectedModem { get => cbDevices.SelectedItem.ToString(); }
+
+        public bool DisableControls
+        {
+            set
+            {
+                cbDevices.Enabled = !value;
+                cbProfiles.Enabled = !value;
+                btnDeviceRefresh.Enabled = !value;
+            }
+        }
 
         public void ClearDeviceList()
         {
@@ -50,7 +63,11 @@ namespace ModemPartner
             }
 
             if (devices.Count > 0)
-                cbDevices.SelectedIndex = 0;
+            {
+                if (this.InvokeRequired)
+                    this.Invoke(new MethodInvoker(() => cbDevices.SelectedIndex = 0));
+            }
+                
         }
 
         public void UpdateToolStripStatus(string status)
@@ -58,11 +75,61 @@ namespace ModemPartner
             tslblStatus.Text = status;
         }
 
+        public void UpdateOpenPortBtn(Bitmap icon, string tooltipText)
+        {
+            btnOpen.Image = icon;
+        }
+
+        public void UpdateModeSelection(Modem.Mode mode)
+        {
+            int index = 0;
+            switch (mode)
+            {
+                case Modem.Mode.TwoGOnly:
+                    index = 0;
+                    break;
+                case Modem.Mode.TwoGPref:
+                    index = 1;
+                    break;
+                case Modem.Mode.ThreeGOnly:
+                    index = 2;
+                    break;
+                case Modem.Mode.ThreeGPref:
+                    index = 3;
+                    break;
+                default:
+                    index = 2;
+                    break;
+            }
+
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => this.cbModes.SelectedIndex = index));
+            }
+            else
+            {
+                cbModes.SelectedIndex = (int)mode;
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            LoadForm?.Invoke(sender, e);
+        }
+
         private void btnDeviceRefresh_Click(object sender, EventArgs e)
         {
             if (RefreshDevicesClicked != null)
             {
                 RefreshDevicesClicked(sender, e);
+            }
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            if (OpenPortClicked != null)
+            {
+                OpenPortClicked(sender, e);
             }
         }
     }

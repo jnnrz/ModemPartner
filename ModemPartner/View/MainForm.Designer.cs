@@ -35,6 +35,7 @@
             this.cbDevices = new System.Windows.Forms.ComboBox();
             this.btnDeviceRefresh = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.tslblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabChart = new System.Windows.Forms.TabPage();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -75,7 +76,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.btnModemInfo = new System.Windows.Forms.Button();
-            this.tslblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnOpen = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabChart.SuspendLayout();
@@ -105,7 +106,7 @@
             // btnDeviceRefresh
             // 
             this.btnDeviceRefresh.Image = global::ModemPartner.Properties.Resources.reload;
-            this.btnDeviceRefresh.Location = new System.Drawing.Point(265, 11);
+            this.btnDeviceRefresh.Location = new System.Drawing.Point(263, 11);
             this.btnDeviceRefresh.Name = "btnDeviceRefresh";
             this.btnDeviceRefresh.Size = new System.Drawing.Size(28, 25);
             this.btnDeviceRefresh.TabIndex = 2;
@@ -122,6 +123,12 @@
             this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 8;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // tslblStatus
+            // 
+            this.tslblStatus.Name = "tslblStatus";
+            this.tslblStatus.Size = new System.Drawing.Size(17, 17);
+            this.tslblStatus.Text = "--";
             // 
             // tabs
             // 
@@ -559,23 +566,27 @@
             // btnModemInfo
             // 
             this.btnModemInfo.Image = global::ModemPartner.Properties.Resources.modem;
-            this.btnModemInfo.Location = new System.Drawing.Point(299, 11);
+            this.btnModemInfo.Location = new System.Drawing.Point(325, 11);
             this.btnModemInfo.Name = "btnModemInfo";
             this.btnModemInfo.Size = new System.Drawing.Size(28, 25);
             this.btnModemInfo.TabIndex = 33;
             this.btnModemInfo.UseVisualStyleBackColor = true;
             // 
-            // tslblStatus
+            // btnOpen
             // 
-            this.tslblStatus.Name = "tslblStatus";
-            this.tslblStatus.Size = new System.Drawing.Size(17, 17);
-            this.tslblStatus.Text = "--";
+            this.btnOpen.Location = new System.Drawing.Point(294, 11);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(28, 25);
+            this.btnOpen.TabIndex = 34;
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(651, 509);
+            this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.btnModemInfo);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
@@ -602,6 +613,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modem Partner";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.tabs.ResumeLayout(false);
@@ -663,6 +675,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripStatusLabel tslblStatus;
+        private System.Windows.Forms.Button btnOpen;
     }
 }
 

@@ -56,25 +56,69 @@ namespace ModemPartner.Core
 
                 if (message.Contains("Model"))
                 {
-                    SendEvent(Modem.Event.Model, message);
+                    var sp = message.Split(_separator, StringSplitOptions.None);
+                    SendEvent(Modem.Event.Model, sp[1].Trim());
                 }
 
                 if (message.Contains("Manufacturer"))
                 {
-                    SendEvent(Modem.Event.Manufacturer, message);
+                    var sp = message.Split(_separator, StringSplitOptions.None);
+                    SendEvent(Modem.Event.Manufacturer, sp[1].Trim());
                 }
 
                 if (message.Contains("IMEI"))
                 {
-                    SendEvent(Modem.Event.IMEI, message);
+                    var sp = message.Split(_separator, StringSplitOptions.None);
+                    SendEvent(Modem.Event.IMEI, sp[1].Trim());
+                }
+                
+                if (message.Contains("^SYSCFG:"))
+                {
+                    String[] separator = { ":", "," };
+                    var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+
+                    var only = sp[1];
+                    var pref = sp[2];
+                    var band = sp[3];
+                    var roam = sp[4];
+                    var doma = sp[5];
+
+                    Modem.Mode mode;
+
+                    switch (only)
+                    {
+                        case "13":
+                            mode = Modem.Mode.TwoGOnly;
+                            break;
+                        case "14":
+                            mode = Modem.Mode.ThreeGOnly;
+                            break;
+                        default:
+                            mode = Modem.Mode.ThreeGOnly;
+                            break;
+                    }
+
+                    switch (pref)
+                    {
+                        case "1":
+                            mode = Modem.Mode.TwoGPref;
+                            break;
+                        case "2":
+                            mode = Modem.Mode.ThreeGPref;
+                            break;
+                        default:
+                            mode = Modem.Mode.ThreeGPref;
+                            break;
+                    }
+
+                    SendEvent(Modem.Event.ModemMode, mode);
                 }
             }
         }
 
-        private void SendEvent(Modem.Event e, string message)
+        private void SendEvent(Modem.Event e, object message)
         {
-            var splitMessage = message.Split(_separator, StringSplitOptions.None);
-            var args = new ModemEventArgs(e, splitMessage[1].Trim());
+            var args = new ModemEventArgs(e, message);
             OnMessageReceived(args);
         }
 
@@ -113,6 +157,7 @@ namespace ModemPartner.Core
 
                 // Get modem information
                 AddCommandToQueue("ATI\r");
+                AddCommandToQueue("AT^SYSCFG?\r");
                 ExecuteNextCommand();
             }
             catch (Exception e)
