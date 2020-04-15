@@ -87,43 +87,36 @@ namespace ModemPartner.Core
             List<string> comList = new List<string>();
             Dictionary<string, FoundModem> modemList = new Dictionary<string, FoundModem>();
 
-            try
+            // Looks for COM ports using ClassGuid=COM and contains 'PC UI' in its name
+            // 'PC UI' will work for certain Huawei modems, I don't know if it can work for all models
+            // It's hardcoded and kinda sh*tty but ¯\_(ツ)_/¯ <quote>This is the way</quote>
+            String getPortsQuery = "SELECT Name FROM Win32_PnPEntity WHERE Name LIKE '%PC UI%' AND ClassGuid='{4d36e978-e325-11ce-bfc1-08002be10318}'";
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", getPortsQuery);
+
+            foreach (var obj in searcher.Get())
             {
-                // Looks for COM ports using ClassGuid=COM and contains 'PC UI' in its name
-                // 'PC UI' will work for certain Huawei modems, I don't know if it can work for all models
-                // It's hardcoded and kinda sh*tty but ¯\_(ツ)_/¯ <quote>This is the way</quote>
-                String getPortsQuery = "SELECT Name FROM Win32_PnPEntity WHERE Name LIKE '%PC UI%' AND ClassGuid='{4d36e978-e325-11ce-bfc1-08002be10318}'";
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", getPortsQuery);
-
-                foreach (var obj in searcher.Get())
-                {
-                    var deviceName = obj["Name"].ToString();
-                    // Extract COM port from device name
-                    var port = COMPortUtil.ExtractCOMPortFromName(deviceName);
-                    comList.Add(port);
-                }
-
-                // Connect to each COM port and get modem information
-                foreach (var p in comList)
-                {                    
-                    var modem = new HuaweiModem(p);
-                    modem.ModemEvent = new EventHandler<ModemEventArgs>((sender, e) =>
-                    {
-                        if (e.Event == Event.Model)
-                        {
-                            modemList.Add(e.Value.ToString(), new FoundModem(p, e.Value.ToString()));
-                            modem.Close();
-                        }
-                    });
-                    modem.Open();
-
-                    // Hold it for a bit while the event arrives
-                    while (modem.IsOpen) { };                    
-                }
+                var deviceName = obj["Name"].ToString();
+                // Extract COM port from device name
+                var port = COMPortUtil.ExtractCOMPortFromName(deviceName);
+                comList.Add(port);
             }
-            catch (Exception e)
+
+            // Connect to each COM port and get modem information
+            foreach (var p in comList)
             {
-                throw e;
+                var modem = new HuaweiModem(p);
+                modem.ModemEvent = new EventHandler<ModemEventArgs>((sender, e) =>
+                {
+                    if (e.Event == Event.Model)
+                    {
+                        modemList.Add(e.Value.ToString(), new FoundModem(p, e.Value.ToString()));
+                        modem.Close();
+                    }
+                });
+                modem.Open();
+
+                // Hold it for a bit while the event arrives
+                while (modem.IsOpen) { };
             }
 
             return modemList;

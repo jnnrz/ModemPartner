@@ -57,12 +57,26 @@ namespace ModemPartner.Presenter
         {
             _modem = new HuaweiModem();
 
-            LookForDevices();            
+            try
+            {
+                LookForDevices();
+            }
+            catch (Exception ex)
+            {
+                _view.UpdateToolStripStatus(ex.Message);
+            }                       
         }
 
         private void View_RefreshDevicesClicked(object sender, EventArgs e)
         {
-            LookForDevices();
+            try
+            {
+                LookForDevices();
+            }
+            catch (Exception ex)
+            {
+                _view.UpdateToolStripStatus(ex.Message);
+            }
         }
 
         private void Modem_ReceiveEvent(object sender, ModemEventArgs e)
