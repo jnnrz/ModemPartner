@@ -34,7 +34,8 @@ namespace ModemPartner.Core
             Hardware,
             ModemMode,
             ModemBand,
-            PSNetwork
+            PSNetwork,
+            CSNetwork
         };
 
         public enum Mode

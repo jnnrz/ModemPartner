@@ -195,6 +195,44 @@ namespace ModemPartner
             }
         }
 
+        public void UpdateCSNetwork(int status)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    switch (status)
+                    {
+                        case 0:
+                            lblCS.Text = "Not Registered";
+                            break;
+                        case 1:
+                            lblCS.ForeColor = Color.DeepSkyBlue;
+                            lblCS.Text = "Registered";
+                            break;
+                        case 2:
+                            lblCS.ForeColor = Color.DarkBlue;
+                            lblCS.Text = "Searching";
+                            break;
+                        case 3:
+                            lblCS.ForeColor = Color.Crimson;
+                            lblCS.Text = "Denied";
+                            break;
+                        case 4:
+                            lblCS.Text = "Unknown";
+                            break;
+                        case 5:
+                            lblCS.ForeColor = Color.Salmon;
+                            lblCS.Text = "Roaming";
+                            break;
+                        default:
+                            lblCS.Text = "--";
+                            break;
+                    }
+                }));
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadForm?.Invoke(sender, e);

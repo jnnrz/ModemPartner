@@ -126,6 +126,13 @@ namespace ModemPartner.Core
                     var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                     SendEvent(Modem.Event.PSNetwork, sp[2].Trim());
                 }
+
+                if (message.Contains("CREG:"))
+                {
+                    String[] separator = { ":", "," };
+                    var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    SendEvent(Modem.Event.CSNetwork, sp[2].Trim());
+                }
             }
         }
 
@@ -171,6 +178,7 @@ namespace ModemPartner.Core
                 // Get modem information
                 AddCommandToQueue("ATI\r");
                 AddCommandToQueue("AT+CSQ\r");
+                AddCommandToQueue("AT+CREG?\r");
                 AddCommandToQueue("AT+CGREG?\r");
                 AddCommandToQueue("AT^SYSCFG?\r");
                 ExecuteNextCommand();

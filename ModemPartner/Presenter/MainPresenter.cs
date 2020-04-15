@@ -96,6 +96,9 @@ namespace ModemPartner.Presenter
                 case Modem.Event.PSNetwork:
                     _view.UpdatePSNetwork(int.Parse(e.Value.ToString()));
                     break;
+                case Modem.Event.CSNetwork:
+                    _view.UpdateCSNetwork(int.Parse(e.Value.ToString()));
+                    break;
             }
         }
 

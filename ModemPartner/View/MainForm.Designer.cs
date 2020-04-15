@@ -66,9 +66,9 @@
             this.lblDownloaded = new System.Windows.Forms.Label();
             this.lblDownloadedLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label19 = new System.Windows.Forms.Label();
+            this.lblPSAttach = new System.Windows.Forms.Label();
             this.lblPS = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
+            this.lblCS = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.pbRSSI = new System.Windows.Forms.ProgressBar();
             this.label12 = new System.Windows.Forms.Label();
@@ -465,9 +465,9 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.lblRSSI);
-            this.groupBox3.Controls.Add(this.label19);
+            this.groupBox3.Controls.Add(this.lblPSAttach);
             this.groupBox3.Controls.Add(this.lblPS);
-            this.groupBox3.Controls.Add(this.label17);
+            this.groupBox3.Controls.Add(this.lblCS);
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.pbRSSI);
             this.groupBox3.Controls.Add(this.label12);
@@ -482,15 +482,15 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Network";
             // 
-            // label19
+            // lblPSAttach
             // 
-            this.label19.AutoSize = true;
-            this.label19.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label19.Location = new System.Drawing.Point(154, 91);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(17, 15);
-            this.label19.TabIndex = 10;
-            this.label19.Text = "--";
+            this.lblPSAttach.AutoSize = true;
+            this.lblPSAttach.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lblPSAttach.Location = new System.Drawing.Point(154, 91);
+            this.lblPSAttach.Name = "lblPSAttach";
+            this.lblPSAttach.Size = new System.Drawing.Size(17, 15);
+            this.lblPSAttach.TabIndex = 10;
+            this.lblPSAttach.Text = "--";
             // 
             // lblPS
             // 
@@ -502,14 +502,14 @@
             this.lblPS.TabIndex = 9;
             this.lblPS.Text = "--";
             // 
-            // label17
+            // lblCS
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(154, 49);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(66, 15);
-            this.label17.TabIndex = 8;
-            this.label17.Text = "Registering";
+            this.lblCS.AutoSize = true;
+            this.lblCS.Location = new System.Drawing.Point(154, 49);
+            this.lblCS.Name = "lblCS";
+            this.lblCS.Size = new System.Drawing.Size(17, 15);
+            this.lblCS.TabIndex = 8;
+            this.lblCS.Text = "--";
             // 
             // label16
             // 
@@ -700,9 +700,9 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ProgressBar pbRSSI;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label lblPSAttach;
         private System.Windows.Forms.Label lblPS;
-        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lblCS;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnModemInfo;

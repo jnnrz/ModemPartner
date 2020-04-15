@@ -25,5 +25,6 @@ namespace ModemPartner.View
         void UpdateModeSelection(Modem.Mode mode);
         void UpdateRSSI(float rssi);
         void UpdatePSNetwork(int status);
+        void UpdateCSNetwork(int status);
     }
 }
