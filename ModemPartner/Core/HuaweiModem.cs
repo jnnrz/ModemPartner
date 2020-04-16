@@ -7,7 +7,7 @@ namespace ModemPartner.Core
 {
     class HuaweiModem : Modem
     {
-        private string[] _separator = { ":" };
+        private string[] _separator = { ":", "," };
         private ModemEventArgs _modemEventArgs;
         private SerialDataReceivedEventHandler _receivedDataEventHandler;
 
@@ -80,8 +80,7 @@ namespace ModemPartner.Core
                 
                 if (message.Contains("^SYSCFG:"))
                 {
-                    String[] separator = { ":", "," };
-                    var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
 
                     var only = sp[1];
                     var pref = sp[2];
@@ -122,30 +121,26 @@ namespace ModemPartner.Core
 
                 if (message.Contains("CGREG:"))
                 {
-                    String[] separator = { ":", "," };
-                    var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
                     SendEvent(Modem.Event.PSNetwork, sp[2].Trim());
                 }
 
                 if (message.Contains("CREG:"))
                 {
-                    String[] separator = { ":", "," };
-                    var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
                     SendEvent(Modem.Event.CSNetwork, sp[2].Trim());
                 }
 
                 if (message.Contains("CGATT:"))
                 {
-                    String[] separator = { ":" };
-                    var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
                     SendEvent(Modem.Event.PSAttach, sp[1].Trim());
                 }
 
                 if (message.Contains("COPS:"))
                 {
-                    String[] separator = { ":", "," };
                     char[] trimChars = { '"', ' ' };
-                    var sp = message.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                    var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
                     SendEvent(Modem.Event.Provider, sp[3].Trim(trimChars));
                 }
             }
