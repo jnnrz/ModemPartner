@@ -88,32 +88,32 @@ namespace ModemPartner.Core
                     var roam = sp[4];
                     var doma = sp[5];
 
-                    Modem.Mode mode;
+                    var mode = Modem.Mode.Any;
+                    var preferred = true;
 
                     switch (only)
                     {
                         case "13":
                             mode = Modem.Mode.TwoGOnly;
+                            preferred = false;
                             break;
                         case "14":
                             mode = Modem.Mode.ThreeGOnly;
-                            break;
-                        default:
-                            mode = Modem.Mode.ThreeGOnly;
+                            preferred = false;
                             break;
                     }
 
-                    switch (pref)
+                    if (preferred)
                     {
-                        case "1":
-                            mode = Modem.Mode.TwoGPref;
-                            break;
-                        case "2":
-                            mode = Modem.Mode.ThreeGPref;
-                            break;
-                        default:
-                            mode = Modem.Mode.ThreeGPref;
-                            break;
+                        switch (pref)
+                        {
+                            case "1":
+                                mode = Modem.Mode.TwoGPref;
+                                break;
+                            case "2":
+                                mode = Modem.Mode.ThreeGPref;
+                                break;
+                        }
                     }
 
                     SendEvent(Modem.Event.ModemMode, mode);

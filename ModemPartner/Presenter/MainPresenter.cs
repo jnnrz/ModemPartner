@@ -131,7 +131,7 @@ namespace ModemPartner.Presenter
                 case Modem.Event.Model:
                     break;
                 case Modem.Event.ModemMode:
-                    _view.UpdateModeSelection((Modem.Mode)e.Event);
+                    _view.UpdateModeSelection((Modem.Mode)e.Value);
                     break;
                 case Modem.Event.RSSI:
                     _view.UpdateRSSI(float.Parse(e.Value.ToString()));
