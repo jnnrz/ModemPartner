@@ -186,6 +186,7 @@ namespace ModemPartner.Core
                 _serialPort.DiscardInBuffer();
 
                 // Get modem information
+                AddCommandToQueue("AT\r");
                 AddCommandToQueue("ATI\r");
                 AddCommandToQueue("AT+CSQ\r");
                 AddCommandToQueue("AT+COPS=0,0\r");
