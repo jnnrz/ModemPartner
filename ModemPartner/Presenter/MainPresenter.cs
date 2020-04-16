@@ -149,7 +149,7 @@ namespace ModemPartner.Presenter
                     _view.UpdateProvider(e.Value.ToString());
                     break;
                 case Modem.Event.SysMode:
-                    _view.UpdateSubMode((Modem.SubMode)int.Parse(e.Value.ToString()));
+                    _view.UpdateSubMode((Modem.SubMode)e.Value);
                     break;
             }
         }

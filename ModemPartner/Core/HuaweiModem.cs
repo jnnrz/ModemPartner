@@ -147,7 +147,40 @@ namespace ModemPartner.Core
                 if (message.Contains("MODE:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
-                    SendEvent(Modem.Event.SysMode, sp[2].Trim());
+
+                    var band = sp[1];
+                    var msgSubMode = sp[2];
+                    var resSubMode = Modem.SubMode.NoService;
+
+                    switch (msgSubMode)
+                    {
+                        case "0":
+                            resSubMode = Modem.SubMode.NoService;
+                            break;
+                        case "1":
+                            resSubMode = Modem.SubMode.GSM;
+                            break;
+                        case "2":
+                            resSubMode = Modem.SubMode.GPRS;
+                            break;
+                        case "3":
+                            resSubMode = Modem.SubMode.EDGE;
+                            break;
+                        case "4":
+                            resSubMode = Modem.SubMode.WCDMA;
+                            break;
+                        case "5":
+                            resSubMode = Modem.SubMode.HSDPA;
+                            break;
+                        case "6":
+                            resSubMode = Modem.SubMode.HSUPA;
+                            break;
+                        case "7":
+                            resSubMode = Modem.SubMode.HSPA;
+                            break;
+                    }
+
+                    SendEvent(Modem.Event.SysMode, resSubMode);
                 }
             }
         }
