@@ -22,6 +22,45 @@ namespace ModemPartner.Presenter
             view.LoadForm += View_Load;
             view.RefreshDevicesClicked += View_RefreshDevicesClicked;
             view.OpenPortClicked += View_OpenPortClicked;
+            view.ApplyModeClicked += View_ApplyModeClicked;
+        }
+
+        private void View_ApplyModeClicked(object sender, EventArgs e)
+        {
+            if (_modem.IsOpen)
+            {
+                var mode = "";
+
+                switch (_view.SelectedMode)
+                {
+                    case 0:
+                        mode = "AT^SYSCFG=13,1,3FFFFFFF,2,4\r"; // 2G only
+                        break;
+                    case 1:
+                        mode = "AT^SYSCFG=2,1,3FFFFFFF,2,4\r"; // 2G preferred
+                        break;
+                    case 2:
+                        mode = "AT^SYSCFG=14,2,3FFFFFFF,2,4\r"; // 3G only
+                        break;
+                    case 3:
+                        mode = "AT^SYSCFG=2,2,3FFFFFFF,2,4\r"; // 3G preferred
+                        break;
+                    default:
+                        mode = "AT^SYSCFG=2,2,3FFFFFFF,2,4\r"; // 3G preferred
+                        break;
+                }
+
+                try
+                {
+                    _modem.AddCommandToQueue(mode);
+                    _modem.AddCommandToQueue("AT^SYSCFG?\r");
+                    _modem.ExecuteNextCommand();
+                }
+                catch (Exception ex)
+                {
+                    _view.UpdateToolStripStatus(ex.Message);
+                }
+            }
         }
 
         private void View_OpenPortClicked(object sender, EventArgs e)
@@ -108,6 +147,9 @@ namespace ModemPartner.Presenter
                     break;
                 case Modem.Event.Provider:
                     _view.UpdateProvider(e.Value.ToString());
+                    break;
+                case Modem.Event.SysMode:
+                    _view.UpdateSubMode((Modem.SubMode)int.Parse(e.Value.ToString()));
                     break;
             }
         }

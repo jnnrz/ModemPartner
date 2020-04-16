@@ -48,6 +48,29 @@ namespace ModemPartner.Core
             ThreeGOnly
         };
 
+        public enum SubMode
+        {
+            NoService,
+            GSM,
+            GPRS,
+            EDGE,
+            WCDMA,
+            HSDPA,
+            HSUPA,
+            HSPA
+        }
+
+        public enum Band
+        {
+            GSM,
+            EGSM,
+            PGSM,
+            DCS,
+            PCS,
+            WCDMA,
+            Any
+        }
+
         public Modem()
         {
             _commandQueue = new Queue<string>();

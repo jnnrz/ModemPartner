@@ -12,11 +12,13 @@ namespace ModemPartner.View
     {
         event EventHandler LoadForm;
         event EventHandler RefreshDevicesClicked;
-        event EventHandler OpenPortClicked;        
+        event EventHandler OpenPortClicked;
+        event EventHandler ApplyModeClicked;
 
         int NumberFoundDevices { get; }
         string SelectedModem { get; }
         bool DisableControls { set; }
+        int SelectedMode { get; }
 
         void ClearDeviceList();
         void AddDevicesToList(Dictionary<string, FoundModem> devices);
@@ -28,5 +30,6 @@ namespace ModemPartner.View
         void UpdateCSNetwork(int status);
         void UpdatePSAttachment(int status);
         void UpdateProvider(string provider);
+        void UpdateSubMode(Modem.SubMode mode);
     }
 }

@@ -143,6 +143,12 @@ namespace ModemPartner.Core
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
                     SendEvent(Modem.Event.Provider, sp[3].Trim(trimChars));
                 }
+
+                if (message.Contains("MODE:"))
+                {
+                    var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
+                    SendEvent(Modem.Event.SysMode, sp[2].Trim());
+                }
             }
         }
 

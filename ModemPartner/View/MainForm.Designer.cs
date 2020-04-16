@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblDevices = new System.Windows.Forms.Label();
             this.cbDevices = new System.Windows.Forms.ComboBox();
             this.btnDeviceRefresh = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.tslblDialStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tslblBand = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslblSubMode = new System.Windows.Forms.ToolStripStatusLabel();
             this.tslblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabChart = new System.Windows.Forms.TabPage();
@@ -122,7 +122,7 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tslblDialStatus,
-            this.tslblBand,
+            this.tslblSubMode,
             this.tslblStatus});
             this.statusStrip.Location = new System.Drawing.Point(0, 487);
             this.statusStrip.Name = "statusStrip";
@@ -139,12 +139,12 @@
             this.tslblDialStatus.Name = "tslblDialStatus";
             this.tslblDialStatus.Size = new System.Drawing.Size(16, 17);
             // 
-            // tslblBand
+            // tslblSubMode
             // 
-            this.tslblBand.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
-            this.tslblBand.Name = "tslblBand";
-            this.tslblBand.Size = new System.Drawing.Size(17, 17);
-            this.tslblBand.Text = "--";
+            this.tslblSubMode.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
+            this.tslblSubMode.Name = "tslblSubMode";
+            this.tslblSubMode.Size = new System.Drawing.Size(17, 17);
+            this.tslblSubMode.Text = "--";
             // 
             // tslblStatus
             // 
@@ -177,41 +177,41 @@
             // chart
             // 
             this.chart.BorderlineColor = System.Drawing.Color.Empty;
-            chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea1.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
-            chartArea1.AxisY.LabelStyle.Format = "{0} kbps";
-            chartArea1.AxisY.LabelStyle.Interval = 0D;
-            chartArea1.AxisY.LineColor = System.Drawing.Color.LightSalmon;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
-            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.Name = "MainChartArea";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 98F;
-            chartArea1.Position.Width = 100F;
-            this.chart.ChartAreas.Add(chartArea1);
+            chartArea4.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea4.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea4.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea4.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea4.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea4.AxisY.IsLabelAutoFit = false;
+            chartArea4.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea4.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
+            chartArea4.AxisY.LabelStyle.Format = "{0} kbps";
+            chartArea4.AxisY.LabelStyle.Interval = 0D;
+            chartArea4.AxisY.LineColor = System.Drawing.Color.LightSalmon;
+            chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
+            chartArea4.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea4.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea4.Name = "MainChartArea";
+            chartArea4.Position.Auto = false;
+            chartArea4.Position.Height = 98F;
+            chartArea4.Position.Width = 100F;
+            this.chart.ChartAreas.Add(chartArea4);
             this.chart.Location = new System.Drawing.Point(0, 3);
             this.chart.Name = "chart";
-            series1.BorderWidth = 2;
-            series1.ChartArea = "MainChartArea";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Color = System.Drawing.Color.DarkTurquoise;
-            series1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            series1.Name = "DownloadSeries";
-            series2.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            series2.BorderWidth = 2;
-            series2.ChartArea = "MainChartArea";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Color = System.Drawing.Color.DodgerBlue;
-            series2.Name = "UploadSeries";
-            this.chart.Series.Add(series1);
-            this.chart.Series.Add(series2);
+            series7.BorderWidth = 2;
+            series7.ChartArea = "MainChartArea";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Color = System.Drawing.Color.DarkTurquoise;
+            series7.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            series7.Name = "DownloadSeries";
+            series8.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            series8.BorderWidth = 2;
+            series8.ChartArea = "MainChartArea";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series8.Color = System.Drawing.Color.DodgerBlue;
+            series8.Name = "UploadSeries";
+            this.chart.Series.Add(series7);
+            this.chart.Series.Add(series8);
             this.chart.Size = new System.Drawing.Size(647, 201);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart";
@@ -284,6 +284,7 @@
             this.btnModeApply.TabIndex = 22;
             this.btnModeApply.Text = "Apply";
             this.btnModeApply.UseVisualStyleBackColor = true;
+            this.btnModeApply.Click += new System.EventHandler(this.btnModeApply_Click);
             // 
             // label1
             // 
@@ -717,7 +718,7 @@
         private System.Windows.Forms.ToolStripStatusLabel tslblStatus;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.ToolStripStatusLabel tslblDialStatus;
-        private System.Windows.Forms.ToolStripStatusLabel tslblBand;
+        private System.Windows.Forms.ToolStripStatusLabel tslblSubMode;
         private System.Windows.Forms.Label lblRSSI;
     }
 }

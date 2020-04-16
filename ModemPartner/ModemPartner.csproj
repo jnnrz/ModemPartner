@@ -52,6 +52,7 @@
     <Compile Include="Core\FoundModem.cs" />
     <Compile Include="Core\HuaweiModem.cs" />
     <Compile Include="Core\Modem.cs" />
+    <Compile Include="ConnectedDevice.cs" />
     <Compile Include="Presenter\MainPresenter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

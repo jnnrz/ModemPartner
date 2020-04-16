@@ -22,6 +22,7 @@ namespace ModemPartner
         public event EventHandler LoadForm;
         public event EventHandler RefreshDevicesClicked;
         public event EventHandler OpenPortClicked;
+        public event EventHandler ApplyModeClicked;
 
         public int NumberFoundDevices { get => cbDevices.Items.Count; }
         public string SelectedModem { get => cbDevices.SelectedItem.ToString(); }
@@ -35,6 +36,8 @@ namespace ModemPartner
                 btnDeviceRefresh.Enabled = !value;
             }
         }
+
+        public int SelectedMode { get => cbModes.SelectedIndex; }
 
         public void ClearDeviceList()
         {
@@ -147,7 +150,17 @@ namespace ModemPartner
             {                
                 this.Invoke(new MethodInvoker(() => {
                     lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : "")}";
-                    pbRSSI.Value = Convert.ToInt32(rssi);
+                    
+                    var value = Convert.ToInt32(rssi);
+
+                    if (value > pbRSSI.Maximum)
+                    {
+                        pbRSSI.Value = 1;
+                    }
+                    else
+                    {
+                        pbRSSI.Value = value;
+                    }
                 }));
             }
             else
@@ -267,6 +280,48 @@ namespace ModemPartner
             }
         }
 
+        public void UpdateSubMode(Modem.SubMode mode)
+        {
+            var text = "";
+
+            switch (mode)
+            {
+                case Modem.SubMode.NoService:
+                    text = "NA";
+                    break;
+                case Modem.SubMode.GSM:
+                    text = "GSM";
+                    break;
+                case Modem.SubMode.GPRS:
+                    text = "GPRS";
+                    break;
+                case Modem.SubMode.EDGE:
+                    text = "EDGE";
+                    break;
+                case Modem.SubMode.WCDMA:
+                    text = "WCDMA 3G";
+                    break;
+                case Modem.SubMode.HSDPA:
+                    text = "HSDPA 3.5G";
+                    break;
+                case Modem.SubMode.HSUPA:
+                    text = "HSUPA 3.7G";
+                    break;
+                case Modem.SubMode.HSPA:
+                    text = "HSPA 3.9G";
+                    break;
+            }
+
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => tslblSubMode.Text = text));
+            }
+            else
+            {
+                tslblSubMode.Text = text;
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadForm?.Invoke(sender, e);
@@ -286,6 +341,11 @@ namespace ModemPartner
             {
                 OpenPortClicked(sender, e);
             }
+        }
+
+        private void btnModeApply_Click(object sender, EventArgs e)
+        {
+            ApplyModeClicked?.Invoke(sender, e);
         }
     }
 }
