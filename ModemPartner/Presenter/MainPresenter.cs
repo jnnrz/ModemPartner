@@ -54,6 +54,7 @@ namespace ModemPartner.Presenter
                 {
                     _modem.AddCommandToQueue(mode);
                     _modem.AddCommandToQueue("AT^SYSCFG?\r");
+                    _modem.AddCommandToQueue("AT+CGATT?\r");
                     _modem.ExecuteNextCommand();
                 }
                 catch (Exception ex)
