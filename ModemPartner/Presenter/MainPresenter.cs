@@ -33,6 +33,7 @@ namespace ModemPartner.Presenter
                     _modem.ModemEvent -= Modem_ReceiveEvent;
                     _modem.Close();
                     _view.DisableControls = false;
+                    _view.UpdateProvider("--");
                     _view.UpdateRSSI(1);
                     _view.UpdateCSNetwork(6);
                     _view.UpdatePSNetwork(6);
