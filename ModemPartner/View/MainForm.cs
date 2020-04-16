@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ModemPartner.Core;
 using ModemPartner.View;
@@ -20,8 +15,11 @@ namespace ModemPartner
         }
 
         public event EventHandler LoadForm;
+
         public event EventHandler RefreshDevicesClicked;
+
         public event EventHandler OpenPortClicked;
+
         public event EventHandler ApplyModeClicked;
 
         public int NumberFoundDevices { get => cbDevices.Items.Count; }
@@ -62,7 +60,7 @@ namespace ModemPartner
                 else
                 {
                     cbDevices.Items.Add(device.Key);
-                }                
+                }
             }
 
             if (devices.Count > 0)
@@ -70,7 +68,6 @@ namespace ModemPartner
                 if (this.InvokeRequired)
                     this.Invoke(new MethodInvoker(() => cbDevices.SelectedIndex = 0));
             }
-                
         }
 
         public void UpdateToolStripStatus(string status)
@@ -91,15 +88,19 @@ namespace ModemPartner
                 case Modem.Mode.TwoGOnly:
                     index = 0;
                     break;
+
                 case Modem.Mode.TwoGPref:
                     index = 1;
                     break;
+
                 case Modem.Mode.ThreeGOnly:
                     index = 2;
                     break;
+
                 case Modem.Mode.ThreeGPref:
                     index = 3;
                     break;
+
                 default:
                     index = 2;
                     break;
@@ -138,7 +139,7 @@ namespace ModemPartner
                 lblText = "Good";
             }
 
-            if (rssi >= 20 && rssi <= 30 )
+            if (rssi >= 20 && rssi <= 30)
             {
                 lblColor = Color.FromArgb(0, 192, 0);
                 lblText = "Excellent";
@@ -147,10 +148,11 @@ namespace ModemPartner
             lblRSSI.ForeColor = lblColor;
 
             if (InvokeRequired)
-            {                
-                this.Invoke(new MethodInvoker(() => {
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
                     lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : "")}";
-                    
+
                     var value = Convert.ToInt32(rssi);
 
                     if (value > pbRSSI.Maximum)
@@ -186,7 +188,7 @@ namespace ModemPartner
         {
             if (InvokeRequired)
             {
-                this.Invoke(new MethodInvoker(() => this.UpdateNetworkRegLabel(lblCS, status)));                
+                this.Invoke(new MethodInvoker(() => this.UpdateNetworkRegLabel(lblCS, status)));
             }
             else
             {
@@ -204,14 +206,17 @@ namespace ModemPartner
                 case 0:
                     lblText = "Not attached";
                     break;
+
                 case 1:
                     lblColor = Color.DeepSkyBlue;
                     lblText = "Attached";
                     break;
+
                 case 2:
                     lblColor = Color.Black;
                     lblText = "--";
                     break;
+
                 default:
                     break;
             }
@@ -243,7 +248,7 @@ namespace ModemPartner
             }
         }
 
-        void UpdateNetworkRegLabel(Control ctrl, int status)
+        private void UpdateNetworkRegLabel(Control ctrl, int status)
         {
             switch (status)
             {
@@ -251,29 +256,36 @@ namespace ModemPartner
                     ctrl.Text = "Not Registered";
                     ctrl.ForeColor = Color.Black;
                     break;
+
                 case 1:
                     ctrl.ForeColor = Color.DeepSkyBlue;
                     ctrl.Text = "Registered";
                     break;
+
                 case 2:
                     ctrl.ForeColor = Color.DarkBlue;
                     ctrl.Text = "Searching";
                     break;
+
                 case 3:
                     ctrl.ForeColor = Color.Crimson;
                     ctrl.Text = "Denied";
                     break;
+
                 case 4:
                     lblCS.Text = "Unknown";
                     break;
+
                 case 5:
                     ctrl.ForeColor = Color.Salmon;
                     ctrl.Text = "Roaming";
                     break;
+
                 case 6:
                     ctrl.ForeColor = Color.Black;
                     ctrl.Text = "--";
                     break;
+
                 default:
                     ctrl.Text = "--";
                     break;
@@ -289,24 +301,31 @@ namespace ModemPartner
                 case Modem.SubMode.NoService:
                     text = "NA";
                     break;
+
                 case Modem.SubMode.GSM:
                     text = "GSM";
                     break;
+
                 case Modem.SubMode.GPRS:
                     text = "GPRS";
                     break;
+
                 case Modem.SubMode.EDGE:
                     text = "EDGE";
                     break;
+
                 case Modem.SubMode.WCDMA:
                     text = "WCDMA 3G";
                     break;
+
                 case Modem.SubMode.HSDPA:
                     text = "HSDPA 3.5G";
                     break;
+
                 case Modem.SubMode.HSUPA:
                     text = "HSUPA 3.7G";
                     break;
+
                 case Modem.SubMode.HSPA:
                     text = "HSPA 3.9G";
                     break;

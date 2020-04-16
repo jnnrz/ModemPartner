@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using ModemPartner.Core;
 using ModemPartner.View;
 
@@ -36,15 +35,19 @@ namespace ModemPartner.Presenter
                     case 0:
                         mode = "AT^SYSCFG=13,1,3FFFFFFF,2,4\r"; // 2G only
                         break;
+
                     case 1:
                         mode = "AT^SYSCFG=2,1,3FFFFFFF,2,4\r"; // 2G preferred
                         break;
+
                     case 2:
                         mode = "AT^SYSCFG=14,2,3FFFFFFF,2,4\r"; // 3G only
                         break;
+
                     case 3:
                         mode = "AT^SYSCFG=2,2,3FFFFFFF,2,4\r"; // 3G preferred
                         break;
+
                     default:
                         mode = "AT^SYSCFG=2,2,3FFFFFFF,2,4\r"; // 3G preferred
                         break;
@@ -110,7 +113,7 @@ namespace ModemPartner.Presenter
             catch (Exception ex)
             {
                 _view.UpdateToolStripStatus(ex.Message);
-            }                       
+            }
         }
 
         private void View_RefreshDevicesClicked(object sender, EventArgs e)
@@ -126,29 +129,36 @@ namespace ModemPartner.Presenter
         }
 
         private void Modem_ReceiveEvent(object sender, ModemEventArgs e)
-        {            
+        {
             switch (e.Event)
             {
                 case Modem.Event.Model:
                     break;
+
                 case Modem.Event.ModemMode:
                     _view.UpdateModeSelection((Modem.Mode)e.Value);
                     break;
+
                 case Modem.Event.RSSI:
                     _view.UpdateRSSI(float.Parse(e.Value.ToString()));
                     break;
+
                 case Modem.Event.PSNetwork:
                     _view.UpdatePSNetwork(int.Parse(e.Value.ToString()));
                     break;
+
                 case Modem.Event.CSNetwork:
                     _view.UpdateCSNetwork(int.Parse(e.Value.ToString()));
                     break;
+
                 case Modem.Event.PSAttach:
                     _view.UpdatePSAttachment(int.Parse(e.Value.ToString()));
                     break;
+
                 case Modem.Event.Provider:
                     _view.UpdateProvider(e.Value.ToString());
                     break;
+
                 case Modem.Event.SysMode:
                     _view.UpdateSubMode((Modem.SubMode)e.Value);
                     break;
@@ -168,7 +178,7 @@ namespace ModemPartner.Presenter
             var foundModem = _modemList[selected];
             if (foundModem == null)
                 return;
-                        
+
             _modem.SetPort(foundModem.Port);
             _modem.ModemEvent += Modem_ReceiveEvent;
             _modem.Open();

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO.Ports;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace ModemPartner.Core
 {
-    class HuaweiModem : Modem
+    internal class HuaweiModem : Modem
     {
         private string[] _separator = { ":", "," };
         private ModemEventArgs _modemEventArgs;
@@ -41,17 +40,25 @@ namespace ModemPartner.Core
 
         private void ProcessMessage(string receivedMessage)
         {
-            String[] splitMessage = receivedMessage.Split('\r');
+            string[] splitMessage = receivedMessage.Split('\r');
 
             foreach (var message in splitMessage)
             {
+                if (message.Contains("BOOT:"))
+                {
+                    return;
+                }
+
                 if (message.Contains("OK"))
                 {
                     ExecuteNextCommand();
+                    return;
                 }
 
                 if (message.Contains("ERROR"))
                 {
+                    ExecuteNextCommand();
+                    return;
                 }
 
                 if (message.Contains("Model"))
@@ -77,7 +84,7 @@ namespace ModemPartner.Core
                     var sp = message.Split(_separator, StringSplitOptions.None);
                     SendEvent(Modem.Event.RSSI, sp[1].Trim());
                 }
-                
+
                 if (message.Contains("^SYSCFG:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
@@ -97,6 +104,7 @@ namespace ModemPartner.Core
                             mode = Modem.Mode.TwoGOnly;
                             preferred = false;
                             break;
+
                         case "14":
                             mode = Modem.Mode.ThreeGOnly;
                             preferred = false;
@@ -110,6 +118,7 @@ namespace ModemPartner.Core
                             case "1":
                                 mode = Modem.Mode.TwoGPref;
                                 break;
+
                             case "2":
                                 mode = Modem.Mode.ThreeGPref;
                                 break;
@@ -157,24 +166,31 @@ namespace ModemPartner.Core
                         case "0":
                             resSubMode = Modem.SubMode.NoService;
                             break;
+
                         case "1":
                             resSubMode = Modem.SubMode.GSM;
                             break;
+
                         case "2":
                             resSubMode = Modem.SubMode.GPRS;
                             break;
+
                         case "3":
                             resSubMode = Modem.SubMode.EDGE;
                             break;
+
                         case "4":
                             resSubMode = Modem.SubMode.WCDMA;
                             break;
+
                         case "5":
                             resSubMode = Modem.SubMode.HSDPA;
                             break;
+
                         case "6":
                             resSubMode = Modem.SubMode.HSUPA;
                             break;
+
                         case "7":
                             resSubMode = Modem.SubMode.HSPA;
                             break;
@@ -193,20 +209,12 @@ namespace ModemPartner.Core
 
         public override void OnMessageReceived(ModemEventArgs e)
         {
-            EventHandler<ModemEventArgs> handler = ModemEvent;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            ModemEvent?.Invoke(this, e);
         }
 
         public override void OnErrorReceived(ErrorEventArgs e)
         {
-            EventHandler<ErrorEventArgs> handler = Error;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            Error?.Invoke(this, e);
         }
 
         public override void Open()
@@ -221,8 +229,6 @@ namespace ModemPartner.Core
 
                 _serialPort.DataReceived += _receivedDataEventHandler;
                 _serialPort.Open();
-                _serialPort.DiscardOutBuffer();
-                _serialPort.DiscardInBuffer();
 
                 // Get modem information
                 AddCommandToQueue("AT\r");
@@ -264,6 +270,5 @@ namespace ModemPartner.Core
                 OnErrorReceived(new ErrorEventArgs(e.Message));
             }
         }
-
     }
 }

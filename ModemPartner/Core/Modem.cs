@@ -77,8 +77,11 @@ namespace ModemPartner.Core
         }
 
         public abstract void Open();
+
         public abstract void Close();
+
         public abstract void OnMessageReceived(ModemEventArgs e);
+
         public abstract void OnErrorReceived(ErrorEventArgs e);
 
         public void ExecuteNextCommand()
@@ -166,7 +169,10 @@ namespace ModemPartner.Core
 
     public class ErrorEventArgs : EventArgs
     {
-        public ErrorEventArgs() { }
+        public ErrorEventArgs()
+        {
+        }
+
         public ErrorEventArgs(string ErrorMessage)
         {
             Error = ErrorMessage;
