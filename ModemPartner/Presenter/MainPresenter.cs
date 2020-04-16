@@ -90,7 +90,6 @@ namespace ModemPartner.Presenter
             switch (e.Event)
             {
                 case Modem.Event.Model:
-                    _view.UpdateToolStripStatus($"Model: {e.Value}");
                     break;
                 case Modem.Event.ModemMode:
                     _view.UpdateModeSelection((Modem.Mode)e.Event);
