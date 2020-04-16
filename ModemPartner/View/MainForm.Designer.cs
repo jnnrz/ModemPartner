@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -66,6 +67,7 @@
             this.lblDownloaded = new System.Windows.Forms.Label();
             this.lblDownloadedLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblRSSI = new System.Windows.Forms.Label();
             this.lblPSAttach = new System.Windows.Forms.Label();
             this.lblPS = new System.Windows.Forms.Label();
             this.lblCS = new System.Windows.Forms.Label();
@@ -79,7 +81,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnModemInfo = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
-            this.lblRSSI = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabChart.SuspendLayout();
@@ -108,7 +109,8 @@
             // 
             // btnDeviceRefresh
             // 
-            this.btnDeviceRefresh.Image = global::ModemPartner.Properties.Resources.reload;
+            this.btnDeviceRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnDeviceRefresh.Image")));
+            this.btnDeviceRefresh.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnDeviceRefresh.Location = new System.Drawing.Point(263, 11);
             this.btnDeviceRefresh.Name = "btnDeviceRefresh";
             this.btnDeviceRefresh.Size = new System.Drawing.Size(28, 25);
@@ -482,6 +484,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Network";
             // 
+            // lblRSSI
+            // 
+            this.lblRSSI.AutoSize = true;
+            this.lblRSSI.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRSSI.Location = new System.Drawing.Point(49, 112);
+            this.lblRSSI.Name = "lblRSSI";
+            this.lblRSSI.Size = new System.Drawing.Size(17, 15);
+            this.lblRSSI.TabIndex = 11;
+            this.lblRSSI.Text = "--";
+            // 
             // lblPSAttach
             // 
             this.lblPSAttach.AutoSize = true;
@@ -591,7 +603,7 @@
             // 
             // btnModemInfo
             // 
-            this.btnModemInfo.Image = global::ModemPartner.Properties.Resources.modem;
+            this.btnModemInfo.Image = global::ModemPartner.Properties.Resources.information;
             this.btnModemInfo.Location = new System.Drawing.Point(325, 11);
             this.btnModemInfo.Name = "btnModemInfo";
             this.btnModemInfo.Size = new System.Drawing.Size(28, 25);
@@ -600,22 +612,14 @@
             // 
             // btnOpen
             // 
+            this.btnOpen.Image = global::ModemPartner.Properties.Resources.unplugged;
+            this.btnOpen.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnOpen.Location = new System.Drawing.Point(294, 11);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(28, 25);
             this.btnOpen.TabIndex = 34;
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
-            // 
-            // lblRSSI
-            // 
-            this.lblRSSI.AutoSize = true;
-            this.lblRSSI.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRSSI.Location = new System.Drawing.Point(49, 112);
-            this.lblRSSI.Name = "lblRSSI";
-            this.lblRSSI.Size = new System.Drawing.Size(17, 15);
-            this.lblRSSI.TabIndex = 11;
-            this.lblRSSI.Text = "--";
             // 
             // MainForm
             // 

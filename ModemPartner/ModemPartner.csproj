@@ -53,6 +53,11 @@
     <Compile Include="Core\HuaweiModem.cs" />
     <Compile Include="Core\Modem.cs" />
     <Compile Include="Presenter\MainPresenter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="View\IMainView.cs" />
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
@@ -67,14 +72,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -89,9 +89,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\reload.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\pen-drive.png" />
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +96,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\red-ball.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unplugged.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plug.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

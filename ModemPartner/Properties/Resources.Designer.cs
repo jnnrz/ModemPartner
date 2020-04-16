@@ -73,9 +73,19 @@ namespace ModemPartner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap modem {
+        internal static System.Drawing.Bitmap information {
             get {
-                object obj = ResourceManager.GetObject("modem", resourceCulture);
+                object obj = ResourceManager.GetObject("information", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap plug {
+            get {
+                object obj = ResourceManager.GetObject("plug", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -102,9 +112,19 @@ namespace ModemPartner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap reload {
+        internal static System.Drawing.Bitmap refresh_blue {
             get {
-                object obj = ResourceManager.GetObject("reload", resourceCulture);
+                object obj = ResourceManager.GetObject("refresh_blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap unplugged {
+            get {
+                object obj = ResourceManager.GetObject("unplugged", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -33,6 +33,7 @@ namespace ModemPartner.Presenter
                     _modem.ModemEvent -= Modem_ReceiveEvent;
                     _modem.Close();
                     _view.DisableControls = false;
+                    _view.UpdateOpenPortBtn(Properties.Resources.unplugged, "");
                     _view.UpdateProvider("--");
                     _view.UpdateRSSI(1);
                     _view.UpdateCSNetwork(6);
@@ -47,7 +48,7 @@ namespace ModemPartner.Presenter
                     if (_modem.IsOpen)
                     {
                         _view.DisableControls = true;
-                        _view.UpdateOpenPortBtn(Properties.Resources.modem, "");
+                        _view.UpdateOpenPortBtn(Properties.Resources.plug, "");
                         _view.UpdateToolStripStatus($"Connected to {_view.SelectedModem}");
                     }
                 }
