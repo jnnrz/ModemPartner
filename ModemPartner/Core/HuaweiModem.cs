@@ -128,19 +128,41 @@ namespace ModemPartner.Core
                     SendEvent(Modem.Event.ModemMode, mode);
                 }
 
-                if (message.Contains("CGREG:"))
+                if (message.Contains("+CGREG:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
-                    SendEvent(Modem.Event.PSNetwork, sp[2].Trim());
+                    var status = "";
+
+                    if (sp.Length > 2)
+                    {
+                        status = sp[2];
+                    }
+                    else
+                    {
+                        status = sp[1];
+                    }
+
+                    SendEvent(Modem.Event.PSNetwork, status);
                 }
 
-                if (message.Contains("CREG:"))
+                if (message.Contains("+CREG:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
-                    SendEvent(Modem.Event.CSNetwork, sp[2].Trim());
+                    var status = "";
+
+                    if (sp.Length > 2)
+                    {
+                        status = sp[2];
+                    }
+                    else
+                    {
+                        status = sp[1];
+                    }
+
+                    SendEvent(Modem.Event.CSNetwork, status);
                 }
 
-                if (message.Contains("CGATT:"))
+                if (message.Contains("+CGATT:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
                     SendEvent(Modem.Event.PSAttach, sp[1].Trim());
@@ -236,6 +258,8 @@ namespace ModemPartner.Core
                 AddCommandToQueue("AT+CSQ\r");
                 AddCommandToQueue("AT+COPS=0,0\r");
                 AddCommandToQueue("AT+COPS?\r");
+                AddCommandToQueue("AT+CREG=1\r");
+                AddCommandToQueue("AT+CGREG=1\r");
                 AddCommandToQueue("AT+CREG?\r");
                 AddCommandToQueue("AT+CGREG?\r");
                 AddCommandToQueue("AT+CGATT?\r");
