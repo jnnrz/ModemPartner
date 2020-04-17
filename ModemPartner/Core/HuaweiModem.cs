@@ -172,6 +172,10 @@ namespace ModemPartner.Core
                 {
                     char[] trimChars = { '"', ' ' };
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (sp.Length < 3)
+                        return;
+
                     SendEvent(Modem.Event.Provider, sp[3].Trim(trimChars));
                 }
 
