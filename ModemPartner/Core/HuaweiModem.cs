@@ -40,7 +40,8 @@ namespace ModemPartner.Core
 
         private void ProcessMessage(string receivedMessage)
         {
-            string[] splitMessage = receivedMessage.Split('\r');
+            String[] sep = { "\r", "\n" };
+            string[] splitMessage = receivedMessage.Split(sep, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var message in splitMessage)
             {
