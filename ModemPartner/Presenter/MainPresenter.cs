@@ -47,6 +47,7 @@ namespace ModemPartner.Presenter
                 if (_modem.IsOpen)
                 {
                     _modem.ModemEvent -= Modem_ReceiveEvent;
+                    _modem.Error -= Modem_ErrorEvent;
                     _modem.Close();
                     _view.DisableControls = false;
                     _view.UpdateOpenPortBtn(Properties.Resources.unplugged, "");
@@ -138,6 +139,11 @@ namespace ModemPartner.Presenter
             }
         }
 
+        private void Modem_ErrorEvent(object sender, ErrorEventArgs e)
+        {
+            _view.UpdateToolStripStatus(e.Error);
+        }
+
         private void OpenModemPort()
         {
             var selected = _view.SelectedModem;
@@ -154,6 +160,7 @@ namespace ModemPartner.Presenter
 
             _modem.SetPort(foundModem.Port);
             _modem.ModemEvent += Modem_ReceiveEvent;
+            _modem.Error += Modem_ErrorEvent;
             _modem.Open();
         }
 

@@ -250,7 +250,7 @@ namespace ModemPartner.Core
             {
                 if (_serialPort.IsOpen)
                 {
-                    MessageBox.Show("Port is already open.");
+                    OnErrorReceived(new ErrorEventArgs("Port is already open."));
                     return;
                 }
 
