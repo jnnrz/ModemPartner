@@ -175,9 +175,9 @@ namespace ModemPartner.Presenter
             _modem.Open();
         }
 
-        private void LookForDevices()
+        private async void LookForDevices()
         {
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 _view.UpdateToolStripStatus("Finding devices...");
 
