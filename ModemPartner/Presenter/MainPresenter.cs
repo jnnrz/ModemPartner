@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ModemPartner.Core;
 using ModemPartner.View;
@@ -28,37 +29,9 @@ namespace ModemPartner.Presenter
         {
             if (_modem.IsOpen)
             {
-                var mode = "";
-
-                switch (_view.SelectedMode)
-                {
-                    case 0:
-                        mode = "AT^SYSCFG=13,1,3FFFFFFF,2,4\r"; // 2G only
-                        break;
-
-                    case 1:
-                        mode = "AT^SYSCFG=2,1,3FFFFFFF,2,4\r"; // 2G preferred
-                        break;
-
-                    case 2:
-                        mode = "AT^SYSCFG=14,2,3FFFFFFF,2,4\r"; // 3G only
-                        break;
-
-                    case 3:
-                        mode = "AT^SYSCFG=2,2,3FFFFFFF,2,4\r"; // 3G preferred
-                        break;
-
-                    default:
-                        mode = "AT^SYSCFG=2,2,3FFFFFFF,2,4\r"; // 3G preferred
-                        break;
-                }
-
                 try
                 {
-                    _modem.AddCommandToQueue(mode);
-                    _modem.AddCommandToQueue("AT^SYSCFG?\r");
-                    _modem.AddCommandToQueue("AT+CGATT?\r");
-                    _modem.ExecuteNextCommand();
+                    _modem.SetMode(_view.SelectedMode);
                 }
                 catch (Exception ex)
                 {

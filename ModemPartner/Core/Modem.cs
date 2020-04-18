@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Management;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ModemPartner.Core
 {
@@ -109,6 +111,45 @@ namespace ModemPartner.Core
         public void SetPort(string comPort)
         {
             _serialPort.PortName = comPort;
+        }
+
+        public async void SetMode(int mode)
+        {
+            var m = "";
+
+            switch (mode)
+            {
+                case 0:
+                    m = "AT^SYSCFG=13,1,3FFFFFFF,2,4\r"; // 2G only
+                    break;
+
+                case 1:
+                    m = "AT^SYSCFG=2,1,3FFFFFFF,2,4\r"; // 2G preferred
+                    break;
+
+                case 2:
+                    m = "AT^SYSCFG=14,2,3FFFFFFF,2,4\r"; // 3G only
+                    break;
+
+                case 3:
+                    m = "AT^SYSCFG=2,2,3FFFFFFF,2,4\r"; // 3G preferred
+                    break;
+
+                default:
+                    m = "AT^SYSCFG=2,2,3FFFFFFF,2,4\r"; // 3G preferred
+                    break;
+            }
+
+            await Task.Run(() =>
+            {
+                AddCommandToQueue(m);
+                AddCommandToQueue("AT^SYSCFG?\r");
+                ExecuteNextCommand();
+
+                Thread.Sleep(10000);
+                AddCommandToQueue("AT+CGATT?\r");
+                ExecuteNextCommand();
+            });
         }
 
         public static Dictionary<string, FoundModem> GetModems()
