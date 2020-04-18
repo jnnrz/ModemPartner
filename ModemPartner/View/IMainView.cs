@@ -9,6 +9,8 @@ namespace ModemPartner.View
     {
         event EventHandler LoadForm;
 
+        event EventHandler AppClosing;
+
         event EventHandler RefreshDevicesClicked;
 
         event EventHandler OpenPortClicked;

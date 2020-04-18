@@ -20,6 +20,7 @@ namespace ModemPartner.Presenter
             _view = view;
 
             view.LoadForm += View_Load;
+            view.AppClosing += View_AppClosing;
             view.RefreshDevicesClicked += View_RefreshDevicesClicked;
             view.OpenPortClicked += View_OpenPortClicked;
             view.ApplyModeClicked += View_ApplyModeClicked;
@@ -46,17 +47,7 @@ namespace ModemPartner.Presenter
             {
                 if (_modem.IsOpen)
                 {
-                    _modem.ModemEvent -= Modem_ReceiveEvent;
-                    _modem.Error -= Modem_ErrorEvent;
-                    _modem.Close();
-                    _view.DisableControls = false;
-                    _view.UpdateOpenPortBtn(Properties.Resources.unplugged, "");
-                    _view.UpdateProvider("--");
-                    _view.UpdateRSSI(1);
-                    _view.UpdateCSNetwork(6);
-                    _view.UpdatePSNetwork(6);
-                    _view.UpdatePSAttachment(2);
-                    _view.UpdateToolStripStatus($"Disconnected from {_view.SelectedModem}");
+                    CloseShop();
                 }
                 else
                 {
@@ -69,20 +60,6 @@ namespace ModemPartner.Presenter
                         _view.UpdateToolStripStatus($"Connected to {_view.SelectedModem}");
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                _view.UpdateToolStripStatus(ex.Message);
-            }
-        }
-
-        private void View_Load(object sender, EventArgs e)
-        {
-            _modem = new HuaweiModem();
-
-            try
-            {
-                LookForDevices();
             }
             catch (Exception ex)
             {
@@ -142,6 +119,40 @@ namespace ModemPartner.Presenter
         private void Modem_ErrorEvent(object sender, ErrorEventArgs e)
         {
             _view.UpdateToolStripStatus(e.Error);
+        }
+
+        private void View_Load(object sender, EventArgs e)
+        {
+            _modem = new HuaweiModem();
+
+            try
+            {
+                LookForDevices();
+            }
+            catch (Exception ex)
+            {
+                _view.UpdateToolStripStatus(ex.Message);
+            }
+        }
+
+        private void View_AppClosing(object sender, EventArgs e)
+        {
+            CloseShop();
+        }
+
+        private void CloseShop()
+        {
+            _modem.ModemEvent -= Modem_ReceiveEvent;
+            _modem.Error -= Modem_ErrorEvent;
+            _modem.Close();
+            _view.DisableControls = false;
+            _view.UpdateOpenPortBtn(Properties.Resources.unplugged, "");
+            _view.UpdateProvider("--");
+            _view.UpdateRSSI(1);
+            _view.UpdateCSNetwork(6);
+            _view.UpdatePSNetwork(6);
+            _view.UpdatePSAttachment(2);
+            _view.UpdateToolStripStatus($"Disconnected from {_view.SelectedModem}");
         }
 
         private void OpenModemPort()

@@ -16,6 +16,8 @@ namespace ModemPartner
 
         public event EventHandler LoadForm;
 
+        public event EventHandler AppClosing;
+
         public event EventHandler RefreshDevicesClicked;
 
         public event EventHandler OpenPortClicked;
@@ -344,6 +346,11 @@ namespace ModemPartner
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadForm?.Invoke(sender, e);
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            AppClosing?.Invoke(sender, e);
         }
 
         private void btnDeviceRefresh_Click(object sender, EventArgs e)
