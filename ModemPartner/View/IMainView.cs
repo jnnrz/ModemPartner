@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using DotRas;
 using ModemPartner.Core;
 
 namespace ModemPartner.View
@@ -17,14 +18,19 @@ namespace ModemPartner.View
 
         event EventHandler ApplyModeClicked;
 
+        event EventHandler ConnectionClicked;
+
         int NumberFoundDevices { get; }
         string SelectedModem { get; }
-        bool DisableControls { set; }
+        bool DisableDeviceRelatedControls { set; }
         int SelectedMode { get; }
+        string SelectedProfile { get; }
 
         void ClearDeviceList();
 
         void AddDevicesToList(Dictionary<string, FoundModem> devices);
+
+        void AddProfilesToList(RasEntryCollection profiles);
 
         void UpdateToolStripStatus(string status);
 
@@ -43,5 +49,11 @@ namespace ModemPartner.View
         void UpdateProvider(string provider);
 
         void UpdateSubMode(Modem.SubMode mode);
+
+        void UpdateUIWhenConnected();
+
+        void UpdateUIWhenDisconnected();
+
+        void UpdateUIWhenDialing();
     }
 }

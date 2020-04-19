@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using DotRas;
 using ModemPartner.Core;
 using ModemPartner.View;
 
@@ -24,20 +25,23 @@ namespace ModemPartner
 
         public event EventHandler ApplyModeClicked;
 
+        public event EventHandler ConnectionClicked;
+
         public int NumberFoundDevices { get => cbDevices.Items.Count; }
         public string SelectedModem { get => cbDevices.SelectedItem.ToString(); }
 
-        public bool DisableControls
+        public bool DisableDeviceRelatedControls
         {
             set
             {
                 cbDevices.Enabled = !value;
-                cbProfiles.Enabled = !value;
                 btnDeviceRefresh.Enabled = !value;
             }
         }
 
         public int SelectedMode { get => cbModes.SelectedIndex; }
+
+        public string SelectedProfile { get => cbProfiles.SelectedItem.ToString(); }
 
         public void ClearDeviceList()
         {
@@ -69,6 +73,32 @@ namespace ModemPartner
             {
                 if (this.InvokeRequired)
                     this.Invoke(new MethodInvoker(() => cbDevices.SelectedIndex = 0));
+            }
+        }
+
+        public void AddProfilesToList(RasEntryCollection profiles)
+        {
+            var defaultProfile = Properties.Settings.Default.DefaultProfile;
+
+            for (var i = 0; i < profiles.Count; i++)
+            {
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new MethodInvoker(() =>
+                    {
+                        cbProfiles.Items.Add(profiles[i].Name);
+
+                        if (profiles[i].Name.Equals(defaultProfile))
+                            cbProfiles.SelectedIndex = i;
+                    }));
+                }
+                else
+                {
+                    cbProfiles.Items.Add(profiles[i].Name);
+
+                    if (profiles[i].Name.Equals(defaultProfile))
+                        cbProfiles.SelectedIndex = i;
+                }
             }
         }
 
@@ -343,6 +373,63 @@ namespace ModemPartner
             }
         }
 
+        public void UpdateUIWhenConnected()
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    btnConnect.Text = "Disconnect";
+                    tslblDialStatus.Image = Properties.Resources.green_ball;
+                    cbProfiles.Enabled = false;
+                }));
+            }
+            else
+            {
+                btnConnect.Text = "Disconnect";
+                tslblDialStatus.Image = Properties.Resources.green_ball;
+                cbProfiles.Enabled = false;
+            }
+        }
+
+        public void UpdateUIWhenDisconnected()
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    btnConnect.Text = "Connect";
+                    tslblDialStatus.Image = Properties.Resources.red_ball;
+                    cbProfiles.Enabled = true;
+                }));
+            }
+            else
+            {
+                btnConnect.Text = "Connect";
+                tslblDialStatus.Image = Properties.Resources.red_ball;
+                cbProfiles.Enabled = true;
+            }
+        }
+
+        public void UpdateUIWhenDialing()
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    btnConnect.Text = "Cancel";
+                    tslblDialStatus.Image = Properties.Resources.red_ball;
+                    cbProfiles.Enabled = false;
+                }));
+            }
+            else
+            {
+                btnConnect.Text = "Cancel";
+                tslblDialStatus.Image = Properties.Resources.red_ball;
+                cbProfiles.Enabled = false;
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadForm?.Invoke(sender, e);
@@ -372,6 +459,11 @@ namespace ModemPartner
         private void btnModeApply_Click(object sender, EventArgs e)
         {
             ApplyModeClicked?.Invoke(sender, e);
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            ConnectionClicked?.Invoke(sender, e);
         }
     }
 }

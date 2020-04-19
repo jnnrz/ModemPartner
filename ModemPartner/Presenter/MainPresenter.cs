@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using DotRas;
 using ModemPartner.Core;
 using ModemPartner.View;
 
@@ -9,14 +10,24 @@ namespace ModemPartner.Presenter
 {
     public class MainPresenter
     {
-        private IMainView _view;
-
-        private Dictionary<string, FoundModem> _modemList = new Dictionary<string, FoundModem>();
-
+        private readonly RasDialer _dialer;
+        private readonly RasConnectionWatcher _watcher;
+        private RasHandle _handle;
         private Modem _modem;
+        private Dictionary<string, FoundModem> _modemList = new Dictionary<string, FoundModem>();
+        private bool _rasConnected;
+        private IMainView _view;
 
         public MainPresenter(IMainView view)
         {
+            _dialer = new RasDialer();
+            _dialer.StateChanged += Dialer_StateChanged;
+            _dialer.DialCompleted += Dialer_DialCompleted;
+
+            _watcher = new RasConnectionWatcher();
+            _watcher.Disconnected += Watcher_Disconnected;
+            _watcher.EnableRaisingEvents = true;
+
             _view = view;
 
             view.LoadForm += View_Load;
@@ -24,42 +35,64 @@ namespace ModemPartner.Presenter
             view.RefreshDevicesClicked += View_RefreshDevicesClicked;
             view.OpenPortClicked += View_OpenPortClicked;
             view.ApplyModeClicked += View_ApplyModeClicked;
+            view.ConnectionClicked += View_ConnectionClicked;
         }
 
-        private void View_ApplyModeClicked(object sender, EventArgs e)
+        private void CloseShop()
         {
-            if (_modem.IsOpen)
+            _modem.ModemEvent -= Modem_ReceiveEvent;
+            _modem.Error -= Modem_ErrorEvent;
+            _modem.Close();
+            _view.DisableDeviceRelatedControls = false;
+            _view.UpdateOpenPortBtn(Properties.Resources.unplugged, "");
+            _view.UpdateProvider("--");
+            _view.UpdateRSSI(1);
+            _view.UpdateCSNetwork(6);
+            _view.UpdatePSNetwork(6);
+            _view.UpdatePSAttachment(2);
+            _view.UpdateToolStripStatus($"Disconnected from {_view.SelectedModem}");
+        }
+
+        private void Dialer_DialCompleted(object sender, DialCompletedEventArgs e)
+        {
+            if (e.Connected)
             {
-                try
-                {
-                    _modem.SetMode(_view.SelectedMode);
-                }
-                catch (Exception ex)
-                {
-                    _view.UpdateToolStripStatus(ex.Message);
-                }
+                _rasConnected = true;
+                _view.UpdateUIWhenConnected();
+                _view.UpdateToolStripStatus($"Connected: [{_view.SelectedProfile}]");
+            }
+            else if (e.TimedOut)
+            {
+                _view.UpdateToolStripStatus("Connection attempt timed out");
+            }
+            else if (e.Error != null)
+            {
+                _view.UpdateToolStripStatus(e.Error.ToString());
+            }
+            else if (e.Cancelled)
+            {
+                _view.UpdateToolStripStatus("Connection attempt cancelled");
+                _view.UpdateUIWhenDisconnected();
+            }
+            else if (!e.Connected)
+            {
+                _view.UpdateUIWhenDisconnected();
             }
         }
 
-        private void View_OpenPortClicked(object sender, EventArgs e)
+        private void Dialer_StateChanged(object sender, DotRas.StateChangedEventArgs e)
+        {
+            _view.UpdateToolStripStatus(e.State.ToString());
+        }
+
+        private void LoadProfiles()
         {
             try
             {
-                if (_modem.IsOpen)
-                {
-                    CloseShop();
-                }
-                else
-                {
-                    OpenModemPort();
+                RasPhoneBook phoneBook = new RasPhoneBook();
+                phoneBook.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.User));
 
-                    if (_modem.IsOpen)
-                    {
-                        _view.DisableControls = true;
-                        _view.UpdateOpenPortBtn(Properties.Resources.plug, "");
-                        _view.UpdateToolStripStatus($"Connected to {_view.SelectedModem}");
-                    }
-                }
+                _view.AddProfilesToList(phoneBook.Entries);
             }
             catch (Exception ex)
             {
@@ -67,16 +100,23 @@ namespace ModemPartner.Presenter
             }
         }
 
-        private void View_RefreshDevicesClicked(object sender, EventArgs e)
+        private async void LookForDevices()
         {
-            try
+            await Task.Run(() =>
             {
-                LookForDevices();
-            }
-            catch (Exception ex)
-            {
-                _view.UpdateToolStripStatus(ex.Message);
-            }
+                _view.UpdateToolStripStatus("Finding devices...");
+
+                _modemList = Modem.GetModems();
+                _view.ClearDeviceList();
+                _view.AddDevicesToList(_modemList);
+
+                _view.UpdateToolStripStatus($"{_view.NumberFoundDevices} devices found.");
+            });
+        }
+
+        private void Modem_ErrorEvent(object sender, ErrorEventArgs e)
+        {
+            _view.UpdateToolStripStatus(e.Error);
         }
 
         private void Modem_ReceiveEvent(object sender, ModemEventArgs e)
@@ -116,45 +156,6 @@ namespace ModemPartner.Presenter
             }
         }
 
-        private void Modem_ErrorEvent(object sender, ErrorEventArgs e)
-        {
-            _view.UpdateToolStripStatus(e.Error);
-        }
-
-        private void View_Load(object sender, EventArgs e)
-        {
-            _modem = new HuaweiModem();
-
-            try
-            {
-                LookForDevices();
-            }
-            catch (Exception ex)
-            {
-                _view.UpdateToolStripStatus(ex.Message);
-            }
-        }
-
-        private void View_AppClosing(object sender, EventArgs e)
-        {
-            CloseShop();
-        }
-
-        private void CloseShop()
-        {
-            _modem.ModemEvent -= Modem_ReceiveEvent;
-            _modem.Error -= Modem_ErrorEvent;
-            _modem.Close();
-            _view.DisableControls = false;
-            _view.UpdateOpenPortBtn(Properties.Resources.unplugged, "");
-            _view.UpdateProvider("--");
-            _view.UpdateRSSI(1);
-            _view.UpdateCSNetwork(6);
-            _view.UpdatePSNetwork(6);
-            _view.UpdatePSAttachment(2);
-            _view.UpdateToolStripStatus($"Disconnected from {_view.SelectedModem}");
-        }
-
         private void OpenModemPort()
         {
             var selected = _view.SelectedModem;
@@ -175,18 +176,164 @@ namespace ModemPartner.Presenter
             _modem.Open();
         }
 
-        private async void LookForDevices()
+        private void Ras_Connect()
+        {
+            var selectedProfile = _view.SelectedProfile;
+
+            if (selectedProfile.Equals(String.Empty))
+            {
+                _view.UpdateToolStripStatus("Profile not selected");
+                return;
+            }
+
+            _dialer.EntryName = selectedProfile;
+            _dialer.PhoneBookPath = RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.User);
+
+            try
+            {
+                _handle = _dialer.DialAsync();
+
+                Task.Run(() =>
+                {
+                    while (_dialer.IsBusy)
+                    {
+                        _view.UpdateUIWhenDialing();
+                        Thread.Sleep(1000);
+                    }
+                });
+
+                Properties.Settings.Default.DefaultProfile = selectedProfile;
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                _view.UpdateToolStripStatus(ex.Message);
+            }
+        }
+
+        private async void Ras_Disconnect()
         {
             await Task.Run(() =>
             {
-                _view.UpdateToolStripStatus("Finding devices...");
+                var connections = RasConnection.GetActiveConnections();
 
-                _modemList = Modem.GetModems();
-                _view.ClearDeviceList();
-                _view.AddDevicesToList(_modemList);
-
-                _view.UpdateToolStripStatus($"{_view.NumberFoundDevices} devices found.");
+                foreach (var c in connections)
+                {
+                    if (c.Handle == _handle)
+                    {
+                        c.HangUp();
+                    }
+                }
             });
+        }
+
+        private void View_AppClosing(object sender, EventArgs e)
+        {
+            CloseShop();
+        }
+
+        private void View_ApplyModeClicked(object sender, EventArgs e)
+        {
+            if (_modem.IsOpen)
+            {
+                try
+                {
+                    _modem.SetMode(_view.SelectedMode);
+                }
+                catch (Exception ex)
+                {
+                    _view.UpdateToolStripStatus(ex.Message);
+                }
+            }
+        }
+
+        private void View_ConnectionClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_dialer.IsBusy)
+                {
+                    Task.Run(() =>
+                    {
+                        _dialer.DialAsyncCancel();
+                    });
+
+                    return;
+                }
+
+                if (!_rasConnected)
+                {
+                    Ras_Connect();
+                }
+                else
+                {
+                    Ras_Disconnect();
+                }
+            }
+            catch (Exception ex)
+            {
+                _view.UpdateToolStripStatus(ex.Message);
+            }
+        }
+
+        private void View_Load(object sender, EventArgs e)
+        {
+            _modem = new HuaweiModem();
+
+            try
+            {
+                LookForDevices();
+                LoadProfiles();
+            }
+            catch (Exception ex)
+            {
+                _view.UpdateToolStripStatus(ex.Message);
+            }
+        }
+
+        private void View_OpenPortClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_modem.IsOpen)
+                {
+                    CloseShop();
+                }
+                else
+                {
+                    OpenModemPort();
+
+                    if (_modem.IsOpen)
+                    {
+                        _view.DisableDeviceRelatedControls = true;
+                        _view.UpdateOpenPortBtn(Properties.Resources.plug, "");
+                        _view.UpdateToolStripStatus($"Connected to {_view.SelectedModem}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _view.UpdateToolStripStatus(ex.Message);
+            }
+        }
+
+        private void View_RefreshDevicesClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                LookForDevices();
+            }
+            catch (Exception ex)
+            {
+                _view.UpdateToolStripStatus(ex.Message);
+            }
+        }
+
+        private void Watcher_Disconnected(object sender, DotRas.RasConnectionEventArgs e)
+        {
+            _view.UpdateUIWhenDisconnected();
+            _view.UpdateToolStripStatus("Disconnected");
+            _rasConnected = false;
         }
     }
 }
