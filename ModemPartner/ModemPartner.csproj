@@ -56,7 +56,6 @@
     <Compile Include="Core\HuaweiModem.cs" />
     <Compile Include="Core\Modem.cs" />
     <Compile Include="ConnectedDevice.cs" />
-    <Compile Include="Core\RAS.cs" />
     <Compile Include="Presenter\MainPresenter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
