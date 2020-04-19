@@ -40,17 +40,20 @@ namespace ModemPartner.Presenter
 
         private void CloseShop()
         {
-            _modem.ModemEvent -= Modem_ReceiveEvent;
-            _modem.Error -= Modem_ErrorEvent;
-            _modem.Close();
-            _view.DisableDeviceRelatedControls = false;
-            _view.UpdateOpenPortBtn(Properties.Resources.unplugged, "");
-            _view.UpdateProvider("--");
-            _view.UpdateRSSI(1);
-            _view.UpdateCSNetwork(6);
-            _view.UpdatePSNetwork(6);
-            _view.UpdatePSAttachment(2);
-            _view.UpdateToolStripStatus($"Disconnected from {_view.SelectedModem}");
+            if (_modem.IsOpen)
+            {
+                _modem.ModemEvent -= Modem_ReceiveEvent;
+                _modem.Error -= Modem_ErrorEvent;
+                _modem.Close();
+                _view.DisableDeviceRelatedControls = false;
+                _view.UpdateOpenPortBtn(Properties.Resources.unplugged, "");
+                _view.UpdateProvider("--");
+                _view.UpdateRSSI(1);
+                _view.UpdateCSNetwork(6);
+                _view.UpdatePSNetwork(6);
+                _view.UpdatePSAttachment(2);
+                _view.UpdateToolStripStatus($"Disconnected from {_view.SelectedModem}");
+            }
         }
 
         private void Dialer_DialCompleted(object sender, DialCompletedEventArgs e)
