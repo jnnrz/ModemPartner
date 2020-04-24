@@ -4,45 +4,60 @@ using System.Drawing;
 using System.Windows.Forms;
 using DotRas;
 using ModemPartner.Core;
-using ModemPartner.View;
 
-namespace ModemPartner
+namespace ModemPartner.View
 {
+    /// <summary>
+    /// Defines the app's main form.
+    /// </summary>
     public partial class MainForm : Form, IMainView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainForm"/> class.
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
         }
 
+        /// <inheritdoc/>
         public event EventHandler LoadForm;
 
+        /// <inheritdoc/>
         public event EventHandler AppClosing;
 
+        /// <inheritdoc/>
         public event EventHandler RefreshDevicesClicked;
 
+        /// <inheritdoc/>
         public event EventHandler OpenPortClicked;
 
+        /// <inheritdoc/>
         public event EventHandler ApplyModeClicked;
 
+        /// <inheritdoc/>
         public event EventHandler ConnectionClicked;
 
-        public int NumberFoundDevices { get => cbDevices.Items.Count; }
-        public string SelectedModem { get => cbDevices.SelectedItem.ToString(); }
+        /// <inheritdoc/>
+        public int NumberFoundDevices => cbDevices.Items.Count;
 
-        public bool DisableDeviceRelatedControls
+        /// <inheritdoc/>
+        public string SelectedModem => cbDevices.SelectedItem.ToString();
+
+        /// <inheritdoc/>
+        public int SelectedMode => cbModes.SelectedIndex;
+
+        /// <inheritdoc/>
+        public string SelectedProfile => cbProfiles.SelectedItem.ToString();
+
+        /// <inheritdoc/>
+        public void DisableDeviceRelatedControls(bool value)
         {
-            set
-            {
-                cbDevices.Enabled = !value;
-                btnDeviceRefresh.Enabled = !value;
-            }
+            cbDevices.Enabled = !value;
+            btnDeviceRefresh.Enabled = !value;
         }
 
-        public int SelectedMode { get => cbModes.SelectedIndex; }
-
-        public string SelectedProfile { get => cbProfiles.SelectedItem.ToString(); }
-
+        /// <inheritdoc/>
         public void ClearDeviceList()
         {
             if (this.InvokeRequired)
@@ -55,8 +70,14 @@ namespace ModemPartner
             }
         }
 
+        /// <inheritdoc/>
         public void AddDevicesToList(Dictionary<string, FoundModem> devices)
         {
+            if (devices == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             foreach (var device in devices)
             {
                 if (this.InvokeRequired)
@@ -72,12 +93,20 @@ namespace ModemPartner
             if (devices.Count > 0)
             {
                 if (this.InvokeRequired)
+                {
                     this.Invoke(new MethodInvoker(() => cbDevices.SelectedIndex = 0));
+                }
             }
         }
 
+        /// <inheritdoc/>
         public void AddProfilesToList(RasEntryCollection profiles)
         {
+            if (profiles == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var defaultProfile = Properties.Settings.Default.DefaultProfile;
 
             for (var i = 0; i < profiles.Count; i++)
@@ -89,7 +118,9 @@ namespace ModemPartner
                         cbProfiles.Items.Add(profiles[i].Name);
 
                         if (profiles[i].Name.Equals(defaultProfile))
+                        {
                             cbProfiles.SelectedIndex = i;
+                        }
                     }));
                 }
                 else
@@ -97,21 +128,26 @@ namespace ModemPartner
                     cbProfiles.Items.Add(profiles[i].Name);
 
                     if (profiles[i].Name.Equals(defaultProfile))
+                    {
                         cbProfiles.SelectedIndex = i;
+                    }
                 }
             }
         }
 
+        /// <inheritdoc/>
         public void UpdateToolStripStatus(string status)
         {
             tslblStatus.Text = status;
         }
 
+        /// <inheritdoc/>
         public void UpdateOpenPortBtn(Bitmap icon, string tooltipText)
         {
             btnOpen.Image = icon;
         }
 
+        /// <inheritdoc/>
         public void UpdateModeSelection(Modem.Mode mode)
         {
             int index = 0;
@@ -148,6 +184,7 @@ namespace ModemPartner
             }
         }
 
+        /// <inheritdoc/>
         public void UpdateRSSI(float rssi)
         {
             Color lblColor = Color.Black;
@@ -183,7 +220,7 @@ namespace ModemPartner
             {
                 this.Invoke(new MethodInvoker(() =>
                 {
-                    lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : "")}";
+                    lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : string.Empty)}";
 
                     var value = Convert.ToInt32(rssi);
 
@@ -199,11 +236,12 @@ namespace ModemPartner
             }
             else
             {
-                lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : "")}";
+                lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : string.Empty)}";
                 pbRSSI.Value = Convert.ToInt32(rssi);
             }
         }
 
+        /// <inheritdoc/>
         public void UpdatePSNetwork(int status)
         {
             if (InvokeRequired)
@@ -216,6 +254,7 @@ namespace ModemPartner
             }
         }
 
+        /// <inheritdoc/>
         public void UpdateCSNetwork(int status)
         {
             if (InvokeRequired)
@@ -228,6 +267,7 @@ namespace ModemPartner
             }
         }
 
+        /// <inheritdoc/>
         public void UpdatePSAttachment(int status)
         {
             Color lblColor = Color.Black;
@@ -268,6 +308,7 @@ namespace ModemPartner
             }
         }
 
+        /// <inheritdoc/>
         public void UpdateProvider(string provider)
         {
             if (InvokeRequired)
@@ -277,6 +318,116 @@ namespace ModemPartner
             else
             {
                 this.lblProvider.Text = provider;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateSubMode(Modem.SubMode mode)
+        {
+            var text = string.Empty;
+
+            switch (mode)
+            {
+                case Modem.SubMode.NoService:
+                    text = "NA";
+                    break;
+
+                case Modem.SubMode.GSM:
+                    text = "GSM";
+                    break;
+
+                case Modem.SubMode.GPRS:
+                    text = "GPRS";
+                    break;
+
+                case Modem.SubMode.EDGE:
+                    text = "EDGE";
+                    break;
+
+                case Modem.SubMode.WCDMA:
+                    text = "WCDMA 3G";
+                    break;
+
+                case Modem.SubMode.HSDPA:
+                    text = "HSDPA 3.5G";
+                    break;
+
+                case Modem.SubMode.HSUPA:
+                    text = "HSUPA 3.7G";
+                    break;
+
+                case Modem.SubMode.HSPA:
+                    text = "HSPA 3.9G";
+                    break;
+            }
+
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => tslblSubMode.Text = text));
+            }
+            else
+            {
+                tslblSubMode.Text = text;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateUIWhenConnected()
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    btnConnect.Text = "Disconnect";
+                    tslblDialStatus.Image = Properties.Resources.green_ball;
+                    cbProfiles.Enabled = false;
+                }));
+            }
+            else
+            {
+                btnConnect.Text = "Disconnect";
+                tslblDialStatus.Image = Properties.Resources.green_ball;
+                cbProfiles.Enabled = false;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateUIWhenDisconnected()
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    btnConnect.Text = "Connect";
+                    tslblDialStatus.Image = Properties.Resources.red_ball;
+                    cbProfiles.Enabled = true;
+                }));
+            }
+            else
+            {
+                btnConnect.Text = "Connect";
+                tslblDialStatus.Image = Properties.Resources.red_ball;
+                cbProfiles.Enabled = true;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateUIWhenDialing()
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    btnConnect.Text = "Cancel";
+                    tslblDialStatus.Image = Properties.Resources.red_ball;
+                    cbProfiles.Enabled = false;
+                }));
+            }
+            else
+            {
+                btnConnect.Text = "Cancel";
+                tslblDialStatus.Image = Properties.Resources.red_ball;
+                cbProfiles.Enabled = false;
             }
         }
 
@@ -324,112 +475,6 @@ namespace ModemPartner
             }
         }
 
-        public void UpdateSubMode(Modem.SubMode mode)
-        {
-            var text = "";
-
-            switch (mode)
-            {
-                case Modem.SubMode.NoService:
-                    text = "NA";
-                    break;
-
-                case Modem.SubMode.GSM:
-                    text = "GSM";
-                    break;
-
-                case Modem.SubMode.GPRS:
-                    text = "GPRS";
-                    break;
-
-                case Modem.SubMode.EDGE:
-                    text = "EDGE";
-                    break;
-
-                case Modem.SubMode.WCDMA:
-                    text = "WCDMA 3G";
-                    break;
-
-                case Modem.SubMode.HSDPA:
-                    text = "HSDPA 3.5G";
-                    break;
-
-                case Modem.SubMode.HSUPA:
-                    text = "HSUPA 3.7G";
-                    break;
-
-                case Modem.SubMode.HSPA:
-                    text = "HSPA 3.9G";
-                    break;
-            }
-
-            if (InvokeRequired)
-            {
-                this.Invoke(new MethodInvoker(() => tslblSubMode.Text = text));
-            }
-            else
-            {
-                tslblSubMode.Text = text;
-            }
-        }
-
-        public void UpdateUIWhenConnected()
-        {
-            if (InvokeRequired)
-            {
-                this.Invoke(new MethodInvoker(() =>
-                {
-                    btnConnect.Text = "Disconnect";
-                    tslblDialStatus.Image = Properties.Resources.green_ball;
-                    cbProfiles.Enabled = false;
-                }));
-            }
-            else
-            {
-                btnConnect.Text = "Disconnect";
-                tslblDialStatus.Image = Properties.Resources.green_ball;
-                cbProfiles.Enabled = false;
-            }
-        }
-
-        public void UpdateUIWhenDisconnected()
-        {
-            if (InvokeRequired)
-            {
-                this.Invoke(new MethodInvoker(() =>
-                {
-                    btnConnect.Text = "Connect";
-                    tslblDialStatus.Image = Properties.Resources.red_ball;
-                    cbProfiles.Enabled = true;
-                }));
-            }
-            else
-            {
-                btnConnect.Text = "Connect";
-                tslblDialStatus.Image = Properties.Resources.red_ball;
-                cbProfiles.Enabled = true;
-            }
-        }
-
-        public void UpdateUIWhenDialing()
-        {
-            if (InvokeRequired)
-            {
-                this.Invoke(new MethodInvoker(() =>
-                {
-                    btnConnect.Text = "Cancel";
-                    tslblDialStatus.Image = Properties.Resources.red_ball;
-                    cbProfiles.Enabled = false;
-                }));
-            }
-            else
-            {
-                btnConnect.Text = "Cancel";
-                tslblDialStatus.Image = Properties.Resources.red_ball;
-                cbProfiles.Enabled = false;
-            }
-        }
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadForm?.Invoke(sender, e);
@@ -440,28 +485,22 @@ namespace ModemPartner
             AppClosing?.Invoke(sender, e);
         }
 
-        private void btnDeviceRefresh_Click(object sender, EventArgs e)
+        private void BtnDeviceRefresh_Click(object sender, EventArgs e)
         {
-            if (RefreshDevicesClicked != null)
-            {
-                RefreshDevicesClicked(sender, e);
-            }
+            RefreshDevicesClicked?.Invoke(sender, e);
         }
 
-        private void btnOpen_Click(object sender, EventArgs e)
+        private void BtnOpen_Click(object sender, EventArgs e)
         {
-            if (OpenPortClicked != null)
-            {
-                OpenPortClicked(sender, e);
-            }
+            OpenPortClicked?.Invoke(sender, e);
         }
 
-        private void btnModeApply_Click(object sender, EventArgs e)
+        private void BtnModeApply_Click(object sender, EventArgs e)
         {
             ApplyModeClicked?.Invoke(sender, e);
         }
 
-        private void btnConnect_Click(object sender, EventArgs e)
+        private void BtnConnect_Click(object sender, EventArgs e)
         {
             ConnectionClicked?.Invoke(sender, e);
         }

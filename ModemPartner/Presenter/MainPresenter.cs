@@ -8,16 +8,50 @@ using ModemPartner.View;
 
 namespace ModemPartner.Presenter
 {
-    public class MainPresenter
+    /// <summary>
+    /// Defines the presenter for <see cref="MainForm"/>.
+    /// </summary>
+    public class MainPresenter : IDisposable
     {
-        private readonly RasDialer _dialer;
-        private readonly RasConnectionWatcher _watcher;
-        private RasHandle _handle;
-        private Modem _modem;
-        private Dictionary<string, FoundModem> _modemList = new Dictionary<string, FoundModem>();
-        private bool _rasConnected;
-        private IMainView _view;
+        /// <summary>
+        /// Instance of RasDialer.
+        /// </summary>
+        private RasDialer _dialer;
 
+        /// <summary>
+        /// Instance of IMainView.
+        /// </summary>
+        private readonly IMainView _view;
+
+        /// <summary>
+        /// Instance of RasConnectionWatcher.
+        /// </summary>
+        private readonly RasConnectionWatcher _watcher;
+
+        /// <summary>
+        /// Instance of RasHandle.
+        /// </summary>
+        private RasHandle _handle;
+
+        /// <summary>
+        /// Instance of Modem.
+        /// </summary>
+        private Modem _modem;
+
+        /// <summary>
+        /// A list of all the modems that are connected to the PC.
+        /// </summary>
+        private Dictionary<string, FoundModem> _modemList = new Dictionary<string, FoundModem>();
+
+        /// <summary>
+        /// Keeps track of Ras connection status.
+        /// </summary>
+        private bool _rasConnected;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainPresenter"/> class.
+        /// </summary>
+        /// <param name="view">The view<see cref="IMainView"/>.</param>
         public MainPresenter(IMainView view)
         {
             _dialer = new RasDialer();
@@ -38,15 +72,50 @@ namespace ModemPartner.Presenter
             view.ConnectionClicked += View_ConnectionClicked;
         }
 
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Protected implementation of Dispose pattern.
+        /// </summary>
+        /// <param name="disposing">
+        ///  Indicates whether the method call comes from a Dispose method (its value is true)
+        ///  or from a finalizer (its value is false).
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_dialer != null)
+                {
+                    _dialer.Dispose();
+                    _dialer = null;
+                }
+
+                if (_handle != null)
+                {
+                    _handle.Dispose();
+                    _handle = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Closes modem's serial port connection and updates UI accordingly.
+        /// </summary>
         private void CloseShop()
         {
             if (_modem.IsOpen)
             {
-                _modem.ModemEvent -= Modem_ReceiveEvent;
+                _modem.Received -= Modem_ReceiveEvent;
                 _modem.Error -= Modem_ErrorEvent;
                 _modem.Close();
-                _view.DisableDeviceRelatedControls = false;
-                _view.UpdateOpenPortBtn(Properties.Resources.unplugged, "");
+                _view.DisableDeviceRelatedControls(false);
+                _view.UpdateOpenPortBtn(Properties.Resources.unplugged, string.Empty);
                 _view.UpdateProvider("--");
                 _view.UpdateRSSI(1);
                 _view.UpdateCSNetwork(6);
@@ -56,6 +125,11 @@ namespace ModemPartner.Presenter
             }
         }
 
+        /// <summary>
+        /// Handles the event when dialing has been completed.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="DialCompletedEventArgs"/>.</param>
         private void Dialer_DialCompleted(object sender, DialCompletedEventArgs e)
         {
             if (e.Connected)
@@ -83,11 +157,19 @@ namespace ModemPartner.Presenter
             }
         }
 
+        /// <summary>
+        /// Handles the event when the state of the dialer has been changed.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="DotRas.StateChangedEventArgs"/>.</param>
         private void Dialer_StateChanged(object sender, DotRas.StateChangedEventArgs e)
         {
             _view.UpdateToolStripStatus(e.State.ToString());
         }
 
+        /// <summary>
+        /// Loads profiles from Windows' phone book.
+        /// </summary>
         private void LoadProfiles()
         {
             try
@@ -103,6 +185,9 @@ namespace ModemPartner.Presenter
             }
         }
 
+        /// <summary>
+        /// Search for plugged-in USB modems.
+        /// </summary>
         private async void LookForDevices()
         {
             await Task.Run(() =>
@@ -114,51 +199,64 @@ namespace ModemPartner.Presenter
                 _view.AddDevicesToList(_modemList);
 
                 _view.UpdateToolStripStatus($"{_view.NumberFoundDevices} devices found.");
-            });
+            }).ConfigureAwait(false);
         }
 
-        private void Modem_ErrorEvent(object sender, ErrorEventArgs e)
+        /// <summary>
+        /// Handles any errors the modem may have.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="ErrorEventArgs"/>.</param>
+        private void Modem_ErrorEvent(object sender, Modem.ErrorEventArgs e)
         {
             _view.UpdateToolStripStatus(e.Error);
         }
 
-        private void Modem_ReceiveEvent(object sender, ModemEventArgs e)
+        /// <summary>
+        /// Handles the modem's events.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="ReceivedEventArgs"/>.</param>
+        private void Modem_ReceiveEvent(object sender, Modem.ReceivedEventArgs e)
         {
             switch (e.Event)
             {
-                case Modem.Event.Model:
+                case Modem.ModemEvent.Model:
                     break;
 
-                case Modem.Event.ModemMode:
+                case Modem.ModemEvent.ModemMode:
                     _view.UpdateModeSelection((Modem.Mode)e.Value);
                     break;
 
-                case Modem.Event.RSSI:
+                case Modem.ModemEvent.RSSI:
                     _view.UpdateRSSI(float.Parse(e.Value.ToString()));
                     break;
 
-                case Modem.Event.PSNetwork:
+                case Modem.ModemEvent.PSNetwork:
                     _view.UpdatePSNetwork(int.Parse(e.Value.ToString()));
                     break;
 
-                case Modem.Event.CSNetwork:
+                case Modem.ModemEvent.CSNetwork:
                     _view.UpdateCSNetwork(int.Parse(e.Value.ToString()));
                     break;
 
-                case Modem.Event.PSAttach:
+                case Modem.ModemEvent.PSAttach:
                     _view.UpdatePSAttachment(int.Parse(e.Value.ToString()));
                     break;
 
-                case Modem.Event.Provider:
+                case Modem.ModemEvent.Provider:
                     _view.UpdateProvider(e.Value.ToString());
                     break;
 
-                case Modem.Event.SysMode:
+                case Modem.ModemEvent.SysMode:
                     _view.UpdateSubMode((Modem.SubMode)e.Value);
                     break;
             }
         }
 
+        /// <summary>
+        /// Establish a connection with the modem's serial port.
+        /// </summary>
         private void OpenModemPort()
         {
             var selected = _view.SelectedModem;
@@ -166,7 +264,7 @@ namespace ModemPartner.Presenter
             if (_modem.IsOpen)
                 return;
 
-            if (selected.Equals(String.Empty))
+            if (selected.Equals(string.Empty))
                 return;
 
             var foundModem = _modemList[selected];
@@ -174,16 +272,19 @@ namespace ModemPartner.Presenter
                 return;
 
             _modem.SetPort(foundModem.Port);
-            _modem.ModemEvent += Modem_ReceiveEvent;
+            _modem.Received += Modem_ReceiveEvent;
             _modem.Error += Modem_ErrorEvent;
             _modem.Open();
         }
 
+        /// <summary>
+        /// Establish a internet connection with RAS.
+        /// </summary>
         private void Ras_Connect()
         {
             var selectedProfile = _view.SelectedProfile;
 
-            if (selectedProfile.Equals(String.Empty))
+            if (selectedProfile.Equals(string.Empty))
             {
                 _view.UpdateToolStripStatus("Profile not selected");
                 return;
@@ -214,6 +315,9 @@ namespace ModemPartner.Presenter
             }
         }
 
+        /// <summary>
+        /// Interrupts connection made with RAS.
+        /// </summary>
         private async void Ras_Disconnect()
         {
             await Task.Run(() =>
@@ -227,14 +331,24 @@ namespace ModemPartner.Presenter
                         c.HangUp();
                     }
                 }
-            });
+            }).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Handles what happens <see cref="IMainView.AppClosing"/> ocurrs.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void View_AppClosing(object sender, EventArgs e)
         {
             CloseShop();
         }
 
+        /// <summary>
+        /// Handles what happens <see cref="IMainView.ApplyModeClicked"/> ocurrs.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void View_ApplyModeClicked(object sender, EventArgs e)
         {
             if (_modem.IsOpen)
@@ -250,6 +364,11 @@ namespace ModemPartner.Presenter
             }
         }
 
+        /// <summary>
+        /// Handles what happens <see cref="IMainView.ConnectionClicked"/> ocurrs.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void View_ConnectionClicked(object sender, EventArgs e)
         {
             try
@@ -279,6 +398,11 @@ namespace ModemPartner.Presenter
             }
         }
 
+        /// <summary>
+        /// Handles what happens when the main form loads.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void View_Load(object sender, EventArgs e)
         {
             _modem = new HuaweiModem();
@@ -294,6 +418,11 @@ namespace ModemPartner.Presenter
             }
         }
 
+        /// <summary>
+        /// Handles what happens when <see cref="IMainView.OpenPortClicked"/> occurs.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void View_OpenPortClicked(object sender, EventArgs e)
         {
             try
@@ -308,8 +437,8 @@ namespace ModemPartner.Presenter
 
                     if (_modem.IsOpen)
                     {
-                        _view.DisableDeviceRelatedControls = true;
-                        _view.UpdateOpenPortBtn(Properties.Resources.plug, "");
+                        _view.DisableDeviceRelatedControls(true);
+                        _view.UpdateOpenPortBtn(Properties.Resources.plug, string.Empty);
                         _view.UpdateToolStripStatus($"Connected to {_view.SelectedModem}");
                     }
                 }
@@ -320,6 +449,11 @@ namespace ModemPartner.Presenter
             }
         }
 
+        /// <summary>
+        /// Handles what happens when <see cref="IMainView.RefreshDevicesClicked"/> occurs.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void View_RefreshDevicesClicked(object sender, EventArgs e)
         {
             try
@@ -332,6 +466,11 @@ namespace ModemPartner.Presenter
             }
         }
 
+        /// <summary>
+        /// Handles what happens when RAS connection is interrupted.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="DotRas.RasConnectionEventArgs"/>.</param>
         private void Watcher_Disconnected(object sender, DotRas.RasConnectionEventArgs e)
         {
             _view.UpdateUIWhenDisconnected();

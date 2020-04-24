@@ -1,25 +1,26 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ModemPartner.Presenter;
+using ModemPartner.View;
 
 namespace ModemPartner
 {
-    static class Program
+    /// <summary>
+    /// Defines the <see cref="Program" />.
+    /// </summary>
+    internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        internal static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             var mainForm = new MainForm();
-            var presenter = new MainPresenter(mainForm);
+            _ = new MainPresenter(mainForm);
 
             Application.Run(mainForm);
         }

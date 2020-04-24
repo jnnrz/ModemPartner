@@ -1,4 +1,4 @@
-﻿namespace ModemPartner
+﻿namespace ModemPartner.View
 {
     partial class MainForm
     {
@@ -116,7 +116,7 @@
             this.btnDeviceRefresh.Size = new System.Drawing.Size(28, 25);
             this.btnDeviceRefresh.TabIndex = 2;
             this.btnDeviceRefresh.UseVisualStyleBackColor = true;
-            this.btnDeviceRefresh.Click += new System.EventHandler(this.btnDeviceRefresh_Click);
+            this.btnDeviceRefresh.Click += new System.EventHandler(this.BtnDeviceRefresh_Click);
             // 
             // statusStrip
             // 
@@ -234,7 +234,7 @@
             this.btnConnect.TabIndex = 11;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            this.btnConnect.Click += new System.EventHandler(this.BtnConnect_Click);
             // 
             // cbProfiles
             // 
@@ -285,7 +285,7 @@
             this.btnModeApply.TabIndex = 22;
             this.btnModeApply.Text = "Apply";
             this.btnModeApply.UseVisualStyleBackColor = true;
-            this.btnModeApply.Click += new System.EventHandler(this.btnModeApply_Click);
+            this.btnModeApply.Click += new System.EventHandler(this.BtnModeApply_Click);
             // 
             // label1
             // 
@@ -621,7 +621,7 @@
             this.btnOpen.Size = new System.Drawing.Size(28, 25);
             this.btnOpen.TabIndex = 34;
             this.btnOpen.UseVisualStyleBackColor = true;
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            this.btnOpen.Click += new System.EventHandler(this.BtnOpen_Click);
             // 
             // MainForm
             // 
