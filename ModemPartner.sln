@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModemPartner", "ModemPartner\ModemPartner.csproj", "{2E50EABE-B477-4EAA-AFA4-261C2F48BACF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModemPartner.Test", "ModemPartner.Test\ModemPartner.Test.csproj", "{B76F8416-98F6-406E-A8BB-4D5CF2AC6219}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{2E50EABE-B477-4EAA-AFA4-261C2F48BACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E50EABE-B477-4EAA-AFA4-261C2F48BACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E50EABE-B477-4EAA-AFA4-261C2F48BACF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B76F8416-98F6-406E-A8BB-4D5CF2AC6219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B76F8416-98F6-406E-A8BB-4D5CF2AC6219}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B76F8416-98F6-406E-A8BB-4D5CF2AC6219}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B76F8416-98F6-406E-A8BB-4D5CF2AC6219}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
