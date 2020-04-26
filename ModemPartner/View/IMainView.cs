@@ -59,7 +59,7 @@ namespace ModemPartner.View
         /// <summary>
         /// Gets the SelectedModem.
         /// </summary>
-        string SelectedModem { get; }
+        string SelectedModem { get; set; }
 
         /// <summary>
         /// Gets the SelectedMode.

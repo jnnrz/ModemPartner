@@ -54,7 +54,21 @@ namespace ModemPartner.View
         public int NumberFoundDevices => cbDevices.Items.Count;
 
         /// <inheritdoc/>
-        public string SelectedModem => cbDevices.SelectedItem.ToString();
+        public string SelectedModem
+        {
+            get => cbDevices.SelectedItem.ToString();
+            set
+            {
+                if (InvokeRequired)
+                {
+                    this.Invoke(new MethodInvoker(() => cbDevices.SelectedIndex = int.Parse(value)));
+                }
+                else
+                {
+                    cbDevices.SelectedIndex = int.Parse(value);
+                }
+            }
+        }
 
         /// <inheritdoc/>
         public int SelectedMode => cbModes.SelectedIndex;
@@ -102,13 +116,13 @@ namespace ModemPartner.View
                 }
             }
 
-            if (devices.Count > 0)
+            /*if (devices.Count > 0)
             {
                 if (this.InvokeRequired)
                 {
                     this.Invoke(new MethodInvoker(() => cbDevices.SelectedIndex = 0));
                 }
-            }
+            }*/
         }
 
         /// <inheritdoc/>

@@ -58,5 +58,17 @@ namespace ModemPartner.Properties {
                 this["Uploaded"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultModem {
+            get {
+                return ((string)(this["DefaultModem"]));
+            }
+            set {
+                this["DefaultModem"] = value;
+            }
+        }
     }
 }

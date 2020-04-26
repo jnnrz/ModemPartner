@@ -248,8 +248,21 @@ namespace ModemPartner.Presenter
                 _view.UpdateToolStripStatus("Finding devices...");
 
                 _modemList = Modem.GetModems();
+
                 _view.ClearDeviceList();
                 _view.AddDevicesToList(_modemList);
+
+                // Select the modem that was used most recently
+                var defaultModem = Properties.Settings.Default.DefaultModem;
+                var modemArray = _modemList.ToArray();
+
+                for (var x = 0; x < modemArray.Length; x++)
+                {
+                    if (modemArray[x].Value.Modem == defaultModem)
+                    {
+                        _view.SelectedModem = x.ToString();
+                    }
+                }
 
                 _view.UpdateToolStripStatus($"{_view.NumberFoundDevices} devices found.");
             }).ConfigureAwait(false);
@@ -365,6 +378,7 @@ namespace ModemPartner.Presenter
                     }
                 });
 
+                Properties.Settings.Default.DefaultModem = _view.SelectedModem;
                 Properties.Settings.Default.DefaultProfile = selectedProfile;
                 Properties.Settings.Default.Save();
             }
