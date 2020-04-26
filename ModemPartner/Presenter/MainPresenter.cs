@@ -261,6 +261,7 @@ namespace ModemPartner.Presenter
                     if (modemArray[x].Value.Modem == defaultModem)
                     {
                         _view.SelectedModem = x.ToString();
+                        OpenModemPort();
                     }
                 }
 
