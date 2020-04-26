@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\SizeUtil.cs" />
     <Compile Include="Core\COMPortUtil.cs" />
     <Compile Include="Core\FoundModem.cs" />
     <Compile Include="Core\HuaweiModem.cs" />

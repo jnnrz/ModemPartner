@@ -42,6 +42,16 @@ namespace ModemPartner.View
         event EventHandler ConnectionClicked;
 
         /// <summary>
+        /// Occurs when the 'reset session' button is clicked.
+        /// </summary>
+        event EventHandler ResetSessionClicked;
+
+        /// <summary>
+        /// Occurs when the 'reset' button is clicked.
+        /// </summary>
+        event EventHandler ResetClicked;
+
+        /// <summary>
         /// Gets the NumberFoundDevices.
         /// </summary>
         int NumberFoundDevices { get; }
@@ -153,5 +163,54 @@ namespace ModemPartner.View
         /// Updates elements of the UI when a connection is been dialed.
         /// </summary>
         void UpdateUIWhenDialing();
+
+        /// <summary>
+        /// Updates download speed label.
+        /// </summary>
+        /// <param name="speed">Current speed.</param>
+        void UpdateDownloadSpeed(string speed);
+
+        /// <summary>
+        /// Updates upload speed label.
+        /// </summary>
+        /// <param name="speed">Current speed.</param>
+        void UpdateUploadSpeed(string speed);
+
+        /// <summary>
+        /// Updates total download label.
+        /// </summary>
+        /// <param name="total">Current total.</param>
+        void UpdateTotalDownloaded(string total);
+
+        /// <summary>
+        /// Updates total uploaded label.
+        /// </summary>
+        /// <param name="total">Current total.</param>
+        void UpdateTotalUploaded(string total);
+
+        /// <summary>
+        /// Updates session download label.
+        /// </summary>
+        /// <param name="total">Session download total.</param>
+        void UpdateSessionDownload(string total);
+
+        /// <summary>
+        /// Updates session upload label.
+        /// </summary>
+        /// <param name="total">Session upload total.</param>
+        void UpdateSessionUpload(string total);
+
+        /// <summary>
+        ///  Updates chart points.
+        /// </summary>
+        /// <param name="downloadValue">New download point.</param>
+        /// <param name="uploadValue">New upload point.</param>
+        void UpdateChart(double downloadValue, double uploadValue);
+
+        /// <summary>
+        /// Updates connection duration label.
+        /// </summary>
+        /// <param name="duration">Duration</param>
+        void UpdateConnDuration(string duration);
     }
 }

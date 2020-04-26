@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblDevices = new System.Windows.Forms.Label();
             this.cbDevices = new System.Windows.Forms.ComboBox();
             this.btnDeviceRefresh = new System.Windows.Forms.Button();
@@ -49,23 +49,23 @@
             this.lblMode_label = new System.Windows.Forms.Label();
             this.cbModes = new System.Windows.Forms.ComboBox();
             this.btnModeApply = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblDownloadSpeed_label = new System.Windows.Forms.Label();
+            this.lblUploadSpeed_label = new System.Windows.Forms.Label();
+            this.lblDownloadSpeed = new System.Windows.Forms.Label();
+            this.lblUploadSpeed = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnResetSession = new System.Windows.Forms.Button();
+            this.lblSessionUpload = new System.Windows.Forms.Label();
+            this.lblSessionUpload_label = new System.Windows.Forms.Label();
+            this.lblSessionDownload = new System.Windows.Forms.Label();
+            this.lblSessionDownload_label = new System.Windows.Forms.Label();
+            this.lblSessionDuration = new System.Windows.Forms.Label();
+            this.lblSessionDuration_label = new System.Windows.Forms.Label();
             this.lblUploaded = new System.Windows.Forms.Label();
             this.lblUploaded_label = new System.Windows.Forms.Label();
             this.lblDownloaded = new System.Windows.Forms.Label();
-            this.lblDownloadedLabel = new System.Windows.Forms.Label();
+            this.lblDownloaded_label = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblRSSI = new System.Windows.Forms.Label();
             this.lblPSAttach = new System.Windows.Forms.Label();
@@ -177,41 +177,57 @@
             // chart
             // 
             this.chart.BorderlineColor = System.Drawing.Color.Empty;
-            chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea1.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
-            chartArea1.AxisY.LabelStyle.Format = "{0} kbps";
-            chartArea1.AxisY.LabelStyle.Interval = 0D;
-            chartArea1.AxisY.LineColor = System.Drawing.Color.LightSalmon;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
-            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.Name = "MainChartArea";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 98F;
-            chartArea1.Position.Width = 100F;
-            this.chart.ChartAreas.Add(chartArea1);
+            chartArea5.AxisX.Interval = 1D;
+            chartArea5.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea5.AxisX.IntervalOffset = 1D;
+            chartArea5.AxisX.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.IsLabelAutoFit = false;
+            chartArea5.AxisX.LabelStyle.Enabled = false;
+            chartArea5.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea5.AxisX.LabelStyle.Interval = 1D;
+            chartArea5.AxisX.LabelStyle.IntervalOffset = 1D;
+            chartArea5.AxisX.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.MajorGrid.Enabled = false;
+            chartArea5.AxisX.MajorTickMark.Enabled = false;
+            chartArea5.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea5.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea5.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisY.IsLabelAutoFit = false;
+            chartArea5.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea5.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
+            chartArea5.AxisY.LabelStyle.Format = "{0} kbps";
+            chartArea5.AxisY.LineColor = System.Drawing.Color.LightSalmon;
+            chartArea5.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
+            chartArea5.AxisY.MajorTickMark.Enabled = false;
+            chartArea5.AxisY.MajorTickMark.Interval = 0D;
+            chartArea5.AxisY.MaximumAutoSize = 100F;
+            chartArea5.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea5.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea5.Name = "MainChartArea";
+            chartArea5.Position.Auto = false;
+            chartArea5.Position.Height = 98F;
+            chartArea5.Position.Width = 100F;
+            this.chart.ChartAreas.Add(chartArea5);
             this.chart.Location = new System.Drawing.Point(0, 3);
             this.chart.Name = "chart";
-            series1.BorderWidth = 2;
-            series1.ChartArea = "MainChartArea";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Color = System.Drawing.Color.DarkTurquoise;
-            series1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            series1.Name = "DownloadSeries";
-            series2.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            series2.BorderWidth = 2;
-            series2.ChartArea = "MainChartArea";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Color = System.Drawing.Color.DodgerBlue;
-            series2.Name = "UploadSeries";
-            this.chart.Series.Add(series1);
-            this.chart.Series.Add(series2);
+            series9.ChartArea = "MainChartArea";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series9.Color = System.Drawing.Color.DarkTurquoise;
+            series9.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            series9.IsVisibleInLegend = false;
+            series9.Name = "DownloadSeries";
+            series9.SmartLabelStyle.Enabled = false;
+            series9.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            series10.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            series10.ChartArea = "MainChartArea";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series10.Color = System.Drawing.Color.DodgerBlue;
+            series10.Name = "UploadSeries";
+            this.chart.Series.Add(series9);
+            this.chart.Series.Add(series10);
             this.chart.Size = new System.Drawing.Size(647, 201);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart";
@@ -287,60 +303,60 @@
             this.btnModeApply.UseVisualStyleBackColor = true;
             this.btnModeApply.Click += new System.EventHandler(this.BtnModeApply_Click);
             // 
-            // label1
+            // lblDownloadSpeed_label
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(362, 59);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 15);
-            this.label1.TabIndex = 23;
-            this.label1.Text = "Download (kb/s):";
+            this.lblDownloadSpeed_label.AutoSize = true;
+            this.lblDownloadSpeed_label.Location = new System.Drawing.Point(336, 59);
+            this.lblDownloadSpeed_label.Name = "lblDownloadSpeed_label";
+            this.lblDownloadSpeed_label.Size = new System.Drawing.Size(98, 15);
+            this.lblDownloadSpeed_label.TabIndex = 23;
+            this.lblDownloadSpeed_label.Text = "Download (kb/s):";
             // 
-            // label2
+            // lblUploadSpeed_label
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(509, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 15);
-            this.label2.TabIndex = 24;
-            this.label2.Text = "Upload (kb/s):";
+            this.lblUploadSpeed_label.AutoSize = true;
+            this.lblUploadSpeed_label.Location = new System.Drawing.Point(493, 59);
+            this.lblUploadSpeed_label.Name = "lblUploadSpeed_label";
+            this.lblUploadSpeed_label.Size = new System.Drawing.Size(82, 15);
+            this.lblUploadSpeed_label.TabIndex = 24;
+            this.lblUploadSpeed_label.Text = "Upload (kb/s):";
             // 
-            // label3
+            // lblDownloadSpeed
             // 
-            this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Green;
-            this.label3.Location = new System.Drawing.Point(460, 55);
-            this.label3.Margin = new System.Windows.Forms.Padding(0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 20);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "101";
+            this.lblDownloadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDownloadSpeed.ForeColor = System.Drawing.Color.Green;
+            this.lblDownloadSpeed.Location = new System.Drawing.Point(434, 55);
+            this.lblDownloadSpeed.Margin = new System.Windows.Forms.Padding(0);
+            this.lblDownloadSpeed.Name = "lblDownloadSpeed";
+            this.lblDownloadSpeed.Size = new System.Drawing.Size(55, 20);
+            this.lblDownloadSpeed.TabIndex = 25;
+            this.lblDownloadSpeed.Text = "--";
             // 
-            // label4
+            // lblUploadSpeed
             // 
-            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Firebrick;
-            this.label4.Location = new System.Drawing.Point(591, 55);
-            this.label4.Margin = new System.Windows.Forms.Padding(0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 20);
-            this.label4.TabIndex = 26;
-            this.label4.Text = "58";
+            this.lblUploadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUploadSpeed.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblUploadSpeed.Location = new System.Drawing.Point(575, 55);
+            this.lblUploadSpeed.Margin = new System.Windows.Forms.Padding(0);
+            this.lblUploadSpeed.Name = "lblUploadSpeed";
+            this.lblUploadSpeed.Size = new System.Drawing.Size(55, 20);
+            this.lblUploadSpeed.TabIndex = 26;
+            this.lblUploadSpeed.Text = "--";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.btnReset);
+            this.groupBox1.Controls.Add(this.btnResetSession);
+            this.groupBox1.Controls.Add(this.lblSessionUpload);
+            this.groupBox1.Controls.Add(this.lblSessionUpload_label);
+            this.groupBox1.Controls.Add(this.lblSessionDownload);
+            this.groupBox1.Controls.Add(this.lblSessionDownload_label);
+            this.groupBox1.Controls.Add(this.lblSessionDuration);
+            this.groupBox1.Controls.Add(this.lblSessionDuration_label);
             this.groupBox1.Controls.Add(this.lblUploaded);
             this.groupBox1.Controls.Add(this.lblUploaded_label);
             this.groupBox1.Controls.Add(this.lblDownloaded);
-            this.groupBox1.Controls.Add(this.lblDownloadedLabel);
+            this.groupBox1.Controls.Add(this.lblDownloaded_label);
             this.groupBox1.Location = new System.Drawing.Point(265, 78);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(373, 134);
@@ -348,83 +364,85 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Stats";
             // 
-            // button4
+            // btnReset
             // 
-            this.button4.Location = new System.Drawing.Point(281, 96);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 18;
-            this.button4.Text = "Reset";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnReset.Location = new System.Drawing.Point(272, 100);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(93, 23);
+            this.btnReset.TabIndex = 18;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.BtnReset_Click);
             // 
-            // button3
+            // btnResetSession
             // 
-            this.button3.Location = new System.Drawing.Point(281, 70);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 17;
-            this.button3.Text = "Reset Day";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnResetSession.Location = new System.Drawing.Point(272, 74);
+            this.btnResetSession.Name = "btnResetSession";
+            this.btnResetSession.Size = new System.Drawing.Size(93, 23);
+            this.btnResetSession.TabIndex = 17;
+            this.btnResetSession.Text = "Reset Session";
+            this.btnResetSession.UseVisualStyleBackColor = true;
+            this.btnResetSession.Click += new System.EventHandler(this.BtnResetSession_Click);
             // 
-            // label7
+            // lblSessionUpload
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label7.Location = new System.Drawing.Point(138, 50);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(34, 15);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "2 MB";
+            this.lblSessionUpload.AutoSize = true;
+            this.lblSessionUpload.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblSessionUpload.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblSessionUpload.Location = new System.Drawing.Point(138, 50);
+            this.lblSessionUpload.Name = "lblSessionUpload";
+            this.lblSessionUpload.Size = new System.Drawing.Size(17, 15);
+            this.lblSessionUpload.TabIndex = 16;
+            this.lblSessionUpload.Text = "--";
             // 
-            // label8
+            // lblSessionUpload_label
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(18, 49);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(103, 15);
-            this.label8.TabIndex = 15;
-            this.label8.Text = "Session Uploaded:";
+            this.lblSessionUpload_label.AutoSize = true;
+            this.lblSessionUpload_label.Location = new System.Drawing.Point(18, 49);
+            this.lblSessionUpload_label.Name = "lblSessionUpload_label";
+            this.lblSessionUpload_label.Size = new System.Drawing.Size(103, 15);
+            this.lblSessionUpload_label.TabIndex = 15;
+            this.lblSessionUpload_label.Text = "Session Uploaded:";
             // 
-            // label9
+            // lblSessionDownload
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label9.Location = new System.Drawing.Point(138, 29);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 15);
-            this.label9.TabIndex = 14;
-            this.label9.Text = "99.5 MB";
+            this.lblSessionDownload.AutoSize = true;
+            this.lblSessionDownload.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblSessionDownload.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblSessionDownload.Location = new System.Drawing.Point(138, 29);
+            this.lblSessionDownload.Name = "lblSessionDownload";
+            this.lblSessionDownload.Size = new System.Drawing.Size(17, 15);
+            this.lblSessionDownload.TabIndex = 14;
+            this.lblSessionDownload.Text = "--";
             // 
-            // label10
+            // lblSessionDownload_label
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(18, 28);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(119, 15);
-            this.label10.TabIndex = 13;
-            this.label10.Text = "Session Downloaded:";
+            this.lblSessionDownload_label.AutoSize = true;
+            this.lblSessionDownload_label.Location = new System.Drawing.Point(18, 28);
+            this.lblSessionDownload_label.Name = "lblSessionDownload_label";
+            this.lblSessionDownload_label.Size = new System.Drawing.Size(119, 15);
+            this.lblSessionDownload_label.TabIndex = 13;
+            this.lblSessionDownload_label.Text = "Session Downloaded:";
             // 
-            // label6
+            // lblSessionDuration
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label6.Location = new System.Drawing.Point(301, 28);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(55, 15);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "00:00:00";
+            this.lblSessionDuration.AutoSize = true;
+            this.lblSessionDuration.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSessionDuration.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblSessionDuration.Location = new System.Drawing.Point(307, 26);
+            this.lblSessionDuration.Name = "lblSessionDuration";
+            this.lblSessionDuration.Size = new System.Drawing.Size(55, 15);
+            this.lblSessionDuration.TabIndex = 12;
+            this.lblSessionDuration.Text = "00:00:00";
             // 
-            // label5
+            // lblSessionDuration_label
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(217, 28);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(78, 15);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Session Time:";
+            this.lblSessionDuration_label.AutoSize = true;
+            this.lblSessionDuration_label.Location = new System.Drawing.Point(223, 26);
+            this.lblSessionDuration_label.Name = "lblSessionDuration_label";
+            this.lblSessionDuration_label.Size = new System.Drawing.Size(78, 15);
+            this.lblSessionDuration_label.TabIndex = 11;
+            this.lblSessionDuration_label.Text = "Session Time:";
             // 
             // lblUploaded
             // 
@@ -433,9 +451,9 @@
             this.lblUploaded.ForeColor = System.Drawing.SystemColors.ControlText;
             this.lblUploaded.Location = new System.Drawing.Point(138, 100);
             this.lblUploaded.Name = "lblUploaded";
-            this.lblUploaded.Size = new System.Drawing.Size(34, 15);
+            this.lblUploaded.Size = new System.Drawing.Size(17, 15);
             this.lblUploaded.TabIndex = 10;
-            this.lblUploaded.Text = "2 MB";
+            this.lblUploaded.Text = "--";
             // 
             // lblUploaded_label
             // 
@@ -453,18 +471,18 @@
             this.lblDownloaded.ForeColor = System.Drawing.SystemColors.ControlText;
             this.lblDownloaded.Location = new System.Drawing.Point(138, 79);
             this.lblDownloaded.Name = "lblDownloaded";
-            this.lblDownloaded.Size = new System.Drawing.Size(49, 15);
+            this.lblDownloaded.Size = new System.Drawing.Size(17, 15);
             this.lblDownloaded.TabIndex = 8;
-            this.lblDownloaded.Text = "99.5 MB";
+            this.lblDownloaded.Text = "--";
             // 
-            // lblDownloadedLabel
+            // lblDownloaded_label
             // 
-            this.lblDownloadedLabel.AutoSize = true;
-            this.lblDownloadedLabel.Location = new System.Drawing.Point(18, 79);
-            this.lblDownloadedLabel.Name = "lblDownloadedLabel";
-            this.lblDownloadedLabel.Size = new System.Drawing.Size(105, 15);
-            this.lblDownloadedLabel.TabIndex = 7;
-            this.lblDownloadedLabel.Text = "Total Downloaded:";
+            this.lblDownloaded_label.AutoSize = true;
+            this.lblDownloaded_label.Location = new System.Drawing.Point(18, 79);
+            this.lblDownloaded_label.Name = "lblDownloaded_label";
+            this.lblDownloaded_label.Size = new System.Drawing.Size(105, 15);
+            this.lblDownloaded_label.TabIndex = 7;
+            this.lblDownloaded_label.Text = "Total Downloaded:";
             // 
             // groupBox3
             // 
@@ -633,13 +651,13 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblUploadSpeed);
+            this.Controls.Add(this.lblDownloadSpeed);
             this.Controls.Add(this.btnModeApply);
             this.Controls.Add(this.cbModes);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblUploadSpeed_label);
             this.Controls.Add(this.lblMode_label);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblDownloadSpeed_label);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.lblProfile_label);
             this.Controls.Add(this.cbProfiles);
@@ -687,21 +705,21 @@
         private System.Windows.Forms.Label lblMode_label;
         private System.Windows.Forms.ComboBox cbModes;
         private System.Windows.Forms.Button btnModeApply;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblDownloadSpeed_label;
+        private System.Windows.Forms.Label lblUploadSpeed_label;
+        private System.Windows.Forms.Label lblDownloadSpeed;
+        private System.Windows.Forms.Label lblUploadSpeed;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label lblUploaded;
         private System.Windows.Forms.Label lblUploaded_label;
         private System.Windows.Forms.Label lblDownloaded;
-        private System.Windows.Forms.Label lblDownloadedLabel;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblDownloaded_label;
+        private System.Windows.Forms.Label lblSessionDuration;
+        private System.Windows.Forms.Label lblSessionDuration_label;
+        private System.Windows.Forms.Label lblSessionUpload;
+        private System.Windows.Forms.Label lblSessionUpload_label;
+        private System.Windows.Forms.Label lblSessionDownload;
+        private System.Windows.Forms.Label lblSessionDownload_label;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
@@ -715,8 +733,8 @@
         private System.Windows.Forms.Label lblProvider;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnModemInfo;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Button btnResetSession;
         private System.Windows.Forms.ToolStripStatusLabel tslblStatus;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.ToolStripStatusLabel tslblDialStatus;

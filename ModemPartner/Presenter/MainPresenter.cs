@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using DotRas;
 using ModemPartner.Core;
 using ModemPartner.View;
@@ -49,6 +51,41 @@ namespace ModemPartner.Presenter
         private bool _rasConnected;
 
         /// <summary>
+        /// Represents the current connection.
+        /// </summary>
+        private RasConnection _currentConnection;
+
+        /// <summary>
+        /// Timer for statistics updates.
+        /// </summary>
+        private System.Timers.Timer _statisticsTimer;
+
+        /// <summary>
+        /// Timer for saving statistics.
+        /// </summary>
+        private System.Timers.Timer _saveStatsTimer;
+
+        /// <summary>
+        /// Previous value from 'data received' stat.
+        /// </summary>
+        private long _oldReceivedStat = 0;
+
+        /// <summary>
+        /// Previous value from 'data sent' stat.
+        /// </summary>
+        private long _oldSentStat = 0;
+
+        /// <summary>
+        /// Total data downloaded.
+        /// </summary>
+        private long _totalDownloaded;
+
+        /// <summary>
+        /// Total data uploaded.
+        /// </summary>
+        private long _totalUploaded;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MainPresenter"/> class.
         /// </summary>
         /// <param name="view">The view<see cref="IMainView"/>.</param>
@@ -62,6 +99,16 @@ namespace ModemPartner.Presenter
             _watcher.Disconnected += Watcher_Disconnected;
             _watcher.EnableRaisingEvents = true;
 
+            _statisticsTimer = new System.Timers.Timer();
+            _saveStatsTimer = new System.Timers.Timer();
+            _statisticsTimer.Interval = 1000;
+            _statisticsTimer.Elapsed += StatisticsTimer_Elapsed;
+            _saveStatsTimer.Interval = 10000;
+            _saveStatsTimer.Elapsed += SaveStatsTimer_Elapsed;
+
+            _statisticsTimer.Start();
+            _saveStatsTimer.Start();
+
             _view = view;
 
             view.LoadForm += View_Load;
@@ -70,6 +117,8 @@ namespace ModemPartner.Presenter
             view.OpenPortClicked += View_OpenPortClicked;
             view.ApplyModeClicked += View_ApplyModeClicked;
             view.ConnectionClicked += View_ConnectionClicked;
+            view.ResetSessionClicked += View_ResetSessionClicked;
+            view.ResetClicked += View_ResetClicked;
         }
 
         /// <inheritdoc/>
@@ -135,6 +184,9 @@ namespace ModemPartner.Presenter
             if (e.Connected)
             {
                 _rasConnected = true;
+                _currentConnection = RasConnection.GetActiveConnections()
+                        .Single(p => p.EntryName == _view.SelectedProfile);
+
                 _view.UpdateUIWhenConnected();
                 _view.UpdateToolStripStatus($"Connected: [{_view.SelectedProfile}]");
             }
@@ -144,7 +196,8 @@ namespace ModemPartner.Presenter
             }
             else if (e.Error != null)
             {
-                _view.UpdateToolStripStatus(e.Error.ToString());
+                _view.UpdateToolStripStatus(e.Error.Message);
+                _view.UpdateUIWhenDisconnected();
             }
             else if (e.Cancelled)
             {
@@ -262,14 +315,20 @@ namespace ModemPartner.Presenter
             var selected = _view.SelectedModem;
 
             if (_modem.IsOpen)
+            {
                 return;
+            }
 
             if (selected.Equals(string.Empty))
+            {
                 return;
+            }
 
             var foundModem = _modemList[selected];
             if (foundModem == null)
+            {
                 return;
+            }
 
             _modem.SetPort(foundModem.Port);
             _modem.Received += Modem_ReceiveEvent;
@@ -280,7 +339,7 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Establish a internet connection with RAS.
         /// </summary>
-        private void Ras_Connect()
+        private void TryRasConnection()
         {
             var selectedProfile = _view.SelectedProfile;
 
@@ -318,7 +377,7 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Interrupts connection made with RAS.
         /// </summary>
-        private async void Ras_Disconnect()
+        private async void DisconnectRasConn()
         {
             await Task.Run(() =>
             {
@@ -331,7 +390,7 @@ namespace ModemPartner.Presenter
                         c.HangUp();
                     }
                 }
-            }).ConfigureAwait(false);
+            }).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -342,6 +401,10 @@ namespace ModemPartner.Presenter
         private void View_AppClosing(object sender, EventArgs e)
         {
             CloseShop();
+            DisconnectRasConn();
+            _statisticsTimer.Stop();
+            _saveStatsTimer.Stop();
+            SaveTotalStats();
         }
 
         /// <summary>
@@ -385,11 +448,12 @@ namespace ModemPartner.Presenter
 
                 if (!_rasConnected)
                 {
-                    Ras_Connect();
+                    TryRasConnection();
                 }
                 else
                 {
-                    Ras_Disconnect();
+                    DisconnectRasConn();
+                    SaveTotalStats();
                 }
             }
             catch (Exception ex)
@@ -411,6 +475,12 @@ namespace ModemPartner.Presenter
             {
                 LookForDevices();
                 LoadProfiles();
+
+                _totalDownloaded = long.Parse(Properties.Settings.Default.Downloaded);
+                _totalUploaded = long.Parse(Properties.Settings.Default.Uploaded);
+
+                _view.UpdateTotalDownloaded(SizeUtil.SizeSuffix(_totalDownloaded, 2));
+                _view.UpdateTotalUploaded(SizeUtil.SizeSuffix(_totalUploaded, 2));
             }
             catch (Exception ex)
             {
@@ -430,6 +500,7 @@ namespace ModemPartner.Presenter
                 if (_modem.IsOpen)
                 {
                     CloseShop();
+                    SaveTotalStats();
                 }
                 else
                 {
@@ -467,6 +538,33 @@ namespace ModemPartner.Presenter
         }
 
         /// <summary>
+        /// Handles what happens when <see cref="IMainView.ResetClicked"/> occurs.
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The e.</param>
+        private void View_ResetClicked(object sender, EventArgs e)
+        {
+            _statisticsTimer.Stop();
+            Properties.Settings.Default.Downloaded = "0";
+            Properties.Settings.Default.Uploaded = "0";
+            Properties.Settings.Default.Save();
+            _view.UpdateTotalDownloaded("--");
+            _view.UpdateTotalUploaded("--");
+            _statisticsTimer.Start();
+        }
+
+        /// <summary>
+        /// Handles what happens when <see cref="IMainView.ResetSessionClicked"/> occurs.
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The e.</param>
+        private void View_ResetSessionClicked(object sender, EventArgs e)
+        {
+            _view.UpdateSessionDownload("0");
+            _view.UpdateSessionUpload("0");
+        }
+
+        /// <summary>
         /// Handles what happens when RAS connection is interrupted.
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
@@ -475,7 +573,97 @@ namespace ModemPartner.Presenter
         {
             _view.UpdateUIWhenDisconnected();
             _view.UpdateToolStripStatus("Disconnected");
+            _currentConnection = null;
             _rasConnected = false;
+        }
+
+        /// <summary>
+        /// Handles timer for stats saving.
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The e</param>
+        private void SaveStatsTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            SaveTotalStats();
+        }
+
+        /// <summary>
+        /// Handles timer for stats updates.
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The e</param>
+        private void StatisticsTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (_rasConnected)
+            {
+                try
+                {
+                    if (_currentConnection == null)
+                    {
+                        return;
+                    }
+
+                    // Retrieve stats from the current connection
+                    RasLinkStatistics statistics = _currentConnection.GetConnectionStatistics();
+
+                    // Retrieve previous 'total' values from the settings
+                    var downloadedFromSettings = long.Parse(Properties.Settings.Default.Downloaded);
+                    var uploadedFromSettings = long.Parse(Properties.Settings.Default.Uploaded);
+
+                    // Compare new values to old ones and get the current
+                    // data size been downloaded or uploaded
+                    var received = statistics.BytesReceived - _oldReceivedStat;
+                    var sent = statistics.BytesTransmitted - _oldSentStat;
+
+                    // Add new data amount to the total
+                    _totalDownloaded += received;
+                    _totalUploaded += sent;
+
+                    // Format the total stat. Adds units at the end of the string
+                    // 1.01 -> 1.01 KB/MB/GB/etc
+                    var totalDownloadedFormatted = SizeUtil.SizeSuffix(_totalDownloaded, 2);
+                    var totalUploadedFormatted = SizeUtil.SizeSuffix(_totalUploaded, 2);
+
+                    // Format session stats
+                    var sessionDownloadedFormatted = SizeUtil.SizeSuffix(statistics.BytesReceived);
+                    var sessionUploadedFormatted = SizeUtil.SizeSuffix(statistics.BytesTransmitted);
+
+                    // Calculate speed
+                    var downSpeed = Math.Round(received / 1024d, 2);
+                    var upSpeed = Math.Round(sent / 1024d, 2);
+
+                    // Now the new data becomes the old data
+                    _oldReceivedStat = statistics.BytesReceived;
+                    _oldSentStat = statistics.BytesTransmitted;
+
+                    // Format the duration of the connection
+                    var connDuration = string.Format("{0:hh\\:mm\\:ss}", statistics.ConnectionDuration);
+
+                    // Update the UI
+                    _view.UpdateDownloadSpeed($"{downSpeed}");
+                    _view.UpdateUploadSpeed($"{upSpeed}");
+                    _view.UpdateSessionDownload($"{sessionDownloadedFormatted}");
+                    _view.UpdateSessionUpload($"{sessionUploadedFormatted}");
+                    _view.UpdateTotalDownloaded($"{totalDownloadedFormatted}");
+                    _view.UpdateTotalUploaded($"{totalUploadedFormatted}");
+                    _view.UpdateChart(downSpeed, upSpeed);
+                    _view.UpdateConnDuration(connDuration);
+                }
+                catch (Exception ex)
+                {
+                    _view.UpdateToolStripStatus(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Saves total stats.
+        /// </summary>
+        private void SaveTotalStats()
+        {
+            Properties.Settings.Default.Downloaded = $"{_totalDownloaded}";
+            Properties.Settings.Default.Uploaded = $"{_totalUploaded}";
+            Properties.Settings.Default.Save();
         }
     }
 }

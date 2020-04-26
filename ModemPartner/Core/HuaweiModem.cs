@@ -89,6 +89,7 @@ namespace ModemPartner.Core
             {
                 if (e.Message.Contains("in use"))
                 {
+                    _serialPort.Close();
                     return;
                 }
 

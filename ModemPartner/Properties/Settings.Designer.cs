@@ -34,5 +34,29 @@ namespace ModemPartner.Properties {
                 this["DefaultProfile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string Downloaded {
+            get {
+                return ((string)(this["Downloaded"]));
+            }
+            set {
+                this["Downloaded"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string Uploaded {
+            get {
+                return ((string)(this["Uploaded"]));
+            }
+            set {
+                this["Uploaded"] = value;
+            }
+        }
     }
 }

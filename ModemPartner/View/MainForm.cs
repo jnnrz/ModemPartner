@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using DotRas;
 using ModemPartner.Core;
@@ -12,6 +13,11 @@ namespace ModemPartner.View
     /// </summary>
     public partial class MainForm : Form, IMainView
     {
+        /// <summary>
+        /// Previous Y axis value.
+        /// </summary>
+        private double _oldAxisYValue = 0;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainForm"/> class.
         /// </summary>
@@ -37,6 +43,12 @@ namespace ModemPartner.View
 
         /// <inheritdoc/>
         public event EventHandler ConnectionClicked;
+
+        /// <inheritdoc/>
+        public event EventHandler ResetSessionClicked;
+
+        /// <inheritdoc/>
+        public event EventHandler ResetClicked;
 
         /// <inheritdoc/>
         public int NumberFoundDevices => cbDevices.Items.Count;
@@ -431,6 +443,166 @@ namespace ModemPartner.View
             }
         }
 
+        /// <inheritdoc/>
+        public void UpdateDownloadSpeed(string speed)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => lblDownloadSpeed.Text = speed));
+            }
+            else
+            {
+                lblDownloadSpeed.Text = speed;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateUploadSpeed(string speed)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => lblUploadSpeed.Text = speed));
+            }
+            else
+            {
+                lblUploadSpeed.Text = speed;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateTotalDownloaded(string total)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => lblDownloaded.Text = total));
+            }
+            else
+            {
+                lblDownloaded.Text = total;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateTotalUploaded(string total)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => lblUploaded.Text = total));
+            }
+            else
+            {
+                lblUploaded.Text = total;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateSessionDownload(string total)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => lblSessionDownload.Text = total));
+            }
+            else
+            {
+                lblSessionDownload.Text = total;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateSessionUpload(string total)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => lblSessionUpload.Text = total));
+            }
+            else
+            {
+                lblSessionUpload.Text = total;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateChart(double downloadValue, double uploadValue)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    var downSeries = chart.Series.FindByName("DownloadSeries");
+                    downSeries.Points.Add(downloadValue);
+
+                    var upSeries = chart.Series.FindByName("UploadSeries");
+                    upSeries.Points.Add(uploadValue);
+
+                    var ay = chart.ChartAreas[0].AxisY;
+
+                    if (downloadValue > _oldAxisYValue || uploadValue > _oldAxisYValue)
+                    {
+                        var max = uploadValue;
+                        if (downloadValue > uploadValue)
+                        {
+                            max = downloadValue;
+                        }
+
+                        ay.Maximum = max;
+                        _oldAxisYValue = max;
+                    }
+
+                    if (downSeries.Points.Count > 100)
+                    {
+                        downSeries.Points.RemoveAt(0);
+                        upSeries.Points.RemoveAt(0);
+                    }
+                }));
+            }
+            else
+            {
+                var downSeries = chart.Series.FindByName("DownloadSeries");
+                downSeries.Points.Add(downloadValue);
+
+                var upSeries = chart.Series.FindByName("UploadSeries");
+                upSeries.Points.Add(uploadValue);
+
+                var ay = chart.ChartAreas[0].AxisY;
+
+                if (downloadValue > _oldAxisYValue || uploadValue > _oldAxisYValue)
+                {
+                    var max = uploadValue;
+                    if (downloadValue > uploadValue)
+                    {
+                        max = downloadValue;
+                    }
+
+                    ay.Maximum = max;
+                    _oldAxisYValue = max;
+                }
+
+                if (downSeries.Points.Count > 100)
+                {
+                    downSeries.Points.RemoveAt(0);
+                    upSeries.Points.RemoveAt(0);
+                }
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateConnDuration(string duration)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => lblSessionDuration.Text = duration));
+            }
+            else
+            {
+                lblSessionDuration.Text = duration;
+            }
+        }
+
+        /// <summary>
+        /// Updates network registration label.
+        /// </summary>
+        /// <param name="ctrl">Label control.</param>
+        /// <param name="status">Registration status.</param>
         private void UpdateNetworkRegLabel(Control ctrl, int status)
         {
             switch (status)
@@ -503,6 +675,16 @@ namespace ModemPartner.View
         private void BtnConnect_Click(object sender, EventArgs e)
         {
             ConnectionClicked?.Invoke(sender, e);
+        }
+
+        private void BtnResetSession_Click(object sender, EventArgs e)
+        {
+            ResetSessionClicked?.Invoke(sender, e);
+        }
+
+        private void BtnReset_Click(object sender, EventArgs e)
+        {
+            ResetClicked?.Invoke(sender, e);
         }
     }
 }
