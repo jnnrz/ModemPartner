@@ -328,6 +328,8 @@ namespace ModemPartner.Presenter
         {
             var selected = _view.SelectedModem;
 
+            // If somehow this method gets called when
+            // the modem is already connected
             if (_modem.IsOpen)
             {
                 return;
@@ -338,12 +340,15 @@ namespace ModemPartner.Presenter
                 return;
             }
 
+            // Retrieve the modem model
+            // it's needed to get the modem port
             var foundModem = _modemList[selected];
             if (foundModem == null)
             {
                 return;
             }
 
+            // Config and open port
             _modem.SetPort(foundModem.Port);
             _modem.Received += Modem_ReceiveEvent;
             _modem.Error += Modem_ErrorEvent;
@@ -363,6 +368,12 @@ namespace ModemPartner.Presenter
                 return;
             }
 
+            /*
+             * Config the dialer
+             * EntryName is the name of the dial-up conn on Windows.
+             * PhoneBookPath is the path to Windows phone book, where the conns are stored.
+             * Both needed.
+             * */
             _dialer.EntryName = selectedProfile;
             _dialer.PhoneBookPath = RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.User);
 
@@ -374,11 +385,13 @@ namespace ModemPartner.Presenter
                 {
                     while (_dialer.IsBusy)
                     {
+                        // The button will show 'cancel' while the conn is been established
                         _view.UpdateUIWhenDialing();
-                        Thread.Sleep(1000);
+                        Task.Delay(1000);
                     }
                 });
 
+                // Save selected modem and profile on settings
                 Properties.Settings.Default.DefaultModem = _view.SelectedModem;
                 Properties.Settings.Default.DefaultProfile = selectedProfile;
                 Properties.Settings.Default.Save();
@@ -415,10 +428,10 @@ namespace ModemPartner.Presenter
         /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void View_AppClosing(object sender, EventArgs e)
         {
-            CloseShop();
             DisconnectRasConn();
             _statisticsTimer.Stop();
             _saveStatsTimer.Stop();
+            CloseShop();
             SaveTotalStats();
         }
 
@@ -447,16 +460,17 @@ namespace ModemPartner.Presenter
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
         /// <param name="e">The e<see cref="EventArgs"/>.</param>
-        private void View_ConnectionClicked(object sender, EventArgs e)
+        private async void View_ConnectionClicked(object sender, EventArgs e)
         {
             try
             {
+                // If the conn is been establish it's possible to cancel
                 if (_dialer.IsBusy)
                 {
-                    Task.Run(() =>
+                    await Task.Run(() =>
                     {
                         _dialer.DialAsyncCancel();
-                    });
+                    }).ConfigureAwait(true);
 
                     return;
                 }

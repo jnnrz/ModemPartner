@@ -57,7 +57,7 @@ namespace ModemPartner.View
         int NumberFoundDevices { get; }
 
         /// <summary>
-        /// Gets the SelectedModem.
+        /// Gets or sets the SelectedModem.
         /// </summary>
         string SelectedModem { get; set; }
 
