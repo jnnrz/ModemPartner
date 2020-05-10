@@ -663,6 +663,9 @@ namespace ModemPartner.View
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            chart.Series.FindByName("DownloadSeries").Color = Color.FromArgb(134, 196, 63);
+            chart.Series.FindByName("UploadSeries").Color = Color.FromArgb(50, 153, 255);
+
             LoadForm?.Invoke(sender, e);
         }
 
