@@ -604,6 +604,7 @@ namespace ModemPartner.Presenter
             _view.UpdateToolStripStatus("Disconnected");
             _currentConnection = null;
             _rasConnected = false;
+            SaveTotalStats();
         }
 
         /// <summary>
