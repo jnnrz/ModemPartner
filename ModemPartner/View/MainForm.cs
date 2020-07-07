@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using DotRas;
 using ModemPartner.Core;
+using ModemPartner.Properties;
 
 namespace ModemPartner.View
 {
@@ -49,6 +50,9 @@ namespace ModemPartner.View
 
         /// <inheritdoc/>
         public event EventHandler ResetClicked;
+
+        /// <inheritdoc/>
+        public event EventHandler OpenDeviceInfoFormClicked;
 
         /// <inheritdoc/>
         public int NumberFoundDevices => cbDevices.Items.Count;
@@ -115,14 +119,6 @@ namespace ModemPartner.View
                     cbDevices.Items.Add(device.Key);
                 }
             }
-
-            /*if (devices.Count > 0)
-            {
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new MethodInvoker(() => cbDevices.SelectedIndex = 0));
-                }
-            }*/
         }
 
         /// <inheritdoc/>
@@ -133,19 +129,20 @@ namespace ModemPartner.View
                 throw new ArgumentNullException();
             }
 
-            var defaultProfile = Properties.Settings.Default.DefaultProfile;
+            var defaultProfile = Settings.Default.DefaultProfile;
 
             for (var i = 0; i < profiles.Count; i++)
             {
                 if (this.InvokeRequired)
                 {
+                    var i1 = i;
                     this.Invoke(new MethodInvoker(() =>
                     {
-                        cbProfiles.Items.Add(profiles[i].Name);
+                        cbProfiles.Items.Add(profiles[i1].Name);
 
-                        if (profiles[i].Name.Equals(defaultProfile))
+                        if (profiles[i1].Name.Equals(defaultProfile))
                         {
-                            cbProfiles.SelectedIndex = i;
+                            cbProfiles.SelectedIndex = i1;
                         }
                     }));
                 }
@@ -176,7 +173,7 @@ namespace ModemPartner.View
         /// <inheritdoc/>
         public void UpdateModeSelection(Modem.Mode mode)
         {
-            int index = 0;
+            int index;
             switch (mode)
             {
                 case Modem.Mode.TwoGOnly:
@@ -214,30 +211,30 @@ namespace ModemPartner.View
         public void UpdateRSSI(float rssi)
         {
             Color lblColor = Color.Black;
-            string lblText = "--";
+            string lblText = Resources.NoRealValue;
 
             if (rssi >= 2 && rssi < 10)
             {
                 lblColor = Color.Crimson;
-                lblText = "Bad";
+                lblText = Resources.Bad;
             }
 
             if (rssi >= 10 && rssi < 15)
             {
                 lblColor = Color.DeepSkyBlue;
-                lblText = "OK";
+                lblText = Resources.OK;
             }
 
             if (rssi >= 15 && rssi < 20)
             {
                 lblColor = Color.Green;
-                lblText = "Good";
+                lblText = Resources.Good;
             }
 
             if (rssi >= 20 && rssi <= 30)
             {
                 lblColor = Color.FromArgb(0, 192, 0);
-                lblText = "Excellent";
+                lblText = Resources.Excellent;
             }
 
             lblRSSI.ForeColor = lblColor;
@@ -246,7 +243,7 @@ namespace ModemPartner.View
             {
                 this.Invoke(new MethodInvoker(() =>
                 {
-                    lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : string.Empty)}";
+                    lblRSSI.Text = $@"{lblText} {(rssi > 1 ? $"- {rssi}" : string.Empty)}";
 
                     var value = Convert.ToInt32(rssi);
 
@@ -262,7 +259,7 @@ namespace ModemPartner.View
             }
             else
             {
-                lblRSSI.Text = $"{lblText} {(rssi > 1 ? $"- {rssi}" : string.Empty)}";
+                lblRSSI.Text = $@"{lblText} {(rssi > 1 ? $"- {rssi}" : string.Empty)}";
                 pbRSSI.Value = Convert.ToInt32(rssi);
             }
         }
@@ -297,25 +294,22 @@ namespace ModemPartner.View
         public void UpdatePSAttachment(int status)
         {
             Color lblColor = Color.Black;
-            string lblText = "--";
+            string lblText = Resources.NoRealValue;
 
             switch (status)
             {
                 case 0:
-                    lblText = "Not attached";
+                    lblText = Resources.NotAttached;
                     break;
 
                 case 1:
                     lblColor = Color.DeepSkyBlue;
-                    lblText = "Attached";
+                    lblText = Resources.Attached;
                     break;
 
                 case 2:
                     lblColor = Color.Black;
-                    lblText = "--";
-                    break;
-
-                default:
+                    lblText = Resources.NoRealValue;
                     break;
             }
 
@@ -404,15 +398,15 @@ namespace ModemPartner.View
             {
                 this.Invoke(new MethodInvoker(() =>
                 {
-                    btnConnect.Text = "Disconnect";
-                    tslblDialStatus.Image = Properties.Resources.green_ball;
+                    btnConnect.Text = Resources.Disconnect;
+                    tslblDialStatus.Image = Resources.green_ball;
                     cbProfiles.Enabled = false;
                 }));
             }
             else
             {
-                btnConnect.Text = "Disconnect";
-                tslblDialStatus.Image = Properties.Resources.green_ball;
+                btnConnect.Text = Resources.Disconnect;
+                tslblDialStatus.Image = Resources.green_ball;
                 cbProfiles.Enabled = false;
             }
         }
@@ -424,15 +418,15 @@ namespace ModemPartner.View
             {
                 this.Invoke(new MethodInvoker(() =>
                 {
-                    btnConnect.Text = "Connect";
-                    tslblDialStatus.Image = Properties.Resources.red_ball;
+                    btnConnect.Text = Resources.Connect;
+                    tslblDialStatus.Image = Resources.red_ball;
                     cbProfiles.Enabled = true;
                 }));
             }
             else
             {
-                btnConnect.Text = "Connect";
-                tslblDialStatus.Image = Properties.Resources.red_ball;
+                btnConnect.Text = Resources.Connect;
+                tslblDialStatus.Image = Resources.red_ball;
                 cbProfiles.Enabled = true;
             }
         }
@@ -444,15 +438,15 @@ namespace ModemPartner.View
             {
                 this.Invoke(new MethodInvoker(() =>
                 {
-                    btnConnect.Text = "Cancel";
-                    tslblDialStatus.Image = Properties.Resources.red_ball;
+                    btnConnect.Text = Resources.Cancel;
+                    tslblDialStatus.Image = Resources.red_ball;
                     cbProfiles.Enabled = false;
                 }));
             }
             else
             {
-                btnConnect.Text = "Cancel";
-                tslblDialStatus.Image = Properties.Resources.red_ball;
+                btnConnect.Text = Resources.Cancel;
+                tslblDialStatus.Image = Resources.red_ball;
                 cbProfiles.Enabled = false;
             }
         }
@@ -543,9 +537,19 @@ namespace ModemPartner.View
                 this.Invoke(new MethodInvoker(() =>
                 {
                     var downSeries = chart.Series.FindByName("DownloadSeries");
+                    if (downSeries == null)
+                    {
+                        throw new Exception("Could not get DownloadSeries");
+                    }
+
                     downSeries.Points.Add(downloadValue);
 
                     var upSeries = chart.Series.FindByName("UploadSeries");
+                    if (upSeries == null)
+                    {
+                        throw new Exception("Could not get UploadSeries");
+                    }
+
                     upSeries.Points.Add(uploadValue);
 
                     var ay = chart.ChartAreas[0].AxisY;
@@ -572,10 +576,18 @@ namespace ModemPartner.View
             else
             {
                 var downSeries = chart.Series.FindByName("DownloadSeries");
+                if (downSeries == null)
+                {
+                    throw new Exception("Could not get DownloadSeries");
+                }
+
                 downSeries.Points.Add(downloadValue);
 
                 var upSeries = chart.Series.FindByName("UploadSeries");
-                upSeries.Points.Add(uploadValue);
+                if (upSeries == null)
+                {
+                    throw new Exception("Could not get UploadSeries");
+                }
 
                 var ay = chart.ChartAreas[0].AxisY;
 
@@ -622,49 +634,58 @@ namespace ModemPartner.View
             switch (status)
             {
                 case 0:
-                    ctrl.Text = "Not Registered";
+                    ctrl.Text = Resources.NotRegistered;
                     ctrl.ForeColor = Color.Black;
                     break;
 
                 case 1:
                     ctrl.ForeColor = Color.DeepSkyBlue;
-                    ctrl.Text = "Registered";
+                    ctrl.Text = Resources.Registered;
                     break;
 
                 case 2:
                     ctrl.ForeColor = Color.DarkBlue;
-                    ctrl.Text = "Searching";
+                    ctrl.Text = Resources.Searching;
                     break;
 
                 case 3:
                     ctrl.ForeColor = Color.Crimson;
-                    ctrl.Text = "Denied";
+                    ctrl.Text = Resources.Denied;
                     break;
 
                 case 4:
-                    lblCS.Text = "Unknown";
+                    lblCS.Text = Resources.Unknown;
                     break;
 
                 case 5:
                     ctrl.ForeColor = Color.Salmon;
-                    ctrl.Text = "Roaming";
+                    ctrl.Text = Resources.Roaming;
                     break;
 
                 case 6:
                     ctrl.ForeColor = Color.Black;
-                    ctrl.Text = "--";
+                    ctrl.Text = Resources.NoRealValue;
                     break;
 
                 default:
-                    ctrl.Text = "--";
+                    ctrl.Text = Resources.NoRealValue;
                     break;
             }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            chart.Series.FindByName("DownloadSeries").Color = Color.FromArgb(134, 196, 63);
-            chart.Series.FindByName("UploadSeries").Color = Color.FromArgb(50, 153, 255);
+            var downSeries = chart.Series.FindByName("DownloadSeries");
+            if (downSeries != null)
+            {
+                downSeries.Color = Color.FromArgb(134, 196, 63);
+            }
+
+            var upSeries = chart.Series.FindByName("UploadSeries");
+            if (upSeries != null)
+            {
+                upSeries.Color = Color.FromArgb(50, 153, 255);
+            }
 
             LoadForm?.Invoke(sender, e);
         }
@@ -702,6 +723,11 @@ namespace ModemPartner.View
         private void BtnReset_Click(object sender, EventArgs e)
         {
             ResetClicked?.Invoke(sender, e);
+        }
+
+        private void BtnModemInfo_Click(object sender, EventArgs e)
+        {
+            OpenDeviceInfoFormClicked?.Invoke(sender, e);
         }
     }
 }

@@ -52,6 +52,11 @@ namespace ModemPartner.View
         event EventHandler ResetClicked;
 
         /// <summary>
+        /// Occurs when the device info form button is clicked.
+        /// </summary>
+        event EventHandler OpenDeviceInfoFormClicked;
+
+        /// <summary>
         /// Gets the NumberFoundDevices.
         /// </summary>
         int NumberFoundDevices { get; }

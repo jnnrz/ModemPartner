@@ -629,6 +629,7 @@
             this.btnModemInfo.Size = new System.Drawing.Size(28, 25);
             this.btnModemInfo.TabIndex = 33;
             this.btnModemInfo.UseVisualStyleBackColor = true;
+            this.btnModemInfo.Click += new System.EventHandler(this.BtnModemInfo_Click);
             // 
             // btnOpen
             // 

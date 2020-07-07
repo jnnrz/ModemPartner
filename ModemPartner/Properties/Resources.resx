@@ -139,4 +139,52 @@
   <data name="unplugged" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\unplugged.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="NotRegistered" xml:space="preserve">
+    <value>Not Registered</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>Registered</value>
+  </data>
+  <data name="Searching" xml:space="preserve">
+    <value>Searching</value>
+  </data>
+  <data name="Denied" xml:space="preserve">
+    <value>Denied</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Roaming" xml:space="preserve">
+    <value>Roaming</value>
+  </data>
+  <data name="NoRealValue" xml:space="preserve">
+    <value>--</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="Excellent" xml:space="preserve">
+    <value>Excellent</value>
+  </data>
+  <data name="Bad" xml:space="preserve">
+    <value>Bad</value>
+  </data>
+  <data name="NotAttached" xml:space="preserve">
+    <value>Not attached</value>
+  </data>
+  <data name="Attached" xml:space="preserve">
+    <value>Attached</value>
+  </data>
 </root>
