@@ -55,6 +55,9 @@ namespace ModemPartner.View
         public event EventHandler OpenDeviceInfoFormClicked;
 
         /// <inheritdoc/>
+        public event EventHandler SelectedDeviceChanged;
+
+        /// <inheritdoc/>
         public int NumberFoundDevices => cbDevices.Items.Count;
 
         /// <inheritdoc/>
@@ -728,6 +731,11 @@ namespace ModemPartner.View
         private void BtnModemInfo_Click(object sender, EventArgs e)
         {
             OpenDeviceInfoFormClicked?.Invoke(sender, e);
+        }
+
+        private void CbDevices_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SelectedDeviceChanged?.Invoke(sender, e);
         }
     }
 }

@@ -62,12 +62,12 @@ namespace ModemPartner.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DefaultModem {
+        public string LastUsedModem {
             get {
-                return ((string)(this["DefaultModem"]));
+                return ((string)(this["LastUsedModem"]));
             }
             set {
-                this["DefaultModem"] = value;
+                this["LastUsedModem"] = value;
             }
         }
     }

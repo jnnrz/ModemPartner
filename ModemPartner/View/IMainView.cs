@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms.Design;
 using DotRas;
 using ModemPartner.Core;
 
@@ -55,6 +56,11 @@ namespace ModemPartner.View
         /// Occurs when the device info form button is clicked.
         /// </summary>
         event EventHandler OpenDeviceInfoFormClicked;
+
+        /// <summary>
+        /// Occurs when the selected device has been changed.
+        /// </summary>
+        event EventHandler SelectedDeviceChanged;
 
         /// <summary>
         /// Gets the NumberFoundDevices.

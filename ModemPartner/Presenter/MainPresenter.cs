@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Forms;
 using DotRas;
 using ModemPartner.Core;
 using ModemPartner.Properties;
@@ -118,6 +119,7 @@ namespace ModemPartner.Presenter
                 view.ResetSessionClicked += View_ResetSessionClicked;
                 view.ResetClicked += View_ResetClicked;
                 view.OpenDeviceInfoFormClicked += View_OpenDeviceInfoFormClicked;
+                view.SelectedDeviceChanged += View_SelectedDeviceChanged;
             }
         }
 
@@ -245,6 +247,13 @@ namespace ModemPartner.Presenter
         {
             await Task.Run(() =>
             {
+                // If the app is connected to a modem, close the connetion
+                // before refreshing the list.
+                if (_modem.IsOpen)
+                {
+                    CloseShop();
+                }
+
                 _view.UpdateToolStripStatus("Finding devices...");
 
                 _modemList = Modem.GetModems();
@@ -253,15 +262,15 @@ namespace ModemPartner.Presenter
                 _view.AddDevicesToList(_modemList);
 
                 // Select the modem that was used most recently
-                var defaultModem = Properties.Settings.Default.DefaultModem;
+                var lastUsedModem = Settings.Default.LastUsedModem;
                 var modemArray = _modemList.ToArray();
 
                 for (var x = 0; x < modemArray.Length; x++)
                 {
-                    if (modemArray[x].Value.Modem == defaultModem)
+                    if (modemArray[x].Value.Modem == lastUsedModem)
                     {
                         _view.SelectedModem = x.ToString();
-                        OpenModemPort();
+                        OpenShop();
                     }
                 }
 
@@ -333,7 +342,7 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Connects to the modem thru the serial port.
         /// </summary>
-        private void OpenModemPort()
+        private void OpenShop()
         {
             var selected = _view.SelectedModem;
 
@@ -362,6 +371,16 @@ namespace ModemPartner.Presenter
             _modem.Received += Modem_ReceiveEvent;
             _modem.Error += Modem_ErrorEvent;
             _modem.Open();
+
+            if (!_modem.IsOpen)
+            {
+                _view.UpdateToolStripStatus("Could not open the port.");
+                return;
+            }
+
+            // _view.DisableDeviceRelatedControls(true); enable if we want to use then open/close port button
+            _view.UpdateOpenPortBtn(Resources.plug, string.Empty);
+            _view.UpdateToolStripStatus($"Connected to {_view.SelectedModem}");
         }
 
         /// <summary>
@@ -401,7 +420,7 @@ namespace ModemPartner.Presenter
                 });
 
                 // Save selected modem and profile on settings
-                Settings.Default.DefaultModem = _view.SelectedModem;
+                Settings.Default.LastUsedModem = _view.SelectedModem;
                 Settings.Default.DefaultProfile = selectedProfile;
                 Settings.Default.Save();
             }
@@ -543,14 +562,7 @@ namespace ModemPartner.Presenter
                 }
                 else
                 {
-                    OpenModemPort();
-
-                    if (_modem.IsOpen)
-                    {
-                        _view.DisableDeviceRelatedControls(true);
-                        _view.UpdateOpenPortBtn(Resources.plug, string.Empty);
-                        _view.UpdateToolStripStatus($"Connected to {_view.SelectedModem}");
-                    }
+                    OpenShop();
                 }
             }
             catch (Exception ex)
@@ -701,6 +713,26 @@ namespace ModemPartner.Presenter
             {
                 _view.UpdateToolStripStatus(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Handles the event when selected modem is changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
+        private void View_SelectedDeviceChanged(object sender, EventArgs e)
+        {
+            if (_modem.IsOpen)
+            {
+                CloseShop();
+            }
+
+            if (_view.SelectedModem == null)
+            {
+                _view.UpdateToolStripStatus("Selected modem is not valid.");
+            }
+
+            OpenShop();
         }
 
         /// <summary>
