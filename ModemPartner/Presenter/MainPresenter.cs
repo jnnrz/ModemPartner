@@ -177,8 +177,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles the event when dialing has been completed.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="DialCompletedEventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event of type <see cref="DialCompletedEventArgs"/>.</param>
         private void Dialer_DialCompleted(object sender, DialCompletedEventArgs e)
         {
             if (e.Connected)
@@ -213,8 +213,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles the event when the state of the dialer has been changed.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="DotRas.StateChangedEventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event of type <see cref="DotRas.StateChangedEventArgs"/>.</param>
         private void Dialer_StateChanged(object sender, StateChangedEventArgs e)
         {
             _view.UpdateToolStripStatus(e.State.ToString());
@@ -272,8 +272,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles any errors the modem may have.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="Modem.ErrorEventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event of type <see cref="Modem.ErrorEventArgs"/>.</param>
         private void Modem_ErrorEvent(object sender, Modem.ErrorEventArgs e)
         {
             _view.UpdateToolStripStatus(e.Error);
@@ -282,8 +282,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles the modem's events.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="Modem.ReceivedEventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event of type <see cref="Modem.ReceivedEventArgs"/>.</param>
         private void Modem_ReceiveEvent(object sender, Modem.ReceivedEventArgs e)
         {
             switch (e.Event)
@@ -331,7 +331,7 @@ namespace ModemPartner.Presenter
         }
 
         /// <summary>
-        /// Establish a connection with the modem's serial port.
+        /// Connects to the modem thru the serial port.
         /// </summary>
         private void OpenModemPort()
         {
@@ -365,7 +365,7 @@ namespace ModemPartner.Presenter
         }
 
         /// <summary>
-        /// Establish a internet connection with RAS.
+        /// Attempts to establish an internet connection with RAS.
         /// </summary>
         private void TryRasConnection()
         {
@@ -433,8 +433,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles what happens <see cref="IMainView.AppClosing"/> ocurrs.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="EventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private void View_AppClosing(object sender, EventArgs e)
         {
             DisconnectRasConn();
@@ -447,8 +447,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles what happens <see cref="IMainView.ApplyModeClicked"/> ocurrs.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="EventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private void View_ApplyModeClicked(object sender, EventArgs e)
         {
             if (_modem.IsOpen)
@@ -467,8 +467,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles what happens <see cref="IMainView.ConnectionClicked"/> ocurrs.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="EventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private async void View_ConnectionClicked(object sender, EventArgs e)
         {
             try
@@ -503,8 +503,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles what happens when the main form loads.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="EventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private void View_Load(object sender, EventArgs e)
         {
             _modem = new HuaweiModem();
@@ -529,8 +529,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles what happens when <see cref="IMainView.OpenPortClicked"/> occurs.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="EventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private void View_OpenPortClicked(object sender, EventArgs e)
         {
             try
@@ -562,8 +562,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles what happens when <see cref="IMainView.RefreshDevicesClicked"/> occurs.
         /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="EventArgs"/>.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private void View_RefreshDevicesClicked(object sender, EventArgs e)
         {
             try
@@ -579,8 +579,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles what happens when <see cref="IMainView.ResetClicked"/> occurs.
         /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The e.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private void View_ResetClicked(object sender, EventArgs e)
         {
             _statisticsTimer.Stop();
@@ -597,8 +597,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles what happens when <see cref="IMainView.ResetSessionClicked"/> occurs.
         /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The e.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private void View_ResetSessionClicked(object sender, EventArgs e)
         {
             _view.UpdateSessionDownload("0");
@@ -616,7 +616,7 @@ namespace ModemPartner.Presenter
         /// Handles what happens when RAS connection is interrupted.
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="DotRas.RasConnectionEventArgs"/>.</param>
+        /// <param name="e">The event of type <see cref="DotRas.RasConnectionEventArgs"/>.</param>
         private void Watcher_Disconnected(object sender, DotRas.RasConnectionEventArgs e)
         {
             _view.UpdateUIWhenDisconnected();
@@ -629,8 +629,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles timer for stats saving.
         /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The e</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private void SaveStatsTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             SaveTotalStats();
@@ -639,8 +639,8 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Handles timer for stats updates.
         /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The e</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event.</param>
         private void StatisticsTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (!_rasConnected)
