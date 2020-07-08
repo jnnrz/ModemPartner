@@ -514,8 +514,8 @@ namespace ModemPartner.Presenter
                 LookForDevices();
                 LoadProfiles();
 
-                _totalDownloaded = long.Parse(Properties.Settings.Default.Downloaded);
-                _totalUploaded = long.Parse(Properties.Settings.Default.Uploaded);
+                _totalDownloaded = long.Parse(Settings.Default.Downloaded);
+                _totalUploaded = long.Parse(Settings.Default.Uploaded);
 
                 _view.UpdateTotalDownloaded(SizeUtil.SizeSuffix(_totalDownloaded, 2));
                 _view.UpdateTotalUploaded(SizeUtil.SizeSuffix(_totalUploaded, 2));
@@ -548,7 +548,7 @@ namespace ModemPartner.Presenter
                     if (_modem.IsOpen)
                     {
                         _view.DisableDeviceRelatedControls(true);
-                        _view.UpdateOpenPortBtn(Properties.Resources.plug, string.Empty);
+                        _view.UpdateOpenPortBtn(Resources.plug, string.Empty);
                         _view.UpdateToolStripStatus($"Connected to {_view.SelectedModem}");
                     }
                 }
@@ -587,6 +587,8 @@ namespace ModemPartner.Presenter
             Settings.Default.Downloaded = "0";
             Settings.Default.Uploaded = "0";
             Settings.Default.Save();
+            _totalDownloaded = 0;
+            _totalUploaded = 0;
             _view.UpdateTotalDownloaded("0");
             _view.UpdateTotalUploaded("0");
             _statisticsTimer.Start();
@@ -656,10 +658,6 @@ namespace ModemPartner.Presenter
                 // Retrieve stats from the current connection
                 RasLinkStatistics statistics = _currentConnection.GetConnectionStatistics();
 
-                // Retrieve previous 'total' values from the settings
-                var downloadedFromSettings = long.Parse(Settings.Default.Downloaded);
-                var uploadedFromSettings = long.Parse(Settings.Default.Uploaded);
-
                 // Compare new values to old ones and get the current
                 // data size been downloaded or uploaded
                 var received = statistics.BytesReceived - _oldReceivedStat;
@@ -710,8 +708,8 @@ namespace ModemPartner.Presenter
         /// </summary>
         private void SaveTotalStats()
         {
-            Settings.Default.Downloaded = $"{_totalDownloaded}";
-            Settings.Default.Uploaded = $"{_totalUploaded}";
+            Settings.Default.Downloaded = _totalDownloaded.ToString();
+            Settings.Default.Uploaded = _totalUploaded.ToString();
             Settings.Default.Save();
         }
     }
