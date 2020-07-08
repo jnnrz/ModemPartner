@@ -40,7 +40,7 @@ namespace ModemPartner.Core
         /// <summary>
         /// The OnMessageReceived.
         /// </summary>
-        /// <param name="e">The e<see cref="ReceivedEventArgs"/>.</param>
+        /// <param name="e">The e<see cref="Modem.ReceivedEventArgs"/>.</param>
         public override void OnMessageReceived(ReceivedEventArgs e)
         {
             Received?.Invoke(this, e);
@@ -49,7 +49,7 @@ namespace ModemPartner.Core
         /// <summary>
         /// The OnErrorReceived.
         /// </summary>
-        /// <param name="e">The e<see cref="ErrorEventArgs"/>.</param>
+        /// <param name="e">The e<see cref="Modem.ErrorEventArgs"/>.</param>
         public override void OnErrorReceived(ErrorEventArgs e)
         {
             Error?.Invoke(this, e);
@@ -104,13 +104,16 @@ namespace ModemPartner.Core
         {
             try
             {
-                if (_serialPort.IsOpen)
+                if (!_serialPort.IsOpen)
                 {
-                    _serialPort.DataReceived -= _receivedDataEventHandler;
-                    _serialPort.Close();
-
-                    ClearCommandQueue();
+                    OnErrorReceived(new ErrorEventArgs("SerialPort is not open."));
+                    return;
                 }
+
+                _serialPort.DataReceived -= _receivedDataEventHandler;
+                _serialPort.Close();
+
+                ClearCommandQueue();
             }
             catch (Exception e)
             {
@@ -165,25 +168,25 @@ namespace ModemPartner.Core
                 if (message.Contains("Model"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.None);
-                    SendEvent(Modem.ModemEvent.Model, sp[1].Trim());
+                    SendEvent(ModemEvent.Model, sp[1].Trim());
                 }
 
                 if (message.Contains("Manufacturer"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.None);
-                    SendEvent(Modem.ModemEvent.Manufacturer, sp[1].Trim());
+                    SendEvent(ModemEvent.Manufacturer, sp[1].Trim());
                 }
 
                 if (message.Contains("IMEI"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.None);
-                    SendEvent(Modem.ModemEvent.IMEI, sp[1].Trim());
+                    SendEvent(ModemEvent.Imei, sp[1].Trim());
                 }
 
                 if (message.Contains("CSQ:") || message.Contains("RSSI:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.None);
-                    SendEvent(Modem.ModemEvent.RSSI, sp[1].Trim());
+                    SendEvent(ModemEvent.Rssi, sp[1].Trim());
                 }
 
                 if (message.Contains("^SYSCFG:"))
@@ -193,18 +196,18 @@ namespace ModemPartner.Core
                     var only = sp[1];
                     var pref = sp[2];
 
-                    var mode = Modem.Mode.Any;
+                    var mode = Mode.Any;
                     var preferred = true;
 
                     switch (only)
                     {
                         case "13":
-                            mode = Modem.Mode.TwoGOnly;
+                            mode = Mode.TwoGOnly;
                             preferred = false;
                             break;
 
                         case "14":
-                            mode = Modem.Mode.ThreeGOnly;
+                            mode = Mode.ThreeGOnly;
                             preferred = false;
                             break;
                     }
@@ -214,56 +217,38 @@ namespace ModemPartner.Core
                         switch (pref)
                         {
                             case "1":
-                                mode = Modem.Mode.TwoGPref;
+                                mode = Mode.TwoGPref;
                                 break;
 
                             case "2":
-                                mode = Modem.Mode.ThreeGPref;
+                                mode = Mode.ThreeGPref;
                                 break;
                         }
                     }
 
-                    SendEvent(Modem.ModemEvent.ModemMode, mode);
+                    SendEvent(ModemEvent.ModemMode, mode);
                 }
 
                 if (message.Contains("+CGREG:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
-                    string status;
+                    var status = sp.Length > 2 ? sp[2] : sp[1];
 
-                    if (sp.Length > 2)
-                    {
-                        status = sp[2];
-                    }
-                    else
-                    {
-                        status = sp[1];
-                    }
-
-                    SendEvent(Modem.ModemEvent.PSNetwork, status);
+                    SendEvent(ModemEvent.PsNetwork, status);
                 }
 
                 if (message.Contains("+CREG:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
-                    string status;
+                    var status = sp.Length > 2 ? sp[2] : sp[1];
 
-                    if (sp.Length > 2)
-                    {
-                        status = sp[2];
-                    }
-                    else
-                    {
-                        status = sp[1];
-                    }
-
-                    SendEvent(Modem.ModemEvent.CSNetwork, status);
+                    SendEvent(ModemEvent.CsNetwork, status);
                 }
 
                 if (message.Contains("+CGATT:"))
                 {
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
-                    SendEvent(Modem.ModemEvent.PSAttach, sp[1].Trim());
+                    SendEvent(ModemEvent.PsAttach, sp[1].Trim());
                 }
 
                 if (message.Contains("COPS:"))
@@ -272,9 +257,11 @@ namespace ModemPartner.Core
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
 
                     if (sp.Length < 3)
+                    {
                         return;
+                    }
 
-                    SendEvent(Modem.ModemEvent.Provider, sp[3].Trim(trimChars));
+                    SendEvent(ModemEvent.Provider, sp[3].Trim(trimChars));
                 }
 
                 if (message.Contains("MODE:"))
@@ -282,44 +269,44 @@ namespace ModemPartner.Core
                     var sp = message.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
 
                     var msgSubMode = sp[2];
-                    var resSubMode = Modem.SubMode.NoService;
+                    var resSubMode = SubMode.NoService;
 
                     switch (msgSubMode)
                     {
                         case "0":
-                            resSubMode = Modem.SubMode.NoService;
+                            resSubMode = SubMode.NoService;
                             break;
 
                         case "1":
-                            resSubMode = Modem.SubMode.GSM;
+                            resSubMode = SubMode.Gsm;
                             break;
 
                         case "2":
-                            resSubMode = Modem.SubMode.GPRS;
+                            resSubMode = SubMode.Gprs;
                             break;
 
                         case "3":
-                            resSubMode = Modem.SubMode.EDGE;
+                            resSubMode = SubMode.Edge;
                             break;
 
                         case "4":
-                            resSubMode = Modem.SubMode.WCDMA;
+                            resSubMode = SubMode.Wcdma;
                             break;
 
                         case "5":
-                            resSubMode = Modem.SubMode.HSDPA;
+                            resSubMode = SubMode.Hsdpa;
                             break;
 
                         case "6":
-                            resSubMode = Modem.SubMode.HSUPA;
+                            resSubMode = SubMode.Hsupa;
                             break;
 
                         case "7":
-                            resSubMode = Modem.SubMode.HSPA;
+                            resSubMode = SubMode.Hspa;
                             break;
                     }
 
-                    SendEvent(Modem.ModemEvent.SysMode, resSubMode);
+                    SendEvent(ModemEvent.SysMode, resSubMode);
                 }
             }
         }
@@ -329,7 +316,7 @@ namespace ModemPartner.Core
         /// </summary>
         /// <param name="e">The e<see cref="Modem.ModemEvent"/>.</param>
         /// <param name="message">The message<see cref="object"/>.</param>
-        private void SendEvent(Modem.ModemEvent e, object message)
+        private void SendEvent(ModemEvent e, object message)
         {
             var args = new ReceivedEventArgs(e, message);
             OnMessageReceived(args);

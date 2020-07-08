@@ -352,31 +352,31 @@ namespace ModemPartner.View
                     text = "NA";
                     break;
 
-                case Modem.SubMode.GSM:
+                case Modem.SubMode.Gsm:
                     text = "GSM";
                     break;
 
-                case Modem.SubMode.GPRS:
+                case Modem.SubMode.Gprs:
                     text = "GPRS";
                     break;
 
-                case Modem.SubMode.EDGE:
+                case Modem.SubMode.Edge:
                     text = "EDGE";
                     break;
 
-                case Modem.SubMode.WCDMA:
+                case Modem.SubMode.Wcdma:
                     text = "WCDMA 3G";
                     break;
 
-                case Modem.SubMode.HSDPA:
+                case Modem.SubMode.Hsdpa:
                     text = "HSDPA 3.5G";
                     break;
 
-                case Modem.SubMode.HSUPA:
+                case Modem.SubMode.Hsupa:
                     text = "HSUPA 3.7G";
                     break;
 
-                case Modem.SubMode.HSPA:
+                case Modem.SubMode.Hspa:
                     text = "HSPA 3.9G";
                     break;
             }

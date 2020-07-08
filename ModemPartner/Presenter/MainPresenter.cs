@@ -296,7 +296,7 @@ namespace ModemPartner.Presenter
                     ConnectedDeviceInfo.Manufacturer = e.Value.ToString();
                     break;
 
-                case Modem.ModemEvent.IMEI:
+                case Modem.ModemEvent.Imei:
                     ConnectedDeviceInfo.IMEI = e.Value.ToString();
                     break;
 
@@ -304,19 +304,19 @@ namespace ModemPartner.Presenter
                     _view.UpdateModeSelection((Modem.Mode)e.Value);
                     break;
 
-                case Modem.ModemEvent.RSSI:
+                case Modem.ModemEvent.Rssi:
                     _view.UpdateRSSI(float.Parse(e.Value.ToString()));
                     break;
 
-                case Modem.ModemEvent.PSNetwork:
+                case Modem.ModemEvent.PsNetwork:
                     _view.UpdatePSNetwork(int.Parse(e.Value.ToString()));
                     break;
 
-                case Modem.ModemEvent.CSNetwork:
+                case Modem.ModemEvent.CsNetwork:
                     _view.UpdateCSNetwork(int.Parse(e.Value.ToString()));
                     break;
 
-                case Modem.ModemEvent.PSAttach:
+                case Modem.ModemEvent.PsAttach:
                     _view.UpdatePSAttachment(int.Parse(e.Value.ToString()));
                     break;
 

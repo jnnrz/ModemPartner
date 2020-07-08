@@ -30,17 +30,9 @@ namespace ModemPartner.Core
             _commandQueue = new Queue<string>();
         }
 
-        public enum Band
-        {
-            GSM,
-            EGSM,
-            PGSM,
-            DCS,
-            PCS,
-            WCDMA,
-            Any,
-        }
-
+        /// <summary>
+        /// Modem's mode.
+        /// </summary>
         public enum Mode
         {
             Any,
@@ -50,6 +42,9 @@ namespace ModemPartner.Core
             ThreeGOnly,
         }
 
+        /// <summary>
+        /// Modem events.
+        /// </summary>
         public enum ModemEvent
         {
             Duration,
@@ -57,48 +52,51 @@ namespace ModemPartner.Core
             DownloadSpeed,
             DownloadedData,
             SysMode,
-            RSSI,
+            Rssi,
             Provider,
-            APN,
+            Apn,
             Manufacturer,
             Port,
             Model,
-            IMEI,
+            Imei,
             Firmware,
             Hardware,
             ModemMode,
             ModemBand,
-            PSNetwork,
-            CSNetwork,
-            PSAttach,
-        }
-
-        public enum SubMode
-        {
-            NoService,
-            GSM,
-            GPRS,
-            EDGE,
-            WCDMA,
-            HSDPA,
-            HSUPA,
-            HSPA,
+            PsNetwork,
+            CsNetwork,
+            PsAttach,
         }
 
         /// <summary>
-        /// Handles data received from the modem.
+        /// Submodes
+        /// </summary>
+        public enum SubMode
+        {
+            NoService,
+            Gsm,
+            Gprs,
+            Edge,
+            Wcdma,
+            Hsdpa,
+            Hsupa,
+            Hspa,
+        }
+
+        /// <summary>
+        /// Gets or sets data received from the modem.
         /// </summary>
         public EventHandler<ReceivedEventArgs> Received { get; set; }
 
         /// <summary>
-        /// Handles errors received from the modem.
+        /// Gets or sets errors received from the modem.
         /// </summary>
         public EventHandler<ErrorEventArgs> Error { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether serial port is open.
         /// </summary>
-        public bool IsOpen { get => _serialPort.IsOpen; }
+        public bool IsOpen => _serialPort.IsOpen;
 
         /// <summary>
         /// The Open.
@@ -125,7 +123,7 @@ namespace ModemPartner.Core
         /// <summary>
         /// Retrieves all the modems currently connected to the computer.
         /// </summary>
-        /// <returns>The <see cref="Dictionary{string, FoundModem}"/>.</returns>
+        /// <returns>The a list of all connected modems to the PC.</returns>
         public static Dictionary<string, FoundModem> GetModems()
         {
             List<string> comList = new List<string>();
@@ -134,7 +132,8 @@ namespace ModemPartner.Core
             // Looks for COM ports using ClassGuid=COM and contains 'PC UI' in its name
             // 'PC UI' will work for certain Huawei modems, I don't know if it can work for all models
             // It's hardcoded and kinda sh*tty but ¯\_(ツ)_/¯ <quote>This is the way</quote>
-            string getPortsQuery = "SELECT Name FROM Win32_PnPEntity WHERE Name LIKE '%PC UI%' AND ClassGuid='{4d36e978-e325-11ce-bfc1-08002be10318}'";
+            string getPortsQuery =
+                "SELECT Name FROM Win32_PnPEntity WHERE Name LIKE '%PC UI%' AND ClassGuid='{4d36e978-e325-11ce-bfc1-08002be10318}'";
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", getPortsQuery);
 
             foreach (var obj in searcher.Get())
@@ -142,7 +141,7 @@ namespace ModemPartner.Core
                 var deviceName = obj["Name"].ToString();
 
                 // Extract COM port from device name
-                var port = COMPortUtil.ExtractCOMPortFromName(deviceName);
+                var port = ComPortUtil.ExtractComPortFromName(deviceName);
                 comList.Add(port);
             }
 
@@ -150,14 +149,16 @@ namespace ModemPartner.Core
             foreach (var p in comList)
             {
                 var modem = new HuaweiModem(p);
-                modem.Received = new EventHandler<ReceivedEventArgs>((sender, e) =>
+                modem.Received = (sender, e) =>
                 {
-                    if (e.Event == ModemEvent.Model)
+                    if (e.Event != ModemEvent.Model)
                     {
-                        modemList.Add(e.Value.ToString(), new FoundModem(p, e.Value.ToString()));
-                        modem.Close();
+                        return;
                     }
-                });
+
+                    modemList.Add(e.Value.ToString(), new FoundModem(p, e.Value.ToString()));
+                    modem.Close();
+                };
                 modem.Open();
 
                 // Hold it for a bit while the event arrives
@@ -167,30 +168,6 @@ namespace ModemPartner.Core
             }
 
             return modemList;
-        }
-
-        /// <summary>
-        /// Adds a AT command to the queue so it can be executed.
-        /// </summary>
-        /// <param name="command">The command<see cref="string"/>.</param>
-        public void AddCommandToQueue(string command)
-        {
-            if (IsOpen)
-            {
-                _commandQueue.Enqueue(command);
-            }
-        }
-
-        /// <summary>
-        /// Executes the next command in queue.
-        /// </summary>
-        public void ExecuteNextCommand()
-        {
-            if (_commandQueue.Count > 0)
-            {
-                _serialPort.WriteLine(_commandQueue.Peek());
-                _commandQueue.Dequeue();
-            }
         }
 
         /// <summary>
@@ -246,6 +223,32 @@ namespace ModemPartner.Core
         }
 
         /// <summary>
+        /// Adds a AT command to the queue so it can be executed.
+        /// </summary>
+        /// <param name="command">The command<see cref="string"/>.</param>
+        protected void AddCommandToQueue(string command)
+        {
+            if (IsOpen)
+            {
+                _commandQueue.Enqueue(command);
+            }
+        }
+
+        /// <summary>
+        /// Executes the next command in queue.
+        /// </summary>
+        protected void ExecuteNextCommand()
+        {
+            if (_commandQueue.Count <= 0)
+            {
+                return;
+            }
+
+            _serialPort.WriteLine(_commandQueue.Peek());
+            _commandQueue.Dequeue();
+        }
+
+        /// <summary>
         /// Clears the command queue.
         /// </summary>
         protected void ClearCommandQueue()
@@ -297,7 +300,7 @@ namespace ModemPartner.Core
             /// </summary>
             /// <param name="e">The e<see cref="Modem.ModemEvent"/>.</param>
             /// <param name="value">The value<see cref="object"/>.</param>
-            public ReceivedEventArgs(Modem.ModemEvent e, object value)
+            public ReceivedEventArgs(ModemEvent e, object value)
             {
                 Event = e;
                 Value = value;
@@ -306,7 +309,7 @@ namespace ModemPartner.Core
             /// <summary>
             /// Gets or sets the Event.
             /// </summary>
-            public Modem.ModemEvent Event { get; set; }
+            public ModemEvent Event { get; set; }
 
             /// <summary>
             /// Gets or sets the Value.
