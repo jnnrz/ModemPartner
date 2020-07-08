@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using DotRas;
 using ModemPartner.Core;
+using ModemPartner.Properties;
 using ModemPartner.View;
 
 namespace ModemPartner.Presenter
@@ -119,6 +120,7 @@ namespace ModemPartner.Presenter
             view.ConnectionClicked += View_ConnectionClicked;
             view.ResetSessionClicked += View_ResetSessionClicked;
             view.ResetClicked += View_ResetClicked;
+            view.OpenDeviceInfoFormClicked += View_OpenDeviceInfoFormClicked;
         }
 
         /// <inheritdoc/>
@@ -289,6 +291,15 @@ namespace ModemPartner.Presenter
             switch (e.Event)
             {
                 case Modem.ModemEvent.Model:
+                    ConnectedDeviceInfo.Model = e.Value.ToString();
+                    break;
+
+                case Modem.ModemEvent.Manufacturer:
+                    ConnectedDeviceInfo.Manufacturer = e.Value.ToString();
+                    break;
+
+                case Modem.ModemEvent.IMEI:
+                    ConnectedDeviceInfo.IMEI = e.Value.ToString();
                     break;
 
                 case Modem.ModemEvent.ModemMode:
@@ -392,9 +403,9 @@ namespace ModemPartner.Presenter
                 });
 
                 // Save selected modem and profile on settings
-                Properties.Settings.Default.DefaultModem = _view.SelectedModem;
-                Properties.Settings.Default.DefaultProfile = selectedProfile;
-                Properties.Settings.Default.Save();
+                Settings.Default.DefaultModem = _view.SelectedModem;
+                Settings.Default.DefaultProfile = selectedProfile;
+                Settings.Default.Save();
             }
             catch (Exception ex)
             {
@@ -530,6 +541,7 @@ namespace ModemPartner.Presenter
                 {
                     CloseShop();
                     SaveTotalStats();
+                    ConnectedDeviceInfo.Clear();
                 }
                 else
                 {
@@ -591,6 +603,13 @@ namespace ModemPartner.Presenter
         {
             _view.UpdateSessionDownload("0");
             _view.UpdateSessionUpload("0");
+        }
+
+        private void View_OpenDeviceInfoFormClicked(object sender, EventArgs e)
+        {
+            DeviceInfoForm form = new DeviceInfoForm();
+            _ = new DeviceInfoPresenter(form);
+            form.Show();
         }
 
         /// <summary>

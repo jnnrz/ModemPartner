@@ -111,12 +111,20 @@
     <Compile Include="Core\Modem.cs" />
     <Compile Include="ConnectedDeviceInfo.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Presenter\DeviceInfoPresenter.cs" />
     <Compile Include="Presenter\MainPresenter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="View\DeviceInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\DeviceInfoForm.Designer.cs">
+      <DependentUpon>DeviceInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\IDeviceInfoView.cs" />
     <Compile Include="View\IMainView.cs" />
     <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
@@ -126,6 +134,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="View\DeviceInfoForm.resx">
+      <DependentUpon>DeviceInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
