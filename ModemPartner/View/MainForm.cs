@@ -68,11 +68,11 @@ namespace ModemPartner.View
             {
                 if (InvokeRequired)
                 {
-                    this.Invoke(new MethodInvoker(() => cbDevices.SelectedIndex = int.Parse(value)));
+                    this.Invoke(new MethodInvoker(() => cbDevices.SelectedIndex = cbDevices.Items.IndexOf(value)));
                 }
                 else
                 {
-                    cbDevices.SelectedIndex = int.Parse(value);
+                    cbDevices.SelectedIndex = cbDevices.Items.IndexOf(value);
                 }
             }
         }
@@ -104,7 +104,7 @@ namespace ModemPartner.View
         }
 
         /// <inheritdoc/>
-        public void AddDevicesToList(Dictionary<string, FoundModem> devices)
+        public void AddDevicesToList(Dictionary<string, string> devices)
         {
             if (devices == null)
             {

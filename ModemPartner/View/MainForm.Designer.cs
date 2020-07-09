@@ -132,9 +132,10 @@
             // tslblDialStatus
             // 
             this.tslblDialStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tslblDialStatus.Image = global::ModemPartner.Properties.Resources.red_ball;
             this.tslblDialStatus.Margin = new System.Windows.Forms.Padding(3, 3, 0, 2);
             this.tslblDialStatus.Name = "tslblDialStatus";
-            this.tslblDialStatus.Size = new System.Drawing.Size(0, 17);
+            this.tslblDialStatus.Size = new System.Drawing.Size(16, 17);
             // 
             // tslblSubMode
             // 

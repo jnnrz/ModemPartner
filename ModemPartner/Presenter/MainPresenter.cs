@@ -49,8 +49,9 @@ namespace ModemPartner.Presenter
 
         /// <summary>
         /// A list of all the modems that are connected to the PC.
+        /// It is stored like (model, port).
         /// </summary>
-        private Dictionary<string, FoundModem> _modemList = new Dictionary<string, FoundModem>();
+        private Dictionary<string, string> _modemList = new Dictionary<string, string>();
 
         /// <summary>
         /// Keeps track of Ras connection status.
@@ -254,8 +255,10 @@ namespace ModemPartner.Presenter
                     CloseShop();
                 }
 
+                // Update status
                 _view.UpdateToolStripStatus("Finding devices...");
 
+                // Get connected and <available> modems.
                 _modemList = Modem.GetModems();
 
                 _view.ClearDeviceList();
@@ -263,18 +266,38 @@ namespace ModemPartner.Presenter
 
                 // Select the modem that was used most recently
                 var lastUsedModem = Settings.Default.LastUsedModem;
-                var modemArray = _modemList.ToArray();
 
-                for (var x = 0; x < modemArray.Length; x++)
+                if (_modemList.Count == 0)
                 {
-                    if (modemArray[x].Value.Modem == lastUsedModem)
+                    _view.UpdateToolStripStatus("Devices not found");
+                    return;
+                }
+
+                // Update status
+                _view.UpdateToolStripStatus($"{_view.NumberFoundDevices} devices found.");
+
+                // Select the first modem in the list if none has been used previously.
+                if (lastUsedModem.Equals(string.Empty))
+                {
+                    _view.SelectedModem = _modemList.First().Key;
+                }
+                else
+                {
+                    // Check if lastUsedModem is connected, if it is, use that
+                    // if not, use the first one found on the list.
+                    if (_modemList.ContainsKey(lastUsedModem))
                     {
-                        _view.SelectedModem = x.ToString();
-                        OpenShop();
+                        _view.SelectedModem = _modemList
+                            .FirstOrDefault(s => s.Key == lastUsedModem).Key;
+                    }
+                    else
+                    {
+                        _view.SelectedModem = _modemList.First().Key;
                     }
                 }
 
-                _view.UpdateToolStripStatus($"{_view.NumberFoundDevices} devices found.");
+                // Connect to modem
+                OpenShop();
             }).ConfigureAwait(false);
         }
 
@@ -358,19 +381,13 @@ namespace ModemPartner.Presenter
                 return;
             }
 
-            // Retrieve the modem model
-            // it's needed to get the modem port
-            var foundModem = _modemList[selected];
-            if (foundModem == null)
-            {
-                return;
-            }
-
             // Config and open port
-            _modem.SetPort(foundModem.Port);
+            _modem.SetPort(_modemList[selected]);
             _modem.Received += Modem_ReceiveEvent;
             _modem.Error += Modem_ErrorEvent;
             _modem.Open();
+
+            Task.Delay(5000);
 
             if (!_modem.IsOpen)
             {

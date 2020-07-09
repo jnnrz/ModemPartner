@@ -124,10 +124,10 @@ namespace ModemPartner.Core
         /// Retrieves all the modems currently connected to the computer.
         /// </summary>
         /// <returns>The a list of all connected modems to the PC.</returns>
-        public static Dictionary<string, FoundModem> GetModems()
+        public static Dictionary<string, string> GetModems()
         {
             List<string> comList = new List<string>();
-            Dictionary<string, FoundModem> modemList = new Dictionary<string, FoundModem>();
+            Dictionary<string, string> modemList = new Dictionary<string, string>();
 
             // Looks for COM ports using ClassGuid=COM and contains 'PC UI' in its name
             // 'PC UI' will work for certain Huawei modems, I don't know if it can work for all models
@@ -136,6 +136,7 @@ namespace ModemPartner.Core
                 "SELECT Name FROM Win32_PnPEntity WHERE Name LIKE '%PC UI%' AND ClassGuid='{4d36e978-e325-11ce-bfc1-08002be10318}'";
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", getPortsQuery);
 
+            // Looks for COM port
             foreach (var obj in searcher.Get())
             {
                 var deviceName = obj["Name"].ToString();
@@ -146,17 +147,20 @@ namespace ModemPartner.Core
             }
 
             // Connect to each COM port and get modem information
-            foreach (var p in comList)
+            foreach (var port in comList)
             {
-                var modem = new HuaweiModem(p);
+                var modem = new HuaweiModem(port);
                 modem.Received = (sender, e) =>
                 {
+                    // We wait for the Model event
                     if (e.Event != ModemEvent.Model)
                     {
                         return;
                     }
 
-                    modemList.Add(e.Value.ToString(), new FoundModem(p, e.Value.ToString()));
+                    // e.Value represents the modem model
+                    // so here we add (model, port)
+                    modemList.Add(e.Value.ToString(), port);
                     modem.Close();
                 };
                 modem.Open();
