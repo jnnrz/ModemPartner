@@ -244,9 +244,9 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Search for plugged-in USB modems.
         /// </summary>
-        private async void LookForDevices()
+        private void LookForDevices()
         {
-            await Task.Run(() =>
+            Task.Run(() =>
             {
                 // If the app is connected to a modem, close the connetion
                 // before refreshing the list.
@@ -298,7 +298,7 @@ namespace ModemPartner.Presenter
 
                 // Connect to modem
                 OpenShop();
-            }).ConfigureAwait(false);
+            });
         }
 
         /// <summary>
@@ -450,9 +450,9 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Interrupts connection made with RAS.
         /// </summary>
-        private async void DisconnectRasConn()
+        private void DisconnectRasConn()
         {
-            await Task.Run(() =>
+            Task.Run(() =>
             {
                 var connections = RasConnection.GetActiveConnections();
 
@@ -463,7 +463,7 @@ namespace ModemPartner.Presenter
                         c.HangUp();
                     }
                 }
-            }).ConfigureAwait(true);
+            });
         }
 
         /// <summary>
@@ -505,17 +505,17 @@ namespace ModemPartner.Presenter
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event.</param>
-        private async void View_ConnectionClicked(object sender, EventArgs e)
+        private void View_ConnectionClicked(object sender, EventArgs e)
         {
             try
             {
                 // If the conn is been establish it's possible to cancel
                 if (_dialer.IsBusy)
                 {
-                    await Task.Run(() =>
+                    Task.Run(() =>
                     {
                         _dialer.DialAsyncCancel();
-                    }).ConfigureAwait(true);
+                    });
 
                     return;
                 }
