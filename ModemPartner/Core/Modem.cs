@@ -124,32 +124,60 @@ namespace ModemPartner.Core
         /// Retrieves all the modems currently connected to the computer.
         /// </summary>
         /// <returns>The a list of all connected modems to the PC.</returns>
-        public static Dictionary<string, string> GetModems()
+        public static List<Device> GetModems()
         {
-            List<string> comList = new List<string>();
-            Dictionary<string, string> modemList = new Dictionary<string, string>();
+            List<Device> deviceList = new List<Device>();
 
             // Looks for COM ports using ClassGuid=COM and contains 'PC UI' in its name
             // 'PC UI' will work for certain Huawei modems, I don't know if it can work for all models
             // It's hardcoded and kinda sh*tty but ¯\_(ツ)_/¯ <quote>This is the way</quote>
-            string getPortsQuery =
-                "SELECT Name FROM Win32_PnPEntity WHERE Name LIKE '%PC UI%' AND ClassGuid='{4d36e978-e325-11ce-bfc1-08002be10318}'";
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", getPortsQuery);
+            string getPortQuery = "SELECT Name, PNPDeviceID FROM Win32_PnPEntity WHERE Name LIKE '%PC UI%'";
+            ManagementObjectSearcher portSearcher = new ManagementObjectSearcher("root\\CIMV2", getPortQuery);
 
-            // Looks for COM port
-            foreach (var obj in searcher.Get())
+            foreach (var obj in portSearcher.Get())
             {
                 var deviceName = obj["Name"].ToString();
+                var devicePnpId = obj["PNPDeviceID"].ToString().Split('&')[1];
 
-                // Extract COM port from device name
-                var port = ComPortUtil.ExtractComPortFromName(deviceName);
-                comList.Add(port);
+                if (!deviceName.Contains("PC UI"))
+                {
+                    return null;
+                }
+
+                var comPort = ComPortUtil.ExtractComPortFromName(deviceName);
+
+                if (comPort.Equals(string.Empty))
+                {
+                    return null;
+                }
+
+                deviceList.Add(new Device() { Id = devicePnpId, Port = comPort });
+            }
+
+            // Search for device of type 'modem'
+            string getModemQuery = "SELECT Name, PNPDeviceID FROM Win32_PnPEntity WHERE Name LIKE '%3G Modem%'";
+            ManagementObjectSearcher modemSearcher = new ManagementObjectSearcher("root\\CIMV2", getModemQuery);
+
+            // Looks for modems
+            foreach (var obj in modemSearcher.Get())
+            {
+                var deviceName = obj["Name"].ToString();
+                var devicePnpId = obj["PNPDeviceID"].ToString().Split('&')[1];
+
+                if (!deviceName.Contains("Modem"))
+                {
+                    return null;
+                }
+
+                Device device = deviceList.Find(d => d.Id.Equals(devicePnpId));
+                device.Name = deviceName;
             }
 
             // Connect to each COM port and get modem information
-            foreach (var port in comList)
+            foreach (var device in deviceList)
             {
-                var modem = new HuaweiModem(port);
+                var model = string.Empty;
+                var modem = new HuaweiModem(device.Port);
                 modem.Received = (sender, e) =>
                 {
                     // We wait for the Model event
@@ -159,8 +187,7 @@ namespace ModemPartner.Core
                     }
 
                     // e.Value represents the modem model
-                    // so here we add (model, port)
-                    modemList.Add(e.Value.ToString(), port);
+                    model = e.Value.ToString();
                     modem.Close();
                 };
                 modem.Open();
@@ -169,9 +196,13 @@ namespace ModemPartner.Core
                 while (modem.IsOpen)
                 {
                 }
+
+                device.Model = model;
             }
 
-            return modemList;
+            // Remove the devices that are not available.
+            deviceList.RemoveAll(x => x.Model.Equals(string.Empty));
+            return deviceList;
         }
 
         /// <summary>

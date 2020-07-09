@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
@@ -104,22 +105,23 @@ namespace ModemPartner.View
         }
 
         /// <inheritdoc/>
-        public void AddDevicesToList(Dictionary<string, string> devices)
+        public void AddDevicesToList(List<Device> devices)
         {
             if (devices == null)
             {
-                throw new ArgumentNullException();
+                UpdateToolStripStatus("There are no devices that can be added to the list.");
+                return;
             }
 
             foreach (var device in devices)
             {
                 if (this.InvokeRequired)
                 {
-                    this.Invoke(new MethodInvoker(() => this.cbDevices.Items.Add(device.Key)));
+                    this.Invoke(new MethodInvoker(() => this.cbDevices.Items.Add(device.Model)));
                 }
                 else
                 {
-                    cbDevices.Items.Add(device.Key);
+                    cbDevices.Items.Add(device.Model);
                 }
             }
         }

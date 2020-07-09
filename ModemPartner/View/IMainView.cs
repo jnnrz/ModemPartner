@@ -96,8 +96,8 @@ namespace ModemPartner.View
         /// <summary>
         /// Adds devices to the device list.
         /// </summary>
-        /// <param name="devices">The devices<see cref="Dictionary{string, string}"/>.</param>
-        void AddDevicesToList(Dictionary<string, string> devices);
+        /// <param name="devices">The devices<see cref="List{Device}"/>.</param>
+        void AddDevicesToList(List<Device> devices);
 
         /// <summary>
         /// Adds profiles to the profile list.

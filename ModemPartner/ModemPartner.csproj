@@ -104,9 +104,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Device.cs" />
     <Compile Include="Core\SizeUtil.cs" />
     <Compile Include="Core\COMPortUtil.cs" />
-    <Compile Include="Core\FoundModem.cs" />
     <Compile Include="Core\HuaweiModem.cs" />
     <Compile Include="Core\Modem.cs" />
     <Compile Include="ConnectedDeviceInfo.cs" />

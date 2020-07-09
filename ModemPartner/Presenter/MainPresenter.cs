@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using System.Windows.Forms;
 using DotRas;
 using ModemPartner.Core;
 using ModemPartner.Properties;
@@ -25,12 +23,12 @@ namespace ModemPartner.Presenter
         /// <summary>
         /// Timer for saving statistics.
         /// </summary>
-        private readonly System.Timers.Timer _saveStatsTimer;
+        private readonly Timer _saveStatsTimer;
 
         /// <summary>
         /// Timer for statistics updates.
         /// </summary>
-        private readonly System.Timers.Timer _statisticsTimer;
+        private readonly Timer _statisticsTimer;
 
         /// <summary>
         /// Instance of RasDialer.
@@ -51,7 +49,7 @@ namespace ModemPartner.Presenter
         /// A list of all the modems that are connected to the PC.
         /// It is stored like (model, port).
         /// </summary>
-        private Dictionary<string, string> _modemList = new Dictionary<string, string>();
+        private List<Device> _modemList = new List<Device>();
 
         /// <summary>
         /// Keeps track of Ras connection status.
@@ -97,8 +95,8 @@ namespace ModemPartner.Presenter
             watcher.Disconnected += Watcher_Disconnected;
             watcher.EnableRaisingEvents = true;
 
-            _statisticsTimer = new System.Timers.Timer();
-            _saveStatsTimer = new System.Timers.Timer();
+            _statisticsTimer = new Timer();
+            _saveStatsTimer = new Timer();
             _statisticsTimer.Interval = 1000;
             _statisticsTimer.Elapsed += StatisticsTimer_Elapsed;
             _saveStatsTimer.Interval = 10000;
@@ -167,7 +165,7 @@ namespace ModemPartner.Presenter
                 _modem.Error -= Modem_ErrorEvent;
                 _modem.Close();
                 _view.DisableDeviceRelatedControls(false);
-                _view.UpdateOpenPortBtn(Properties.Resources.unplugged, string.Empty);
+                _view.UpdateOpenPortBtn(Resources.unplugged, string.Empty);
                 _view.UpdateProvider(Resources.NoRealValue);
                 _view.UpdateRSSI(1);
                 _view.UpdateCSNetwork(6);
@@ -188,7 +186,7 @@ namespace ModemPartner.Presenter
             {
                 _rasConnected = true;
                 _currentConnection = RasConnection.GetActiveConnections()
-                        .Single(p => p.EntryName == _view.SelectedProfile);
+                    .Single(p => p.EntryName == _view.SelectedProfile);
 
                 _view.UpdateUIWhenConnected();
                 _view.UpdateToolStripStatus($"Connected: [{_view.SelectedProfile}]");
@@ -279,20 +277,21 @@ namespace ModemPartner.Presenter
                 // Select the first modem in the list if none has been used previously.
                 if (lastUsedModem.Equals(string.Empty))
                 {
-                    _view.SelectedModem = _modemList.First().Key;
+                    _view.SelectedModem = _modemList.First().Model;
                 }
                 else
                 {
                     // Check if lastUsedModem is connected, if it is, use that
                     // if not, use the first one found on the list.
-                    if (_modemList.ContainsKey(lastUsedModem))
+                    if (_modemList.Find(device => device.Model.Equals(lastUsedModem)) != null)
                     {
                         _view.SelectedModem = _modemList
-                            .FirstOrDefault(s => s.Key == lastUsedModem).Key;
+                            .FirstOrDefault(device => device.Model == lastUsedModem)
+                            ?.Model;
                     }
                     else
                     {
-                        _view.SelectedModem = _modemList.First().Key;
+                        _view.SelectedModem = _modemList.First().Model;
                     }
                 }
 
@@ -333,7 +332,7 @@ namespace ModemPartner.Presenter
                     break;
 
                 case Modem.ModemEvent.ModemMode:
-                    _view.UpdateModeSelection((Modem.Mode)e.Value);
+                    _view.UpdateModeSelection((Modem.Mode) e.Value);
                     break;
 
                 case Modem.ModemEvent.Rssi:
@@ -357,7 +356,7 @@ namespace ModemPartner.Presenter
                     break;
 
                 case Modem.ModemEvent.SysMode:
-                    _view.UpdateSubMode((Modem.SubMode)e.Value);
+                    _view.UpdateSubMode((Modem.SubMode) e.Value);
                     break;
             }
         }
@@ -381,8 +380,10 @@ namespace ModemPartner.Presenter
                 return;
             }
 
+            var port = _modemList.Find(device => device.Model.Equals(selected)).Port;
+
             // Config and open port
-            _modem.SetPort(_modemList[selected]);
+            _modem.SetPort(port);
             _modem.Received += Modem_ReceiveEvent;
             _modem.Error += Modem_ErrorEvent;
             _modem.Open();
@@ -394,6 +395,35 @@ namespace ModemPartner.Presenter
                 _view.UpdateToolStripStatus("Could not open the port.");
                 return;
             }
+
+            /*
+             *  Update RAS profile with the connected device
+             */
+            var book = new RasPhoneBook();
+            book.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.User));
+
+            // Selected profile must exist
+            if (_view.SelectedProfile.Equals(string.Empty))
+            {
+                _view.UpdateToolStripStatus("Profile not valid.");
+                return;
+            }
+
+            // Get profile from book, it needs to match the one selected
+            var selectedEntry = book.Entries.First(x => x.Name == _view.SelectedProfile);
+
+            // Get devices that are available to RAS
+            var deviceList = RasDevice.GetDevices();
+
+            // Get the device we're using
+            var openedDevice = _modemList.First(x => x.Model.Equals(_view.SelectedModem));
+
+            // Look for the device that matches the one that we're using
+            var deviceToBeUsed = deviceList.First(x => x.Name == openedDevice.Name);
+
+            // Update the profile with the device we're using
+            selectedEntry.Device = deviceToBeUsed;
+            selectedEntry.Update();
 
             // _view.DisableDeviceRelatedControls(true); enable if we want to use then open/close port button
             _view.UpdateOpenPortBtn(Resources.plug, string.Empty);
@@ -512,10 +542,7 @@ namespace ModemPartner.Presenter
                 // If the conn is been establish it's possible to cancel
                 if (_dialer.IsBusy)
                 {
-                    Task.Run(() =>
-                    {
-                        _dialer.DialAsyncCancel();
-                    });
+                    Task.Run(() => { _dialer.DialAsyncCancel(); });
 
                     return;
                 }
@@ -646,7 +673,7 @@ namespace ModemPartner.Presenter
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
         /// <param name="e">The event of type <see cref="DotRas.RasConnectionEventArgs"/>.</param>
-        private void Watcher_Disconnected(object sender, DotRas.RasConnectionEventArgs e)
+        private void Watcher_Disconnected(object sender, RasConnectionEventArgs e)
         {
             _view.UpdateUIWhenDisconnected();
             _view.UpdateToolStripStatus("Disconnected");
