@@ -250,6 +250,7 @@ namespace ModemPartner.Presenter
                 // before refreshing the list.
                 if (_modem.IsOpen)
                 {
+                    DisconnectRasConn();
                     CloseShop();
                 }
 
