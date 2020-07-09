@@ -769,6 +769,7 @@ namespace ModemPartner.Presenter
         {
             if (_modem.IsOpen)
             {
+                DisconnectRasConn();
                 CloseShop();
             }
 
