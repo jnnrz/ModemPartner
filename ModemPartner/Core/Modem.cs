@@ -209,7 +209,7 @@ namespace ModemPartner.Core
         /// Sets the mode.
         /// </summary>
         /// <param name="mode">The mode<see cref="int"/>.</param>
-        public async void SetMode(int mode)
+        public void SetMode(int mode)
         {
             string m = string.Empty;
 
@@ -236,7 +236,7 @@ namespace ModemPartner.Core
                     break;
             }
 
-            await Task.Run(() =>
+            Task.Run(() =>
             {
                 AddCommandToQueue(m);
                 AddCommandToQueue("AT^SYSCFG?\r");
@@ -245,7 +245,7 @@ namespace ModemPartner.Core
                 Thread.Sleep(10000);
                 AddCommandToQueue("AT+CGATT?\r");
                 ExecuteNextCommand();
-            }).ConfigureAwait(false);
+            });
         }
 
         /// <summary>
