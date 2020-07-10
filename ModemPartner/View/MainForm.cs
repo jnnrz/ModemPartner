@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using DotRas;
@@ -15,6 +16,19 @@ namespace ModemPartner.View
     /// </summary>
     public partial class MainForm : Form, IMainView
     {
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("user32.dll")]
+        private static extern bool InsertMenu(IntPtr hMenu, Int32 wPosition, Int32 wFlags, Int32 wIDNewItem, string lpNewItem);
+
+        public const Int32 WM_SYSCOMMAND = 0x112;
+        public const Int32 MF_SEPARATOR = 0x800;
+        public const Int32 MF_BYPOSITION = 0x400;
+        public const Int32 MF_STRING = 0x0;
+
+        public const Int32 _AboutSysMenuID = 1001;
+
         /// <summary>
         /// Previous Y axis value.
         /// </summary>
@@ -620,6 +634,23 @@ namespace ModemPartner.View
             }
         }
 
+        /// <inheritdoc/>
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == WM_SYSCOMMAND)
+            {
+                switch (m.WParam.ToInt32())
+                {
+                    case _AboutSysMenuID:
+                        var aboutForm = new AboutForm();
+                        aboutForm.Show();
+                        break;
+                }
+            }
+
+            base.WndProc(ref m);
+        }
+
         /// <summary>
         /// Updates network registration label.
         /// </summary>
@@ -671,6 +702,13 @@ namespace ModemPartner.View
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // Get the Handle for the Forms System Menu
+            IntPtr systemMenuHandle = GetSystemMenu(this.Handle, false);
+
+            // Insert a separator and a 'about' button
+            InsertMenu(systemMenuHandle, 5, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty);
+            InsertMenu(systemMenuHandle, 6, MF_BYPOSITION, _AboutSysMenuID, "About...");
+
             var downSeries = chart.Series.FindByName("DownloadSeries");
             if (downSeries != null)
             {
