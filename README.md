@@ -4,6 +4,10 @@ A faster, less cluncky and basic(?) alternative for Huawei's Mobile Partner.
 
 Supports 3G Huawei modems only, for now at least.
 
+<p align="center">
+	<img src="https://raw.githubusercontent.com/jnnrz/ModemPartner/master/Screenshots/mp.jpg">
+</p>
+
 ## Features
 * Download/Upload stat tracking
 
