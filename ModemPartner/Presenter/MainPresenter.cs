@@ -112,7 +112,6 @@ namespace ModemPartner.Presenter
                 view.LoadForm += View_Load;
                 view.AppClosing += View_AppClosing;
                 view.RefreshDevicesClicked += View_RefreshDevicesClicked;
-                view.OpenPortClicked += View_OpenPortClicked;
                 view.ApplyModeClicked += View_ApplyModeClicked;
                 view.ConnectionClicked += View_ConnectionClicked;
                 view.ResetSessionClicked += View_ResetSessionClicked;
@@ -165,7 +164,6 @@ namespace ModemPartner.Presenter
                 _modem.Error -= Modem_ErrorEvent;
                 _modem.Close();
                 _view.DisableDeviceRelatedControls(false);
-                _view.UpdateOpenPortBtn(Resources.unplugged, string.Empty);
                 _view.UpdateProvider(Resources.NoRealValue);
                 _view.UpdateRSSI(1);
                 _view.UpdateCSNetwork(6);
@@ -426,8 +424,6 @@ namespace ModemPartner.Presenter
             selectedEntry.Device = deviceToBeUsed;
             selectedEntry.Update();
 
-            // _view.DisableDeviceRelatedControls(true); enable if we want to use then open/close port button
-            _view.UpdateOpenPortBtn(Resources.plug, string.Empty);
             _view.UpdateToolStripStatus($"Connected to {_view.SelectedModem}");
         }
 
@@ -583,32 +579,6 @@ namespace ModemPartner.Presenter
 
                 _view.UpdateTotalDownloaded(SizeUtil.SizeSuffix(_totalDownloaded, 2));
                 _view.UpdateTotalUploaded(SizeUtil.SizeSuffix(_totalUploaded, 2));
-            }
-            catch (Exception ex)
-            {
-                _view.UpdateToolStripStatus(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Handles what happens when <see cref="IMainView.OpenPortClicked"/> occurs.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The event.</param>
-        private void View_OpenPortClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                if (_modem.IsOpen)
-                {
-                    CloseShop();
-                    SaveTotalStats();
-                    ConnectedDeviceInfo.Clear();
-                }
-                else
-                {
-                    OpenShop();
-                }
             }
             catch (Exception ex)
             {

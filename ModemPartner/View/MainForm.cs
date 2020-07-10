@@ -38,9 +38,6 @@ namespace ModemPartner.View
         public event EventHandler RefreshDevicesClicked;
 
         /// <inheritdoc/>
-        public event EventHandler OpenPortClicked;
-
-        /// <inheritdoc/>
         public event EventHandler ApplyModeClicked;
 
         /// <inheritdoc/>
@@ -167,12 +164,6 @@ namespace ModemPartner.View
         public void UpdateToolStripStatus(string status)
         {
             tslblStatus.Text = status;
-        }
-
-        /// <inheritdoc/>
-        public void UpdateOpenPortBtn(Bitmap icon, string tooltipText)
-        {
-            btnOpen.Image = icon;
         }
 
         /// <inheritdoc/>
@@ -703,11 +694,6 @@ namespace ModemPartner.View
         private void BtnDeviceRefresh_Click(object sender, EventArgs e)
         {
             RefreshDevicesClicked?.Invoke(sender, e);
-        }
-
-        private void BtnOpen_Click(object sender, EventArgs e)
-        {
-            OpenPortClicked?.Invoke(sender, e);
         }
 
         private void BtnModeApply_Click(object sender, EventArgs e)

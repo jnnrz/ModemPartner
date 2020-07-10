@@ -80,11 +80,10 @@
             this.label11 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.btnModemInfo = new System.Windows.Forms.Button();
-            this.btnOpen = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabChart.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.chart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -110,7 +109,7 @@
             // 
             // btnDeviceRefresh
             // 
-            this.btnDeviceRefresh.Image = ((System.Drawing.Image) (resources.GetObject("btnDeviceRefresh.Image")));
+            this.btnDeviceRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnDeviceRefresh.Image")));
             this.btnDeviceRefresh.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnDeviceRefresh.Location = new System.Drawing.Point(263, 11);
             this.btnDeviceRefresh.Name = "btnDeviceRefresh";
@@ -121,7 +120,10 @@
             // 
             // statusStrip
             // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.tslblDialStatus, this.tslblSubMode, this.tslblStatus});
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tslblDialStatus,
+            this.tslblSubMode,
+            this.tslblStatus});
             this.statusStrip.Location = new System.Drawing.Point(0, 487);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(651, 22);
@@ -182,14 +184,14 @@
             chartArea1.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
             chartArea1.AxisX.IsLabelAutoFit = false;
             chartArea1.AxisX.LabelStyle.Enabled = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             chartArea1.AxisX.LabelStyle.Interval = 1D;
             chartArea1.AxisX.LabelStyle.IntervalOffset = 1D;
             chartArea1.AxisX.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
             chartArea1.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
             chartArea1.AxisX.MajorGrid.Enabled = false;
             chartArea1.AxisX.MajorTickMark.Enabled = false;
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             chartArea1.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
             chartArea1.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
             chartArea1.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
@@ -254,7 +256,7 @@
             // 
             this.cbProfiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbProfiles.FormattingEnabled = true;
-            this.cbProfiles.Location = new System.Drawing.Point(411, 12);
+            this.cbProfiles.Location = new System.Drawing.Point(386, 11);
             this.cbProfiles.Name = "cbProfiles";
             this.cbProfiles.Size = new System.Drawing.Size(149, 23);
             this.cbProfiles.TabIndex = 12;
@@ -262,7 +264,7 @@
             // lblProfile_label
             // 
             this.lblProfile_label.AutoSize = true;
-            this.lblProfile_label.Location = new System.Drawing.Point(361, 15);
+            this.lblProfile_label.Location = new System.Drawing.Point(336, 15);
             this.lblProfile_label.Name = "lblProfile_label";
             this.lblProfile_label.Size = new System.Drawing.Size(44, 15);
             this.lblProfile_label.TabIndex = 13;
@@ -281,7 +283,11 @@
             // 
             this.cbModes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbModes.FormattingEnabled = true;
-            this.cbModes.Items.AddRange(new object[] {"2G Only", "2G Preferred", "3G Only", "3G Preferred"});
+            this.cbModes.Items.AddRange(new object[] {
+            "2G Only",
+            "2G Preferred",
+            "3G Only",
+            "3G Preferred"});
             this.cbModes.Location = new System.Drawing.Point(67, 42);
             this.cbModes.Name = "cbModes";
             this.cbModes.Size = new System.Drawing.Size(121, 23);
@@ -317,7 +323,7 @@
             // 
             // lblDownloadSpeed
             // 
-            this.lblDownloadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblDownloadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDownloadSpeed.ForeColor = System.Drawing.Color.Green;
             this.lblDownloadSpeed.Location = new System.Drawing.Point(434, 55);
             this.lblDownloadSpeed.Margin = new System.Windows.Forms.Padding(0);
@@ -328,7 +334,7 @@
             // 
             // lblUploadSpeed
             // 
-            this.lblUploadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblUploadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUploadSpeed.ForeColor = System.Drawing.Color.Firebrick;
             this.lblUploadSpeed.Location = new System.Drawing.Point(575, 55);
             this.lblUploadSpeed.Margin = new System.Windows.Forms.Padding(0);
@@ -421,7 +427,7 @@
             // lblSessionDuration
             // 
             this.lblSessionDuration.AutoSize = true;
-            this.lblSessionDuration.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSessionDuration.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSessionDuration.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblSessionDuration.Location = new System.Drawing.Point(307, 26);
             this.lblSessionDuration.Name = "lblSessionDuration";
@@ -501,7 +507,7 @@
             // lblRSSI
             // 
             this.lblRSSI.AutoSize = true;
-            this.lblRSSI.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblRSSI.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRSSI.Location = new System.Drawing.Point(49, 112);
             this.lblRSSI.Name = "lblRSSI";
             this.lblRSSI.Size = new System.Drawing.Size(17, 15);
@@ -512,7 +518,7 @@
             // 
             this.lblPSAttach.AutoSize = true;
             this.lblPSAttach.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblPSAttach.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPSAttach.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPSAttach.Location = new System.Drawing.Point(154, 91);
             this.lblPSAttach.Name = "lblPSAttach";
             this.lblPSAttach.Size = new System.Drawing.Size(17, 15);
@@ -522,7 +528,7 @@
             // lblPS
             // 
             this.lblPS.AutoSize = true;
-            this.lblPS.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPS.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPS.Location = new System.Drawing.Point(154, 70);
             this.lblPS.Name = "lblPS";
             this.lblPS.Size = new System.Drawing.Size(17, 15);
@@ -532,7 +538,7 @@
             // lblCS
             // 
             this.lblCS.AutoSize = true;
-            this.lblCS.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblCS.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCS.Location = new System.Drawing.Point(154, 49);
             this.lblCS.Name = "lblCS";
             this.lblCS.Size = new System.Drawing.Size(17, 15);
@@ -542,7 +548,7 @@
             // lblProvider
             // 
             this.lblProvider.AutoSize = true;
-            this.lblProvider.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblProvider.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProvider.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.lblProvider.Location = new System.Drawing.Point(73, 20);
             this.lblProvider.Name = "lblProvider";
@@ -617,32 +623,19 @@
             // 
             // btnModemInfo
             // 
-            this.btnModemInfo.Image = global::ModemPartner.Properties.Resources.information;
-            this.btnModemInfo.Location = new System.Drawing.Point(325, 11);
+            this.btnModemInfo.Image = global::ModemPartner.Properties.Resources.information_green;
+            this.btnModemInfo.Location = new System.Drawing.Point(294, 11);
             this.btnModemInfo.Name = "btnModemInfo";
             this.btnModemInfo.Size = new System.Drawing.Size(28, 25);
             this.btnModemInfo.TabIndex = 33;
             this.btnModemInfo.UseVisualStyleBackColor = true;
             this.btnModemInfo.Click += new System.EventHandler(this.BtnModemInfo_Click);
             // 
-            // btnOpen
-            // 
-            this.btnOpen.Enabled = false;
-            this.btnOpen.Image = global::ModemPartner.Properties.Resources.unplugged;
-            this.btnOpen.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnOpen.Location = new System.Drawing.Point(294, 11);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(28, 25);
-            this.btnOpen.TabIndex = 34;
-            this.btnOpen.UseVisualStyleBackColor = true;
-            this.btnOpen.Click += new System.EventHandler(this.BtnOpen_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(651, 509);
-            this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.btnModemInfo);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
@@ -662,7 +655,7 @@
             this.Controls.Add(this.btnDeviceRefresh);
             this.Controls.Add(this.cbDevices);
             this.Controls.Add(this.lblDevices);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
@@ -675,20 +668,20 @@
             this.statusStrip.PerformLayout();
             this.tabs.ResumeLayout(false);
             this.tabChart.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.chart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnDeviceRefresh;
         private System.Windows.Forms.Button btnModeApply;
         private System.Windows.Forms.Button btnModemInfo;
-        private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnResetSession;
         private System.Windows.Forms.Button button1;

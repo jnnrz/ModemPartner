@@ -162,9 +162,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\pen-drive.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\green-ball.png" />
   </ItemGroup>
   <ItemGroup>
@@ -172,15 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\refresh-blue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\unplugged.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\plug.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\information.png" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Humanizer.dll" />
@@ -200,6 +188,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information-green.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

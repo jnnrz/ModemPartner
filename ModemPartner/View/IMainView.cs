@@ -28,11 +28,6 @@ namespace ModemPartner.View
         event EventHandler RefreshDevicesClicked;
 
         /// <summary>
-        /// Occurs when the 'open port' button is clicked.
-        /// </summary>
-        event EventHandler OpenPortClicked;
-
-        /// <summary>
         /// Occurs when the 'apply mode' is clicked.
         /// </summary>
         event EventHandler ApplyModeClicked;
@@ -110,13 +105,6 @@ namespace ModemPartner.View
         /// </summary>
         /// <param name="status">The status<see cref="string"/>.</param>
         void UpdateToolStripStatus(string status);
-
-        /// <summary>
-        /// Updates the 'open port' button.
-        /// </summary>
-        /// <param name="icon">The icon<see cref="Bitmap"/>.</param>
-        /// <param name="tooltipText">The tooltip text<see cref="string"/>.</param>
-        void UpdateOpenPortBtn(Bitmap icon, string tooltipText);
 
         /// <summary>
         /// Updates the current mode on the mode combo box.
