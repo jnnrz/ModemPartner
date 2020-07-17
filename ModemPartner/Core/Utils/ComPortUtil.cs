@@ -1,4 +1,4 @@
-﻿namespace ModemPartner.Core
+﻿namespace ModemPartner.Core.Utils
 {
     /// <summary>
     /// Defines the <see cref="ComPortUtil" />.

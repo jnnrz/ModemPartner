@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ModemPartner.Core
+namespace ModemPartner.Core.Utils
 {
     /// <summary>
     /// Helps with the handling of file sizes.

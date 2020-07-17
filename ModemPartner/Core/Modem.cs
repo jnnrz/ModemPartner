@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Management;
 using System.Threading;
 using System.Threading.Tasks;
+using ModemPartner.Core.Utils;
 
 namespace ModemPartner.Core
 {

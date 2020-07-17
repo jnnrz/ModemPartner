@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using DotRas;
 using ModemPartner.Core;
+using ModemPartner.Core.Utils;
 using ModemPartner.Properties;
 using ModemPartner.View;
 
