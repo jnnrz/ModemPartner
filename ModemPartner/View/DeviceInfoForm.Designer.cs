@@ -106,6 +106,7 @@
             this.Controls.Add(this.lblManufacturer_label);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.Name = "DeviceInfoForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Device Information";
             this.Load += new System.EventHandler(this.DeviceInfoForm_Load);
             this.ResumeLayout(false);
