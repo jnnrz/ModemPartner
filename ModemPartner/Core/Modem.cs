@@ -135,23 +135,27 @@ namespace ModemPartner.Core
             string getPortQuery = "SELECT Name, PNPDeviceID FROM Win32_PnPEntity WHERE Name LIKE '%PC UI%'";
             ManagementObjectSearcher portSearcher = new ManagementObjectSearcher("root\\CIMV2", getPortQuery);
 
+            // Return an empty list if no COM port were found
+            if (portSearcher.Get().Count.Equals(0))
+            {
+                return deviceList;
+            }
+
             foreach (var obj in portSearcher.Get())
             {
                 var deviceName = obj["Name"].ToString();
                 var devicePnpId = obj["PNPDeviceID"].ToString().Split('&')[1];
 
-                if (!deviceName.Contains("PC UI"))
-                {
-                    return null;
-                }
-
+                // Extract COM port number
                 var comPort = ComPortUtil.ExtractComPortFromName(deviceName);
 
                 if (comPort.Equals(string.Empty))
                 {
-                    return null;
+                    // Something happened, could not get the com port
+                    return deviceList;
                 }
 
+                // Add to device list
                 deviceList.Add(new Device() { Id = devicePnpId, Port = comPort });
             }
 
@@ -159,17 +163,20 @@ namespace ModemPartner.Core
             string getModemQuery = "SELECT Name, PNPDeviceID FROM Win32_PnPEntity WHERE Name LIKE '%3G Modem%'";
             ManagementObjectSearcher modemSearcher = new ManagementObjectSearcher("root\\CIMV2", getModemQuery);
 
+            // No modems found
+            if (modemSearcher.Get().Count.Equals(0))
+            {
+                return deviceList;
+            }
+
             // Looks for modems
             foreach (var obj in modemSearcher.Get())
             {
                 var deviceName = obj["Name"].ToString();
                 var devicePnpId = obj["PNPDeviceID"].ToString().Split('&')[1];
 
-                if (!deviceName.Contains("Modem"))
-                {
-                    return null;
-                }
-
+                // Find the device in our list with the same PNPDeviceId
+                // so we can attach a name to it
                 Device device = deviceList.Find(d => d.Id.Equals(devicePnpId));
                 device.Name = deviceName;
             }
