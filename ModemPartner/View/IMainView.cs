@@ -78,6 +78,11 @@ namespace ModemPartner.View
         string SelectedProfile { get; }
 
         /// <summary>
+        /// Gets the retry checkbox value.
+        /// </summary>
+        bool Retry { get; }
+
+        /// <summary>
         /// Sets a value indicating whether DisableDeviceRelatedControls.
         /// </summary>
         /// <param name="value">Controls wether to show the controls or not.</param>

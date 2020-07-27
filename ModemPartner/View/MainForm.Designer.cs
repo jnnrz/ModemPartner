@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblDevices = new System.Windows.Forms.Label();
             this.cbDevices = new System.Windows.Forms.ComboBox();
             this.btnDeviceRefresh = new System.Windows.Forms.Button();
@@ -80,10 +80,11 @@
             this.label11 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.btnModemInfo = new System.Windows.Forms.Button();
+            this.ckbRetry = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabChart.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.chart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -109,7 +110,7 @@
             // 
             // btnDeviceRefresh
             // 
-            this.btnDeviceRefresh.Image = ((System.Drawing.Image) (resources.GetObject("btnDeviceRefresh.Image")));
+            this.btnDeviceRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnDeviceRefresh.Image")));
             this.btnDeviceRefresh.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnDeviceRefresh.Location = new System.Drawing.Point(263, 11);
             this.btnDeviceRefresh.Name = "btnDeviceRefresh";
@@ -120,7 +121,10 @@
             // 
             // statusStrip
             // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.tslblDialStatus, this.tslblSubMode, this.tslblStatus});
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tslblDialStatus,
+            this.tslblSubMode,
+            this.tslblStatus});
             this.statusStrip.Location = new System.Drawing.Point(0, 487);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(651, 22);
@@ -174,57 +178,57 @@
             // chart
             // 
             this.chart.BorderlineColor = System.Drawing.Color.Empty;
-            chartArea1.AxisX.Interval = 1D;
-            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisX.IntervalOffset = 1D;
-            chartArea1.AxisX.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Enabled = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            chartArea1.AxisX.LabelStyle.Interval = 1D;
-            chartArea1.AxisX.LabelStyle.IntervalOffset = 1D;
-            chartArea1.AxisX.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.AxisX.MajorTickMark.Enabled = false;
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            chartArea1.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
-            chartArea1.AxisY.LabelStyle.Format = "{0} kbps";
-            chartArea1.AxisY.LineColor = System.Drawing.Color.LightSalmon;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
-            chartArea1.AxisY.MajorTickMark.Enabled = false;
-            chartArea1.AxisY.MajorTickMark.Interval = 0D;
-            chartArea1.AxisY.MaximumAutoSize = 100F;
-            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
-            chartArea1.Name = "MainChartArea";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 98F;
-            chartArea1.Position.Width = 100F;
-            this.chart.ChartAreas.Add(chartArea1);
+            chartArea5.AxisX.Interval = 1D;
+            chartArea5.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea5.AxisX.IntervalOffset = 1D;
+            chartArea5.AxisX.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.IsLabelAutoFit = false;
+            chartArea5.AxisX.LabelStyle.Enabled = false;
+            chartArea5.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea5.AxisX.LabelStyle.Interval = 1D;
+            chartArea5.AxisX.LabelStyle.IntervalOffset = 1D;
+            chartArea5.AxisX.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.MajorGrid.Enabled = false;
+            chartArea5.AxisX.MajorTickMark.Enabled = false;
+            chartArea5.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea5.AxisX2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea5.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisY.IsLabelAutoFit = false;
+            chartArea5.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea5.AxisY.LabelStyle.ForeColor = System.Drawing.Color.SteelBlue;
+            chartArea5.AxisY.LabelStyle.Format = "{0} kbps";
+            chartArea5.AxisY.LineColor = System.Drawing.Color.LightSalmon;
+            chartArea5.AxisY.MajorGrid.LineColor = System.Drawing.Color.SeaShell;
+            chartArea5.AxisY.MajorTickMark.Enabled = false;
+            chartArea5.AxisY.MajorTickMark.Interval = 0D;
+            chartArea5.AxisY.MaximumAutoSize = 100F;
+            chartArea5.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea5.AxisY2.TitleFont = new System.Drawing.Font("Segoe UI", 8.25F);
+            chartArea5.Name = "MainChartArea";
+            chartArea5.Position.Auto = false;
+            chartArea5.Position.Height = 98F;
+            chartArea5.Position.Width = 100F;
+            this.chart.ChartAreas.Add(chartArea5);
             this.chart.Location = new System.Drawing.Point(0, 3);
             this.chart.Name = "chart";
-            series1.BorderWidth = 2;
-            series1.ChartArea = "MainChartArea";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            series1.IsVisibleInLegend = false;
-            series1.Name = "DownloadSeries";
-            series1.SmartLabelStyle.Enabled = false;
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-            series2.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            series2.BorderWidth = 2;
-            series2.ChartArea = "MainChartArea";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Name = "UploadSeries";
-            this.chart.Series.Add(series1);
-            this.chart.Series.Add(series2);
+            series9.BorderWidth = 2;
+            series9.ChartArea = "MainChartArea";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series9.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            series9.IsVisibleInLegend = false;
+            series9.Name = "DownloadSeries";
+            series9.SmartLabelStyle.Enabled = false;
+            series9.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            series10.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            series10.BorderWidth = 2;
+            series10.ChartArea = "MainChartArea";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series10.Name = "UploadSeries";
+            this.chart.Series.Add(series9);
+            this.chart.Series.Add(series10);
             this.chart.Size = new System.Drawing.Size(647, 201);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart";
@@ -280,7 +284,11 @@
             // 
             this.cbModes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbModes.FormattingEnabled = true;
-            this.cbModes.Items.AddRange(new object[] {"2G Only", "2G Preferred", "3G Only", "3G Preferred"});
+            this.cbModes.Items.AddRange(new object[] {
+            "2G Only",
+            "2G Preferred",
+            "3G Only",
+            "3G Preferred"});
             this.cbModes.Location = new System.Drawing.Point(67, 42);
             this.cbModes.Name = "cbModes";
             this.cbModes.Size = new System.Drawing.Size(121, 23);
@@ -316,7 +324,7 @@
             // 
             // lblDownloadSpeed
             // 
-            this.lblDownloadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblDownloadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDownloadSpeed.ForeColor = System.Drawing.Color.Green;
             this.lblDownloadSpeed.Location = new System.Drawing.Point(434, 55);
             this.lblDownloadSpeed.Margin = new System.Windows.Forms.Padding(0);
@@ -327,7 +335,7 @@
             // 
             // lblUploadSpeed
             // 
-            this.lblUploadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblUploadSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUploadSpeed.ForeColor = System.Drawing.Color.Firebrick;
             this.lblUploadSpeed.Location = new System.Drawing.Point(575, 55);
             this.lblUploadSpeed.Margin = new System.Windows.Forms.Padding(0);
@@ -420,7 +428,7 @@
             // lblSessionDuration
             // 
             this.lblSessionDuration.AutoSize = true;
-            this.lblSessionDuration.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblSessionDuration.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSessionDuration.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblSessionDuration.Location = new System.Drawing.Point(307, 26);
             this.lblSessionDuration.Name = "lblSessionDuration";
@@ -500,7 +508,7 @@
             // lblRSSI
             // 
             this.lblRSSI.AutoSize = true;
-            this.lblRSSI.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblRSSI.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRSSI.Location = new System.Drawing.Point(49, 112);
             this.lblRSSI.Name = "lblRSSI";
             this.lblRSSI.Size = new System.Drawing.Size(17, 15);
@@ -511,7 +519,7 @@
             // 
             this.lblPSAttach.AutoSize = true;
             this.lblPSAttach.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblPSAttach.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPSAttach.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPSAttach.Location = new System.Drawing.Point(154, 91);
             this.lblPSAttach.Name = "lblPSAttach";
             this.lblPSAttach.Size = new System.Drawing.Size(17, 15);
@@ -521,7 +529,7 @@
             // lblPS
             // 
             this.lblPS.AutoSize = true;
-            this.lblPS.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPS.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPS.Location = new System.Drawing.Point(154, 70);
             this.lblPS.Name = "lblPS";
             this.lblPS.Size = new System.Drawing.Size(17, 15);
@@ -531,7 +539,7 @@
             // lblCS
             // 
             this.lblCS.AutoSize = true;
-            this.lblCS.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblCS.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCS.Location = new System.Drawing.Point(154, 49);
             this.lblCS.Name = "lblCS";
             this.lblCS.Size = new System.Drawing.Size(17, 15);
@@ -541,7 +549,7 @@
             // lblProvider
             // 
             this.lblProvider.AutoSize = true;
-            this.lblProvider.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblProvider.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProvider.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.lblProvider.Location = new System.Drawing.Point(73, 20);
             this.lblProvider.Name = "lblProvider";
@@ -624,11 +632,22 @@
             this.btnModemInfo.UseVisualStyleBackColor = true;
             this.btnModemInfo.Click += new System.EventHandler(this.BtnModemInfo_Click);
             // 
+            // ckbRetry
+            // 
+            this.ckbRetry.AutoSize = true;
+            this.ckbRetry.Location = new System.Drawing.Point(491, 224);
+            this.ckbRetry.Name = "ckbRetry";
+            this.ckbRetry.Size = new System.Drawing.Size(53, 19);
+            this.ckbRetry.TabIndex = 34;
+            this.ckbRetry.Text = "Retry";
+            this.ckbRetry.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(651, 509);
+            this.Controls.Add(this.ckbRetry);
             this.Controls.Add(this.btnModemInfo);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
@@ -648,7 +667,7 @@
             this.Controls.Add(this.btnDeviceRefresh);
             this.Controls.Add(this.cbDevices);
             this.Controls.Add(this.lblDevices);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
@@ -661,13 +680,14 @@
             this.statusStrip.PerformLayout();
             this.tabs.ResumeLayout(false);
             this.tabChart.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.chart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.Button btnConnect;
@@ -720,6 +740,8 @@
         private System.Windows.Forms.ToolStripStatusLabel tslblSubMode;
 
         #endregion
+
+        private System.Windows.Forms.CheckBox ckbRetry;
     }
 }
 

@@ -198,6 +198,12 @@ namespace ModemPartner.Presenter
             {
                 _view.UpdateToolStripStatus(e.Error.Message);
                 _view.UpdateUIWhenDisconnected();
+
+                // Retry connection if there's an error while connecting
+                if (_view.Retry)
+                {
+                    TryRasConnection();
+                }
             }
             else if (e.Cancelled)
             {

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using System.Windows.Forms;
 using DotRas;
 using ModemPartner.Core;
@@ -94,6 +95,9 @@ namespace ModemPartner.View
 
         /// <inheritdoc/>
         public string SelectedProfile => cbProfiles.SelectedItem.ToString();
+
+        /// <inheritdoc/>
+        public bool Retry => ckbRetry.Checked;
 
         /// <inheritdoc/>
         public void DisableDeviceRelatedControls(bool value)
