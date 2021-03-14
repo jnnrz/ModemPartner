@@ -583,6 +583,9 @@ namespace ModemPartner.Presenter
 
                 _totalDownloaded = long.Parse(Settings.Default.Downloaded);
                 _totalUploaded = long.Parse(Settings.Default.Uploaded);
+                
+                _view.UpdateSessionDownload(SizeUtil.SizeSuffix(0, 2));
+                _view.UpdateSessionUpload(SizeUtil.SizeSuffix(0, 2));
 
                 _view.UpdateTotalDownloaded(SizeUtil.SizeSuffix(_totalDownloaded, 2));
                 _view.UpdateTotalUploaded(SizeUtil.SizeSuffix(_totalUploaded, 2));
@@ -623,8 +626,8 @@ namespace ModemPartner.Presenter
             Settings.Default.Save();
             _totalDownloaded = 0;
             _totalUploaded = 0;
-            _view.UpdateTotalDownloaded("0");
-            _view.UpdateTotalUploaded("0");
+            _view.UpdateTotalDownloaded(SizeUtil.SizeSuffix(0, 2));
+            _view.UpdateTotalUploaded(SizeUtil.SizeSuffix(0, 2));
             _statisticsTimer.Start();
         }
 
@@ -635,8 +638,8 @@ namespace ModemPartner.Presenter
         /// <param name="e">The event.</param>
         private void View_ResetSessionClicked(object sender, EventArgs e)
         {
-            _view.UpdateSessionDownload("0");
-            _view.UpdateSessionUpload("0");
+            _view.UpdateSessionDownload(SizeUtil.SizeSuffix(0, 2));
+            _view.UpdateSessionUpload(SizeUtil.SizeSuffix(0, 2));
         }
 
         private void View_OpenDeviceInfoFormClicked(object sender, EventArgs e)
